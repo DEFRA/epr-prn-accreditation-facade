@@ -1,0 +1,5 @@
+  azureSubscription: 'AZD-RWD-DEV11'
+  docker.imageName: 'prnaccreditationfacade'
+  acr.azureContainerRegistryName: 'devrwdinfac1401'
+  acr.repositoryName: 'eprprnaccreditationfacade'
+  serviceName: 'DEVRWDWEBWAA418'
