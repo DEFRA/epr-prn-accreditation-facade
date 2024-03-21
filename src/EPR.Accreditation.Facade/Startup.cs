@@ -1,4 +1,8 @@
-﻿namespace EPR.Accreditation.Facade
+﻿using EPR.Accreditation.Facade.Helpers;
+using EPR.Accreditation.Facade.Middleware;
+using System.Security.Authentication;
+
+namespace EPR.Accreditation.Facade
 {
     public class Startup
     {
@@ -14,6 +18,18 @@
             services.AddControllers();
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
+            services.AddHttpContextAccessor();
+            services
+                .AddHttpClient("HttpClient")
+                .ConfigurePrimaryHttpMessageHandler(() =>
+                {
+                    return new HttpClientHandler()
+                    {
+                        SslProtocols = SslProtocols.Tls12
+                    };
+                });
+            services.AddFacadeDependencies(_config);
+            
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -27,6 +43,7 @@
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
