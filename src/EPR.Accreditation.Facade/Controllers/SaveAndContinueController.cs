@@ -23,13 +23,13 @@ namespace EPR.Accreditation.Facade.Controllers
             return Ok(saveAndContinue);
         }
 
-        //[HttpGet("Exists")]
-        //public async Task<IActionResult> GetHasApplicationSaved(Guid accreditationExternalId)
-        //{
-        //    var saveAndContinue = await _saveAndContinueService.GetSaveAndContinue(accreditationExternalId);
+        [HttpGet("/api/[controller]/HasApplicationSaved/{accreditationExternalId}")]
+        public async Task<IActionResult> GetHasApplicationSaved(Guid accreditationExternalId)
+        {
+            var hasApplicationSaved = await _saveAndContinueService.GetHasApplicationSaved(accreditationExternalId);
 
-        //    return Ok(saveAndContinue);
-        //}
+            return Ok(hasApplicationSaved);
+        }
 
         [HttpPost]
         public async Task<IActionResult> AddSaveAndContinue(

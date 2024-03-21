@@ -27,11 +27,14 @@ namespace EPR.Accreditation.Facade.Services
             await _httpSaveAndContinueService.DeleteSaveAndContinue(accreditationExternalId);
         }
 
+        public async Task<bool> GetHasApplicationSaved(Guid accreditationExternalId)
+        {
+            return await _httpSaveAndContinueService.GetHasApplicationSaved(accreditationExternalId);
+        }
+
         public async Task<SaveAndContinue> GetSaveAndContinue(Guid accreditationExternalId)
         {
-            var saveAndContinue = await _httpSaveAndContinueService.GetSaveAndContinue(accreditationExternalId);
-
-            return saveAndContinue;
+            return await _httpSaveAndContinueService.GetSaveAndContinue(accreditationExternalId);
         }
     }
 }
