@@ -1,5 +1,7 @@
 ﻿using EPR.Accreditation.Facade.Common.Dtos;
+using EPR.Accreditation.Facade.Common.RESTservices;
 using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
+using EPR.Accreditation.Facade.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EPR.Accreditation.Facade.Controllers
@@ -8,11 +10,11 @@ namespace EPR.Accreditation.Facade.Controllers
     [Route("/api/[controller]")]
     public class AccreditationController : ControllerBase
     {
-        protected readonly IHttpAccreditationService _httpAccreditationService;
+        protected readonly IAccreditationService _accreditationService;
 
-        public AccreditationController(IHttpAccreditationService httpAccreditationService)
+        public AccreditationController(IAccreditationService accreditationService)
         {
-            _httpAccreditationService = httpAccreditationService ?? throw new ArgumentNullException(nameof(httpAccreditationService));
+            _accreditationService = accreditationService ?? throw new ArgumentNullException(nameof(accreditationService));
         }
 
         [HttpGet("{accreditationExternalId}/Site/{siteExternalId}/Material/{materialExternalId}")]
@@ -21,15 +23,12 @@ namespace EPR.Accreditation.Facade.Controllers
             Guid siteExternalId,
             Guid materialExternalId)
         {
-            var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
+            var wasteSource = await _accreditationService.GetWasteSource(
                 accreditationExternalId,
                 siteExternalId,
                 materialExternalId);
 
-            if (siteMaterial == null)
-                return NotFound();
-
-            return Ok(siteMaterial.WasteSource);
+            return Ok(wasteSource);
         }
 
         [HttpPut("{accreditationExternalId}/Site/{siteExternalId}/Material/{materialExternalId}")]
@@ -39,16 +38,11 @@ namespace EPR.Accreditation.Facade.Controllers
             Guid materialExternalId,
             string wasteSource)
         {
-            var siteMaterial = new AccreditationMaterial
-            {
-                WasteSource = wasteSource
-            };
-
-            await _httpAccreditationService.UpdateAccreditationMaterial(
+            await _accreditationService.UpdateWasteSource(
                 accreditationExternalId,
                 siteExternalId,
                 materialExternalId,
-                siteMaterial);
+                wasteSource);
 
             return Ok();
         }
