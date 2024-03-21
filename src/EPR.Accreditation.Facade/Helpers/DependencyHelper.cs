@@ -34,7 +34,7 @@ namespace EPR.Accreditation.Facade.Helpers
                         s.GetRequiredService<IHttpContextAccessor>(),
                         s.GetRequiredService<IHttpClientFactory>(),
                         s.GetRequiredService<IOptions<ServicesConfiguration>>().Value.AccreditationFacade.Url,
-                        "Accreditation"
+                        "SaveAndContinue"
                     )
             );
 

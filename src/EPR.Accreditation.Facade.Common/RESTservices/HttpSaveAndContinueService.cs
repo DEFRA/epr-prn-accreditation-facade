@@ -18,17 +18,17 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
             Guid accreditationExternalId,
             SaveAndContinue saveAndContinue)
         {
-            await Post($"{accreditationExternalId}/SaveAndContinue", saveAndContinue);
+            await Post($"{accreditationExternalId}", saveAndContinue);
         }
 
         public async Task DeleteSaveAndContinue(Guid accreditationExternalId)
         {
-            await Delete($"{accreditationExternalId}/SaveAndContinue");
+            await Delete($"{accreditationExternalId}");
         }
 
         public async Task<SaveAndContinue> GetSaveAndContinue(Guid accreditationExternalId)
         {
-            return await Get<SaveAndContinue>($"{accreditationExternalId}/SaveAndContinue");
+            return await Get<SaveAndContinue>($"{accreditationExternalId}");
         }
     }
 }
