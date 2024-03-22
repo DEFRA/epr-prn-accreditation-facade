@@ -18,14 +18,21 @@ namespace EPR.Accreditation.Facade.Helpers
 
             services
                 .AddScoped<IAccreditationService, AccreditationService>()
+                .AddScoped<IMaterialService, MaterialService>()
+                .AddScoped<IHttpMaterialService>(s =>
+                    new HttpMaterialService(
+                        s.GetRequiredService<IHttpContextAccessor>(),
+                        s.GetRequiredService<IHttpClientFactory>(),
+                        s.GetRequiredService<IOptions<ServicesConfiguration>>().Value.AccreditationAPI.Url,
+                        "Material")
+                )
                 .AddScoped<IHttpAccreditationService>(s =>
                     new HttpAccreditationService(
                         s.GetRequiredService<IHttpContextAccessor>(),
                         s.GetRequiredService<IHttpClientFactory>(),
-                        s.GetRequiredService<IOptions<ServicesConfiguration>>().Value.AccreditationFacade.Url,
-                        "Accreditation"
-                    )
-            );
+                        s.GetRequiredService<IOptions<ServicesConfiguration>>().Value.AccreditationAPI.Url,
+                        "Accreditation")
+                );
 
             return services;
         }

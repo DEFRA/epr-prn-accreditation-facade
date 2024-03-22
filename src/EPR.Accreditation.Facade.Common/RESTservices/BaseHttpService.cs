@@ -42,9 +42,6 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
         /// </summary>
         protected async Task<T> Get<T>(string url, bool includeTrailingSlash = true)
         {
-            if (string.IsNullOrWhiteSpace(url))
-                throw new ArgumentNullException(nameof(url));
-
             url = includeTrailingSlash ? $"{_baseUrl}/{url}/" : $"{_baseUrl}/{url}";
 
             return await Send<T>(CreateMessage(url, null, HttpMethod.Get));

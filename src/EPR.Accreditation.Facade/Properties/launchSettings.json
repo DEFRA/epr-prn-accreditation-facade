@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "EPR.Accreditation.API": {
+    "EPR.Accreditation.Facade": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
