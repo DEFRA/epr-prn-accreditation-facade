@@ -4,7 +4,7 @@
     {
         public static string SectionName => "Services";
 
-        public Service AccreditationFacade { get; set; }
+        public Service AccreditationAPI { get; set; }
     }
 
     public class Service

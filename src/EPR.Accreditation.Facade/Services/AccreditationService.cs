@@ -1,4 +1,5 @@
 ﻿using EPR.Accreditation.Facade.Common.Dtos;
+using EPR.Accreditation.Facade.Common.Enums;
 using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
 using EPR.Accreditation.Facade.Services.Interfaces;
 
@@ -42,6 +43,20 @@ namespace EPR.Accreditation.Facade.Services
                 siteExternalId,
                 materialExternalId,
                 siteMaterial);
+        }
+
+        public async Task<string> GetWasteMaterialName(
+            Guid accreditationExternalId, 
+            Guid siteExternalId, 
+            Guid materialExternalId, 
+            Language language)
+        {
+            var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
+                accreditationExternalId,
+                siteExternalId,
+                materialExternalId);
+
+            return language == Language.English ? siteMaterial.Material.English : siteMaterial.Material.Welsh;
         }
     }
 }
