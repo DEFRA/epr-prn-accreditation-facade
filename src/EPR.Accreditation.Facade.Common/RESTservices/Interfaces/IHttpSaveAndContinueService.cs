@@ -6,8 +6,6 @@ namespace EPR.Accreditation.Facade.Common.RESTservices.Interfaces
     {
         Task<SaveAndContinue> GetSaveAndContinue(Guid accreditationExternalId);
 
-        Task<bool> GetHasApplicationSaved(Guid accreditationExternalId);
-
         Task AddSaveAndContinue(
             Guid accreditationExternalId,
             SaveAndContinue saveAndContinue);

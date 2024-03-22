@@ -26,11 +26,6 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
             await Delete($"{accreditationExternalId}");
         }
 
-        public async Task<bool> GetHasApplicationSaved(Guid accreditationExternalId)
-        {
-            return await Get<bool>($"HasApplicationSaved/{accreditationExternalId}");
-        }
-
         public async Task<SaveAndContinue> GetSaveAndContinue(Guid accreditationExternalId)
         {
             return await Get<SaveAndContinue>($"{accreditationExternalId}");
