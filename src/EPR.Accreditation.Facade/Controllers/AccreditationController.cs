@@ -1,6 +1,4 @@
-﻿using EPR.Accreditation.Facade.Common.Dtos;
-using EPR.Accreditation.Facade.Common.RESTservices;
-using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
+﻿using EPR.Accreditation.Facade.Common.Enums;
 using EPR.Accreditation.Facade.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,7 +34,7 @@ namespace EPR.Accreditation.Facade.Controllers
             Guid accreditationExternalId,
             Guid siteExternalId,
             Guid materialExternalId,
-            string wasteSource)
+            [FromBody] string wasteSource)
         {
             await _accreditationService.UpdateWasteSource(
                 accreditationExternalId,
@@ -45,6 +43,25 @@ namespace EPR.Accreditation.Facade.Controllers
                 wasteSource);
 
             return Ok();
+        }
+
+        [HttpGet("{accreditationExternalId}/Site/{siteExternalId}/Material/{materialExternalId}/Name")]
+        public async Task<IActionResult> GetMaterialName(
+            Guid accreditationExternalId,
+            Guid siteExternalId,
+            Guid materialExternalId,
+            Language language)
+        {
+            if (language == Language.Undefined)
+                return BadRequest("Invalid language selection. Must be either English(1) or Welsh(2)");
+
+            var wasteSource = await _accreditationService.GetWasteMaterialName(
+                accreditationExternalId,
+                siteExternalId,
+                materialExternalId,
+                language);
+
+            return Ok(wasteSource);
         }
 
         [HttpPost("{accreditationExternalId}")]
