@@ -5,19 +5,19 @@ namespace EPR.Accreditation.Facade.Controllers
 {
     [ApiController]
     [Route("/api/[controller]/{accreditationExternalId}")]
-    public class PermitExemptionController : ControllerBase //TODO: Change this to WastePermitController
+    public class WastePermitController : ControllerBase
     {
-        protected readonly IPermitExemptionService _permitExemptionService;
+        protected readonly IWastePermitService _wastePermitService;
 
-        public PermitExemptionController(IPermitExemptionService permitExemptionService)
+        public WastePermitController(IWastePermitService wastePermitService)
         {
-            _permitExemptionService = permitExemptionService ?? throw new ArgumentNullException(nameof(permitExemptionService));
+            _wastePermitService = wastePermitService ?? throw new ArgumentNullException(nameof(wastePermitService));
         }
 
         [HttpGet("WastePermitExemption")]
         public async Task<IActionResult> GetHasPermitExemption(Guid accreditationExternalId)
         {
-            var hasPermitExemption = await _permitExemptionService.GetHasPermitExemption(accreditationExternalId);
+            var hasPermitExemption = await _wastePermitService.GetHasPermitExemption(accreditationExternalId);
 
             return Ok(hasPermitExemption);
         }
@@ -27,7 +27,7 @@ namespace EPR.Accreditation.Facade.Controllers
             Guid accreditationExternalId,
             [FromBody] bool hasPermitExemption)
         {
-            await _permitExemptionService.UpdatePermitExemption(
+            await _wastePermitService.UpdatePermitExemption(
                 accreditationExternalId,
                 hasPermitExemption);
 

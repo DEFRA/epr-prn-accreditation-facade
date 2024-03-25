@@ -4,12 +4,12 @@ using EPR.Accreditation.Facade.Services.Interfaces;
 
 namespace EPR.Accreditation.Facade.Services
 {
-    public class PermitExemptionService : IPermitExemptionService
+    public class WastePermitService : IWastePermitService
     {
 
         protected readonly IHttpAccreditationService _httpAccreditationService;
 
-        public PermitExemptionService(IHttpAccreditationService httpAccreditationService)
+        public WastePermitService(IHttpAccreditationService httpAccreditationService)
         {
             _httpAccreditationService = httpAccreditationService ?? throw new ArgumentNullException(nameof(httpAccreditationService));
         }

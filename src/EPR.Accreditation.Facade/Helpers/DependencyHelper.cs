@@ -46,7 +46,7 @@ namespace EPR.Accreditation.Facade.Helpers
             );
 
             services
-                .AddScoped<IPermitExemptionService, PermitExemptionService>();
+                .AddScoped<IWastePermitService, WastePermitService>();
 
             return services;
         }
