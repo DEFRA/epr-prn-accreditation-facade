@@ -10,7 +10,7 @@ namespace EPR.Accreditation.Facade.Services.Interfaces
 
         public Task AddSaveAndComeBack(
             Guid accreditationExternalId,
-            SaveAndComeBack saveAndContinue);
+            SaveAndComeBack saveAndComeBack);
 
         public Task DeleteSaveAndComeBack(Guid accreditationExternalId);
     }

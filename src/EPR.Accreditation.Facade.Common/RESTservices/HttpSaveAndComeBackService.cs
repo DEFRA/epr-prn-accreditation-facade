@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Http;
 
 namespace EPR.Accreditation.Facade.Common.RESTservices
 {
-    public class HttpSaveAndContinueService : BaseHttpService, IHttpSaveAndContinueService
+    public class HttpSaveAndComeBackService : BaseHttpService, IHttpSaveAndComeBackService
     {
-        public HttpSaveAndContinueService(
+        public HttpSaveAndComeBackService(
             IHttpContextAccessor httpContextAccessor,
             IHttpClientFactory httpClientFactory,
             string baseUrl,
@@ -14,19 +14,19 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
         {
         }
 
-        public async Task AddSaveAndContinue(
+        public async Task AddSaveAndComeBack(
             Guid accreditationExternalId,
-            SaveAndComeBack saveAndContinue)
+            SaveAndComeBack saveAndBack)
         {
-            await Post($"{accreditationExternalId}", saveAndContinue);
+            await Post($"{accreditationExternalId}", saveAndBack);
         }
 
-        public async Task DeleteSaveAndContinue(Guid accreditationExternalId)
+        public async Task DeleteSaveAndComeBack(Guid accreditationExternalId)
         {
             await Delete($"{accreditationExternalId}");
         }
 
-        public async Task<SaveAndComeBack> GetSaveAndContinue(Guid accreditationExternalId)
+        public async Task<SaveAndComeBack> GetSaveAndComeBack(Guid accreditationExternalId)
         {
             return await Get<SaveAndComeBack>($"{accreditationExternalId}");
         }

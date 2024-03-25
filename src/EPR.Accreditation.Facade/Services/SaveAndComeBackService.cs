@@ -7,32 +7,32 @@ namespace EPR.Accreditation.Facade.Services
 {
     public class SaveAndComeBackService : ISaveAndComeBackService
     {
-        protected readonly IHttpSaveAndContinueService _httpSaveAndContinueService;
+        protected readonly IHttpSaveAndComeBackService _httpSaveAndComeBackService;
 
-        public SaveAndComeBackService(IHttpSaveAndContinueService httpSaveAndContinueService)
+        public SaveAndComeBackService(IHttpSaveAndComeBackService httpSaveAndComeBackService)
         {
-            _httpSaveAndContinueService = httpSaveAndContinueService ?? throw new ArgumentNullException(nameof(httpSaveAndContinueService));
+            _httpSaveAndComeBackService = httpSaveAndComeBackService ?? throw new ArgumentNullException(nameof(httpSaveAndComeBackService));
         }
 
         public async Task AddSaveAndComeBack(
             Guid accreditationExternalId,
             SaveAndComeBack saveAndComeBack)
         {
-            await _httpSaveAndContinueService.AddSaveAndContinue(
+            await _httpSaveAndComeBackService.AddSaveAndComeBack(
                 accreditationExternalId,
                 saveAndComeBack);
         }
 
         public async Task DeleteSaveAndComeBack(Guid accreditationExternalId)
         {
-            await _httpSaveAndContinueService.DeleteSaveAndContinue(accreditationExternalId);
+            await _httpSaveAndComeBackService.DeleteSaveAndComeBack(accreditationExternalId);
         }
 
         public async Task<bool> GetHasApplicationSaved(Guid accreditationExternalId)
         {
             try
             {
-                await _httpSaveAndContinueService.GetSaveAndContinue(accreditationExternalId);
+                await _httpSaveAndComeBackService.GetSaveAndComeBack(accreditationExternalId);
 
                 return true;
             }
@@ -49,7 +49,7 @@ namespace EPR.Accreditation.Facade.Services
 
         public async Task<SaveAndComeBack> GetSaveAndComeBack(Guid accreditationExternalId)
         {
-            return await _httpSaveAndContinueService.GetSaveAndContinue(accreditationExternalId);
+            return await _httpSaveAndComeBackService.GetSaveAndComeBack(accreditationExternalId);
         }
     }
 }

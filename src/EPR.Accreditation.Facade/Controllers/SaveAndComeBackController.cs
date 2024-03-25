@@ -8,35 +8,35 @@ namespace EPR.Accreditation.Facade.Controllers
     [Route("/api/[controller]/{accreditationExternalId}")]
     public class SaveAndComeBackController : ControllerBase
     {
-        protected readonly ISaveAndComeBackService _saveAndContinueService;
+        protected readonly ISaveAndComeBackService _saveAndComeBackService;
 
-        public SaveAndComeBackController(ISaveAndComeBackService saveAndContinueService)
+        public SaveAndComeBackController(ISaveAndComeBackService saveAndComeBackService)
         {
-            _saveAndContinueService = saveAndContinueService ?? throw new ArgumentNullException(nameof(saveAndContinueService));
+            _saveAndComeBackService = saveAndComeBackService ?? throw new ArgumentNullException(nameof(saveAndComeBackService));
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetSaveAndContinue(Guid accreditationExternalId)
+        public async Task<IActionResult> GetSaveAndComeBack(Guid accreditationExternalId)
         {
-            var saveAndContinue = await _saveAndContinueService.GetSaveAndComeBack(accreditationExternalId);
+            var saveAndComeBack = await _saveAndComeBackService.GetSaveAndComeBack(accreditationExternalId);
 
-            return Ok(saveAndContinue);
+            return Ok(saveAndComeBack);
         }
 
         [HttpGet("/api/[controller]/HasApplicationSaved/{accreditationExternalId}")]
         public async Task<IActionResult> GetHasApplicationSaved(Guid accreditationExternalId)
         {
-            var hasApplicationSaved = await _saveAndContinueService.GetHasApplicationSaved(accreditationExternalId);
+            var hasApplicationSaved = await _saveAndComeBackService.GetHasApplicationSaved(accreditationExternalId);
 
             return Ok(hasApplicationSaved);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddSaveAndContinue(
+        public async Task<IActionResult> AddSaveAndComeBack(
             Guid accreditationExternalId,
             [FromBody] SaveAndComeBack saveAndComeBack)
         {
-            await _saveAndContinueService.AddSaveAndComeBack(
+            await _saveAndComeBackService.AddSaveAndComeBack(
                 accreditationExternalId,
                 saveAndComeBack);
 
@@ -44,9 +44,9 @@ namespace EPR.Accreditation.Facade.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> DeleteSaveAndContinue(Guid accreditationExternalId)
+        public async Task<IActionResult> DeleteSaveAndComeBack(Guid accreditationExternalId)
         {
-            await _saveAndContinueService.DeleteSaveAndComeBack(accreditationExternalId);
+            await _saveAndComeBackService.DeleteSaveAndComeBack(accreditationExternalId);
 
             return Ok();
         }
