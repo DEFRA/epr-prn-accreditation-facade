@@ -13,6 +13,23 @@ namespace EPR.Accreditation.Facade.Services
             _httpAccreditationService = httpAccreditationService ?? throw new ArgumentNullException(nameof(httpAccreditationService));
         }
 
+        public async Task<Common.Enums.OperatorType> GetOperatorType(Guid accreditationExternalId)
+        {
+            var operatorTypeId = await _httpAccreditationService.GetOperatorType(accreditationExternalId);
+
+            return operatorTypeId;
+        }
+
+        public async Task UpdateOperatorType(
+            Guid accreditationExternalId,
+            Common.Enums.OperatorType operatorTypeId)
+        {
+
+            await _httpAccreditationService.UpdateOperatorType(
+                accreditationExternalId,
+                operatorTypeId);
+        }
+
         public async Task<string> GetWasteSource(
             Guid accreditationExternalId,
             Guid siteExternalId,
