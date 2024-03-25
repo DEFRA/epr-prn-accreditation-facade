@@ -12,5 +12,9 @@
             Guid siteExternalId,
             Guid materialExternalId,
             string wasteSource);
+
+        Task CreateAccreditation(
+            Guid accreditationExternalId,
+            Common.Dtos.Accreditation accreditation);
     }
 }

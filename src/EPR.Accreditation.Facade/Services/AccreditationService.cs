@@ -43,5 +43,14 @@ namespace EPR.Accreditation.Facade.Services
                 materialExternalId,
                 siteMaterial);
         }
+
+        public async Task CreateAccreditation(
+            Guid accreditationExternalId,
+            Common.Dtos.Accreditation accreditation)
+        {
+            await _httpAccreditationService.CreateAccreditation(
+                accreditationExternalId,
+                accreditation);
+        }
     }
 }

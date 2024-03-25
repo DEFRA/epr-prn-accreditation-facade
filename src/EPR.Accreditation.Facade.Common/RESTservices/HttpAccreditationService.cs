@@ -29,5 +29,12 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
         {
             await Put($"{accreditationExternalId}/Site/{siteExternalId}/Material/{materialExternalId}", accreditationMaterial);
         }
+
+        public async Task CreateAccreditation(
+            Guid accreditationExternalId,
+            Dtos.Accreditation accreditation)
+        {
+            await Post<Dtos.Accreditation>($"{accreditationExternalId}", accreditation);
+        }
     }
 }

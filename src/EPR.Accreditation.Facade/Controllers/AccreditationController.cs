@@ -46,5 +46,17 @@ namespace EPR.Accreditation.Facade.Controllers
 
             return Ok();
         }
+
+        [HttpPost("{accreditationExternalId}")]
+        public async Task<IActionResult> CreateAccreditation(
+            Guid accreditationExternalId,
+            Common.Dtos.Accreditation acreditation)
+        {
+            await _accreditationService.CreateAccreditation(
+                accreditationExternalId,
+                acreditation);
+
+            return Ok();
+        }
     }
 }
