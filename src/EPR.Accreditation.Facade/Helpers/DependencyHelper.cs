@@ -40,7 +40,7 @@ namespace EPR.Accreditation.Facade.Helpers
                     new HttpSaveAndContinueService(
                         s.GetRequiredService<IHttpContextAccessor>(),
                         s.GetRequiredService<IHttpClientFactory>(),
-                        s.GetRequiredService<IOptions<ServicesConfiguration>>().Value.AccreditationFacade.Url,
+                        s.GetRequiredService<IOptions<ServicesConfiguration>>().Value.AccreditationAPI.Url,
                         "SaveAndContinue"
                     )
             );
