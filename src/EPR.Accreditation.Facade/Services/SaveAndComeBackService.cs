@@ -5,25 +5,25 @@ using EPR.Accreditation.Facade.Services.Interfaces;
 
 namespace EPR.Accreditation.Facade.Services
 {
-    public class SaveAndContinueService : ISaveAndContinueService
+    public class SaveAndComeBackService : ISaveAndComeBackService
     {
         protected readonly IHttpSaveAndContinueService _httpSaveAndContinueService;
 
-        public SaveAndContinueService(IHttpSaveAndContinueService httpSaveAndContinueService)
+        public SaveAndComeBackService(IHttpSaveAndContinueService httpSaveAndContinueService)
         {
             _httpSaveAndContinueService = httpSaveAndContinueService ?? throw new ArgumentNullException(nameof(httpSaveAndContinueService));
         }
 
-        public async Task AddSaveAndContinue(
+        public async Task AddSaveAndComeBack(
             Guid accreditationExternalId,
-            SaveAndContinue saveAndContinue)
+            SaveAndComeBack saveAndContinue)
         {
             await _httpSaveAndContinueService.AddSaveAndContinue(
                 accreditationExternalId,
                 saveAndContinue);
         }
 
-        public async Task DeleteSaveAndContinue(Guid accreditationExternalId)
+        public async Task DeleteSaveAndComeBack(Guid accreditationExternalId)
         {
             await _httpSaveAndContinueService.DeleteSaveAndContinue(accreditationExternalId);
         }
@@ -47,7 +47,7 @@ namespace EPR.Accreditation.Facade.Services
             }
         }
 
-        public async Task<SaveAndContinue> GetSaveAndContinue(Guid accreditationExternalId)
+        public async Task<SaveAndComeBack> GetSaveAndComeBack(Guid accreditationExternalId)
         {
             return await _httpSaveAndContinueService.GetSaveAndContinue(accreditationExternalId);
         }

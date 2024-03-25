@@ -35,13 +35,13 @@ namespace EPR.Accreditation.Facade.Helpers
                 );
 
             services
-                .AddScoped<ISaveAndContinueService, SaveAndContinueService>()
+                .AddScoped<ISaveAndComeBackService, SaveAndComeBackService>()
                 .AddScoped<IHttpSaveAndContinueService>(s =>
                     new HttpSaveAndContinueService(
                         s.GetRequiredService<IHttpContextAccessor>(),
                         s.GetRequiredService<IHttpClientFactory>(),
                         s.GetRequiredService<IOptions<ServicesConfiguration>>().Value.AccreditationAPI.Url,
-                        "SaveAndContinue"
+                        "SaveAndComeBack"
                     )
             );
 

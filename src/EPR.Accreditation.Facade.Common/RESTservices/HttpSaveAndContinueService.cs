@@ -16,7 +16,7 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
 
         public async Task AddSaveAndContinue(
             Guid accreditationExternalId,
-            SaveAndContinue saveAndContinue)
+            SaveAndComeBack saveAndContinue)
         {
             await Post($"{accreditationExternalId}", saveAndContinue);
         }
@@ -26,9 +26,9 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
             await Delete($"{accreditationExternalId}");
         }
 
-        public async Task<SaveAndContinue> GetSaveAndContinue(Guid accreditationExternalId)
+        public async Task<SaveAndComeBack> GetSaveAndContinue(Guid accreditationExternalId)
         {
-            return await Get<SaveAndContinue>($"{accreditationExternalId}");
+            return await Get<SaveAndComeBack>($"{accreditationExternalId}");
         }
     }
 }

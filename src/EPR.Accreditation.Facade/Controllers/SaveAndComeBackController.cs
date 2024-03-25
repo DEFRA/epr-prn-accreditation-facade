@@ -6,11 +6,11 @@ namespace EPR.Accreditation.Facade.Controllers
 {
     [ApiController]
     [Route("/api/[controller]/{accreditationExternalId}")]
-    public class SaveAndContinueController : ControllerBase
+    public class SaveAndComeBackController : ControllerBase
     {
-        protected readonly ISaveAndContinueService _saveAndContinueService;
+        protected readonly ISaveAndComeBackService _saveAndContinueService;
 
-        public SaveAndContinueController(ISaveAndContinueService saveAndContinueService)
+        public SaveAndComeBackController(ISaveAndComeBackService saveAndContinueService)
         {
             _saveAndContinueService = saveAndContinueService ?? throw new ArgumentNullException(nameof(saveAndContinueService));
         }
@@ -18,7 +18,7 @@ namespace EPR.Accreditation.Facade.Controllers
         [HttpGet]
         public async Task<IActionResult> GetSaveAndContinue(Guid accreditationExternalId)
         {
-            var saveAndContinue = await _saveAndContinueService.GetSaveAndContinue(accreditationExternalId);
+            var saveAndContinue = await _saveAndContinueService.GetSaveAndComeBack(accreditationExternalId);
 
             return Ok(saveAndContinue);
         }
@@ -34,9 +34,9 @@ namespace EPR.Accreditation.Facade.Controllers
         [HttpPost]
         public async Task<IActionResult> AddSaveAndContinue(
             Guid accreditationExternalId,
-            [FromBody] SaveAndContinue saveAndContinue)
+            [FromBody] SaveAndComeBack saveAndContinue)
         {
-            await _saveAndContinueService.AddSaveAndContinue(
+            await _saveAndContinueService.AddSaveAndComeBack(
                 accreditationExternalId,
                 saveAndContinue);
 
@@ -46,7 +46,7 @@ namespace EPR.Accreditation.Facade.Controllers
         [HttpDelete]
         public async Task<IActionResult> DeleteSaveAndContinue(Guid accreditationExternalId)
         {
-            await _saveAndContinueService.DeleteSaveAndContinue(accreditationExternalId);
+            await _saveAndContinueService.DeleteSaveAndComeBack(accreditationExternalId);
 
             return Ok();
         }
