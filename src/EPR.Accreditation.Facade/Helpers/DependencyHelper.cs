@@ -46,15 +46,7 @@ namespace EPR.Accreditation.Facade.Helpers
             );
 
             services
-                .AddScoped<IPermitExemptionService, PermitExemptionService>()
-                .AddScoped<IHttpPermitExemptionService>(s =>
-                    new HttpPermitExemptionService(
-                        s.GetRequiredService<IHttpContextAccessor>(),
-                        s.GetRequiredService<IHttpClientFactory>(),
-                        s.GetRequiredService<IOptions<ServicesConfiguration>>().Value.AccreditationAPI.Url,
-                        "PermitExemption"
-                    )
-            );
+                .AddScoped<IPermitExemptionService, PermitExemptionService>();
 
             return services;
         }

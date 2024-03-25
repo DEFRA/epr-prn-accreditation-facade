@@ -1,5 +1,4 @@
-﻿using EPR.Accreditation.Facade.Common.Dtos;
-using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
+﻿using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
 using EPR.Accreditation.Facade.Services.Interfaces;
 
 namespace EPR.Accreditation.Facade.Services
@@ -7,16 +6,21 @@ namespace EPR.Accreditation.Facade.Services
     public class PermitExemptionService : IPermitExemptionService
     {
 
-        protected readonly IHttpPermitExemptionService _httpPermitExemptionService;
+        protected readonly IHttpAccreditationService _httpAccreditationService;
 
-        public PermitExemptionService(IHttpPermitExemptionService httpPermitExemptionService)
+        public PermitExemptionService(IHttpAccreditationService httpAccreditationService)
         {
-            _httpPermitExemptionService = httpPermitExemptionService ?? throw new ArgumentNullException(nameof(httpPermitExemptionService));
+            _httpAccreditationService = httpAccreditationService ?? throw new ArgumentNullException(nameof(httpAccreditationService));
         }
 
-        public async Task<PermitExemption> GetHasPermitExemption(Guid accreditationExternalId)
+        public async Task<bool?> GetHasPermitExemption(Guid accreditationExternalId)
         {
-            return await _httpPermitExemptionService.GetHasPermitExemption(accreditationExternalId);
+            var accreditation = await _httpAccreditationService.GetAccreditation(accreditationExternalId);
+
+            if (accreditation.WastePermit == null)
+                return null;
+
+            return accreditation.WastePermit.WastePermitExemption;
         }
     }
 }
