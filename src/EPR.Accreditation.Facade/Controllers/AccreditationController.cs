@@ -26,7 +26,7 @@ namespace EPR.Accreditation.Facade.Controllers
             return Ok(operatorTypeId);
         }
 
-        [HttpGet("{accreditationExternalId}/OperatorType/{operatorTypeId}")]
+        [HttpPut("{accreditationExternalId}/OperatorType/{operatorTypeId}")]
         public async Task<IActionResult> SaveOperatorType(
             Guid accreditationExternalId,
             Common.Enums.OperatorType operatorTypeId)
