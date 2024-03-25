@@ -42,9 +42,6 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
         /// </summary>
         protected async Task<T> Get<T>(string url, bool includeTrailingSlash = true)
         {
-            if (string.IsNullOrWhiteSpace(url))
-                throw new ArgumentNullException(nameof(url));
-
             url = includeTrailingSlash ? $"{_baseUrl}/{url}/" : $"{_baseUrl}/{url}";
 
             return await Send<T>(CreateMessage(url, null, HttpMethod.Get));
@@ -100,6 +97,32 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
             url = $"{_baseUrl}/{url}/";
 
             await Send(CreateMessage(url, payload, HttpMethod.Put));
+        }
+
+        /// <summary>
+        /// Performs an Http DELETE returning the speicified object
+        /// </summary>
+        protected async Task<T> Delete<T>(string url, object payload = null)
+        {
+            if (string.IsNullOrWhiteSpace(url))
+                throw new ArgumentNullException(nameof(url));
+
+            url = $"{_baseUrl}/{url}/";
+
+            return await Send<T>(CreateMessage(url, payload, HttpMethod.Delete));
+        }
+
+        /// <summary>
+        /// Performs an Http DELETE without returning any data
+        /// </summary>
+        protected async Task Delete(string url, object payload = null)
+        {
+            if (string.IsNullOrWhiteSpace(url))
+                throw new ArgumentNullException(nameof(url));
+
+            url = $"{_baseUrl}/{url}/";
+
+            await Send(CreateMessage(url, payload, HttpMethod.Delete));
         }
 
         private HttpRequestMessage CreateMessage(

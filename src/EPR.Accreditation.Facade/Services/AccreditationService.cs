@@ -1,4 +1,5 @@
 ﻿using EPR.Accreditation.Facade.Common.Dtos;
+using EPR.Accreditation.Facade.Common.Enums;
 using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
 using EPR.Accreditation.Facade.Services.Interfaces;
 
@@ -13,7 +14,7 @@ namespace EPR.Accreditation.Facade.Services
             _httpAccreditationService = httpAccreditationService ?? throw new ArgumentNullException(nameof(httpAccreditationService));
         }
 
-        public async Task<Common.Enums.OperatorType> GetOperatorType(Guid accreditationExternalId)
+        public async Task<OperatorType> GetOperatorType(Guid accreditationExternalId)
         {
             var operatorTypeId = await _httpAccreditationService.GetOperatorType(accreditationExternalId);
 
@@ -22,7 +23,7 @@ namespace EPR.Accreditation.Facade.Services
 
         public async Task UpdateOperatorType(
             Guid accreditationExternalId,
-            Common.Enums.OperatorType operatorTypeId)
+            OperatorType operatorTypeId)
         {
 
             await _httpAccreditationService.UpdateOperatorType(
@@ -59,6 +60,20 @@ namespace EPR.Accreditation.Facade.Services
                 siteExternalId,
                 materialExternalId,
                 siteMaterial);
+        }
+
+        public async Task<string> GetWasteMaterialName(
+            Guid accreditationExternalId, 
+            Guid siteExternalId, 
+            Guid materialExternalId, 
+            Language language)
+        {
+            var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
+                accreditationExternalId,
+                siteExternalId,
+                materialExternalId);
+
+            return language == Language.English ? siteMaterial.Material.English : siteMaterial.Material.Welsh;
         }
     }
 }
