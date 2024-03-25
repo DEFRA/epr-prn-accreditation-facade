@@ -6,6 +6,10 @@ namespace EPR.Accreditation.Facade.Common.RESTservices.Interfaces
     {
         Task<Dto.Accreditation> GetAccreditation(Guid accreditationExternalId);
 
+        Task UpdateAccreditation(
+            Guid accreditationExternalId,
+            Dto.Accreditation accreditation);
+
         Task<Dto.AccreditationMaterial> GetAccreditationMaterial(
             Guid accreditationExternalId,
             Guid siteExternalId,

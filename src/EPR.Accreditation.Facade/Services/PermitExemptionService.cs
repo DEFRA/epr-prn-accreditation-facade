@@ -1,4 +1,5 @@
-﻿using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
+﻿using EPR.Accreditation.Facade.Common.Dtos;
+using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
 using EPR.Accreditation.Facade.Services.Interfaces;
 
 namespace EPR.Accreditation.Facade.Services
@@ -22,5 +23,24 @@ namespace EPR.Accreditation.Facade.Services
 
             return accreditation.WastePermit.WastePermitExemption;
         }
+
+        public async Task UpdatePermitExemption(
+            Guid accreditationExternalId,
+            bool hasPermitExemption)
+        {
+            var accreditation = new Common.Dtos.Accreditation
+            {
+                WastePermit = new WastePermit
+                {
+                    WastePermitExemption = hasPermitExemption
+                }
+            };
+
+            await _httpAccreditationService.UpdateAccreditation(
+                accreditationExternalId,
+                accreditation
+                );
+        }
+
     }
 }

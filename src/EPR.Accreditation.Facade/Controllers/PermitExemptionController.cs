@@ -21,5 +21,17 @@ namespace EPR.Accreditation.Facade.Controllers
 
             return Ok(hasPermitExemption);
         }
+
+        [HttpPut("WastePermitExemption")]
+        public async Task<IActionResult> UpdatePermitExemption(
+            Guid accreditationExternalId,
+            [FromBody] bool hasPermitExemption)
+        {
+            await _permitExemptionService.UpdatePermitExemption(
+                accreditationExternalId,
+                hasPermitExemption);
+
+            return Ok();
+        }
     }
 }
