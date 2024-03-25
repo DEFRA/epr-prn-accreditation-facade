@@ -10,7 +10,7 @@ namespace EPR.Accreditation.Facade.Helpers
     public static class ExtensionMethods
     {
         public static IServiceCollection AddFacadeDependencies(
-            this IServiceCollection services, 
+            this IServiceCollection services,
             IConfiguration configuration)
         {
             services
@@ -33,6 +33,17 @@ namespace EPR.Accreditation.Facade.Helpers
                         s.GetRequiredService<IOptions<ServicesConfiguration>>().Value.AccreditationAPI.Url,
                         "Accreditation")
                 );
+
+            services
+                .AddScoped<ISaveAndContinueService, SaveAndContinueService>()
+                .AddScoped<IHttpSaveAndContinueService>(s =>
+                    new HttpSaveAndContinueService(
+                        s.GetRequiredService<IHttpContextAccessor>(),
+                        s.GetRequiredService<IHttpClientFactory>(),
+                        s.GetRequiredService<IOptions<ServicesConfiguration>>().Value.AccreditationAPI.Url,
+                        "SaveAndContinue"
+                    )
+            );
 
             return services;
         }
