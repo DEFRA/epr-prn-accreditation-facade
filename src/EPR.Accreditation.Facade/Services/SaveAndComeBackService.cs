@@ -16,11 +16,11 @@ namespace EPR.Accreditation.Facade.Services
 
         public async Task AddSaveAndComeBack(
             Guid accreditationExternalId,
-            SaveAndComeBack saveAndContinue)
+            SaveAndComeBack saveAndComeBack)
         {
             await _httpSaveAndContinueService.AddSaveAndContinue(
                 accreditationExternalId,
-                saveAndContinue);
+                saveAndComeBack);
         }
 
         public async Task DeleteSaveAndComeBack(Guid accreditationExternalId)

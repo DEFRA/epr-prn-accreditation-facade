@@ -34,11 +34,11 @@ namespace EPR.Accreditation.Facade.Controllers
         [HttpPost]
         public async Task<IActionResult> AddSaveAndContinue(
             Guid accreditationExternalId,
-            [FromBody] SaveAndComeBack saveAndContinue)
+            [FromBody] SaveAndComeBack saveAndComeBack)
         {
             await _saveAndContinueService.AddSaveAndComeBack(
                 accreditationExternalId,
-                saveAndContinue);
+                saveAndComeBack);
 
             return Ok();
         }
