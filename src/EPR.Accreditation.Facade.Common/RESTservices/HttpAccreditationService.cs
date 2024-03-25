@@ -34,7 +34,7 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
             Guid accreditationExternalId,
             Dtos.Accreditation accreditation)
         {
-            await Post<Dtos.Accreditation>($"{accreditationExternalId}", accreditation);
+            await Post<string>($"{accreditationExternalId}", accreditation);
         }
     }
 }
