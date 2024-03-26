@@ -1,4 +1,5 @@
-﻿using EPR.Accreditation.Facade.Common.Enums;
+﻿using EPR.Accreditation.Facade.Common.Dtos;
+using EPR.Accreditation.Facade.Common.Enums;
 
 namespace EPR.Accreditation.Facade.Services.Interfaces
 {
@@ -20,5 +21,12 @@ namespace EPR.Accreditation.Facade.Services.Interfaces
             Guid siteExternalId,
             Guid materialExternalId,
             Language language);
+
+        Task CreateWastePermit(
+            Guid accreditationExternalId,
+            WastePermit workPermit);
+
+        Task<WastePermit> GetWastePermit(
+            Guid accreditationExternalId);
     }
 }

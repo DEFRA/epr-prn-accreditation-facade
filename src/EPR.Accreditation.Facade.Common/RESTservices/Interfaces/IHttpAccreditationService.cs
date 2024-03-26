@@ -1,16 +1,8 @@
-﻿using Dto = EPR.Accreditation.Facade.Common.Dtos;
-
-namespace EPR.Accreditation.Facade.Common.RESTservices.Interfaces
+﻿namespace EPR.Accreditation.Facade.Common.RESTservices.Interfaces
 {
     public interface IHttpAccreditationService
     {
-        Task<Dto.Accreditation> GetAccreditation(Guid accreditationExternalId);
-
-        Task UpdateAccreditation(
-            Guid accreditationExternalId,
-            Dto.Accreditation accreditation);
-
-        Task<Dto.AccreditationMaterial> GetAccreditationMaterial(
+        Task<DTO.AccreditationMaterial> GetAccreditationMaterial(
             Guid accreditationExternalId,
             Guid siteExternalId,
             Guid materialExternalId);
@@ -19,6 +11,13 @@ namespace EPR.Accreditation.Facade.Common.RESTservices.Interfaces
             Guid accreditationExternalId,
             Guid siteExternalId,
             Guid materialExternalId,
-            Dto.AccreditationMaterial accreditationMaterial);
+            DTO.AccreditationMaterial accreditationMaterial);
+
+        Task<DTO.Accreditation> GetAccreditation(
+            Guid accreditationExternalId);
+
+        Task UpdateAccreditation(
+            Guid accreditationExternalId,
+            DTO.Accreditation accreditation);
     }
 }
