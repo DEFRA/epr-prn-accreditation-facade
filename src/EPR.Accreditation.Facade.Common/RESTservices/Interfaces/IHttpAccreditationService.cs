@@ -15,7 +15,10 @@ namespace EPR.Accreditation.Facade.Common.RESTservices.Interfaces
             Guid materialExternalId,
             DTO.AccreditationMaterial accreditationMaterial);
 
-        Task CreateAccreditation(
+        Task<DTO.Accreditation> GetAccreditation(
+            Guid accreditationExternalId);
+
+        Task UpdateAccreditation(
             Guid accreditationExternalId,
             DTO.Accreditation accreditation);
     }
