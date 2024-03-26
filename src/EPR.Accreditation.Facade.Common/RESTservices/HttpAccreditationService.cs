@@ -21,13 +21,10 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
             return accreditation.OperatorTypeId;
         }
 
-        public async Task UpdateOperatorType(
-            Guid accreditationExternalId, 
-            OperatorType operatorTypeId)
+        public async Task<Guid> CreateAccreditation(Dtos.Accreditation accreditation)
         {
-            var accreditation = await Get<Dtos.Accreditation>($"{accreditationExternalId}");
-            accreditation.OperatorTypeId = operatorTypeId;
-            await Put($"{accreditationExternalId}", accreditation);
+            var externalId = await Post<Guid>(accreditation);
+            return externalId;
         }
 
         public async Task<Dtos.AccreditationMaterial> GetAccreditationMaterial(

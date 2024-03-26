@@ -21,14 +21,9 @@ namespace EPR.Accreditation.Facade.Services
             return operatorTypeId;
         }
 
-        public async Task UpdateOperatorType(
-            Guid accreditationExternalId,
-            OperatorType operatorTypeId)
+        public async Task<Guid> CreateAccreditation(Common.Dtos.Accreditation accreditation)
         {
-
-            await _httpAccreditationService.UpdateOperatorType(
-                accreditationExternalId,
-                operatorTypeId);
+            return await _httpAccreditationService.CreateAccreditation(accreditation);
         }
 
         public async Task<string> GetWasteSource(
@@ -74,6 +69,15 @@ namespace EPR.Accreditation.Facade.Services
                 materialExternalId);
 
             return language == Language.English ? siteMaterial.Material.English : siteMaterial.Material.Welsh;
+        }
+
+
+        private Common.Dtos.Accreditation CreateNewAccreditationDto(OperatorType operatorTypeId)
+        {
+            var dto = new Common.Dtos.Accreditation();
+            dto.OperatorTypeId = operatorTypeId;
+
+            return dto;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using EPR.Accreditation.Facade.Common.Enums;
+﻿using EPR.Accreditation.Facade.Common.Dtos;
+using EPR.Accreditation.Facade.Common.Enums;
 using EPR.Accreditation.Facade.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -26,17 +27,15 @@ namespace EPR.Accreditation.Facade.Controllers
             return Ok(operatorTypeId);
         }
 
-        [HttpPut("{accreditationExternalId}/OperatorType/{operatorTypeId}")]
-        public async Task<IActionResult> SaveOperatorType(
-            Guid accreditationExternalId,
-            Common.Enums.OperatorType operatorTypeId)
+        [HttpPost]
+        [ProducesResponseType(typeof(Guid), 200)]
+        public async Task<IActionResult> CreateAccreditation([FromBody] Common.Dtos.Accreditation accreditation)
         {
-            await _accreditationService.UpdateOperatorType(
-                accreditationExternalId,
-                operatorTypeId);
+            var externalId = await _accreditationService.CreateAccreditation(accreditation);
 
-            return Ok();
+            return Ok(externalId);
         }
+
 
 
         [HttpGet("{accreditationExternalId}/Site/{siteExternalId}/Material/{materialExternalId}")]
