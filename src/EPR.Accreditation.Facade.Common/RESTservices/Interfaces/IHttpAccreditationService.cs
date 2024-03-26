@@ -1,4 +1,6 @@
-﻿namespace EPR.Accreditation.Facade.Common.RESTservices.Interfaces
+﻿using DTO = EPR.Accreditation.Facade.Common.Dtos;
+
+namespace EPR.Accreditation.Facade.Common.RESTservices.Interfaces
 {
     public interface IHttpAccreditationService
     {

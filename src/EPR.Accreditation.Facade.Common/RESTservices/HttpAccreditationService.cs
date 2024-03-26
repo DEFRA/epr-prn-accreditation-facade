@@ -14,19 +14,6 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
         {
         }
 
-        public async Task<Dtos.Accreditation> GetAccreditation(Guid accreditationExternalId)
-        {
-            return await Get<Dtos.Accreditation>($"{accreditationExternalId}");
-        }
-
-        public async Task UpdateAccreditation(
-            Guid accreditationExternalId,
-            Dtos.Accreditation accreditation
-            )
-        {
-            await Put($"{accreditationExternalId}", accreditation);
-        }
-
         public async Task<Dtos.AccreditationMaterial> GetAccreditationMaterial(
             Guid accreditationExternalId,
             Guid siteExternalId,
