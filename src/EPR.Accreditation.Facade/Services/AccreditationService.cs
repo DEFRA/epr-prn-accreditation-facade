@@ -71,6 +71,22 @@ namespace EPR.Accreditation.Facade.Services
             return language == Language.English ? siteMaterial.Material.English : siteMaterial.Material.Welsh;
         }
 
+        public async Task<WastePermit> GetWastePermit(
+            Guid accreditationExternalId)
+        {
+            var accreditation = await _httpAccreditationService.GetAccreditation(accreditationExternalId);
+
+            return accreditation.WastePermit;
+        }
+
+        public async Task CreateWastePermit(
+            Guid accreditationExternalId,
+            WastePermit wastePermit)
+        {
+            var accreditation = await _httpAccreditationService.GetAccreditation(accreditationExternalId);
+            accreditation.WastePermit = wastePermit;
+            await _httpAccreditationService.UpdateAccreditation(accreditationExternalId, accreditation);
+        }
 
         private Common.Dtos.Accreditation CreateNewAccreditationDto(OperatorType operatorTypeId)
         {

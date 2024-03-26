@@ -86,5 +86,23 @@ namespace EPR.Accreditation.Facade.Controllers
 
             return Ok(wasteSource);
         }
+
+        [HttpPost("{accreditationExternalId}/WastePermit")]
+        public async Task<IActionResult> CreateWastePermit(
+            Guid accreditationExternalId, 
+            Common.Dtos.WastePermit wastePermit)
+        {
+            await _accreditationService.CreateWastePermit(accreditationExternalId, wastePermit);
+            
+            return Ok();
+        }
+
+        [HttpGet("{accreditationExternalId}/WastePermit")]
+        public async Task<IActionResult> GetWastePermit(Guid accreditationExternalId)
+        {
+            var wastePermit = await _accreditationService.GetWastePermit(accreditationExternalId);
+
+            return Ok(wastePermit);
+        }
     }
 }
