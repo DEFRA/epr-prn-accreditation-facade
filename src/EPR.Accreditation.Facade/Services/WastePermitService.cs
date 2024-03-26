@@ -1,4 +1,5 @@
 ﻿using EPR.Accreditation.Facade.Common.Dtos;
+using EPR.Accreditation.Facade.Common.Dtos.Portal;
 using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
 using EPR.Accreditation.Facade.Services.Interfaces;
 
@@ -26,13 +27,13 @@ namespace EPR.Accreditation.Facade.Services
 
         public async Task UpdatePermitExemption(
             Guid accreditationExternalId,
-            bool hasPermitExemption)
+            PermitExemption permitExemption)
         {
             var accreditation = new Common.Dtos.Accreditation
             {
                 WastePermit = new WastePermit
                 {
-                    WastePermitExemption = hasPermitExemption
+                    WastePermitExemption = permitExemption.HasPermitExemption
                 }
             };
 
