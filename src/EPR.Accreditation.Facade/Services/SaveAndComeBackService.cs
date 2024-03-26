@@ -18,6 +18,7 @@ namespace EPR.Accreditation.Facade.Services
             Guid accreditationExternalId,
             SaveAndComeBack saveAndComeBack)
         {
+            await _httpSaveAndComeBackService.DeleteSaveAndComeBack(accreditationExternalId);
             await _httpSaveAndComeBackService.AddSaveAndComeBack(
                 accreditationExternalId,
                 saveAndComeBack);
