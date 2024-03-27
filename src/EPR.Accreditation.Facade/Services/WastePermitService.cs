@@ -7,7 +7,6 @@ namespace EPR.Accreditation.Facade.Services
 {
     public class WastePermitService : IWastePermitService
     {
-
         protected readonly IHttpAccreditationService _httpAccreditationService;
 
         public WastePermitService(IHttpAccreditationService httpAccreditationService)
@@ -42,6 +41,5 @@ namespace EPR.Accreditation.Facade.Services
                 accreditation
                 );
         }
-
     }
 }
