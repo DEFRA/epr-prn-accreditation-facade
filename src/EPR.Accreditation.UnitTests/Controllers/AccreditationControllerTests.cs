@@ -1,4 +1,5 @@
-﻿using EPR.Accreditation.Facade.Controllers;
+﻿using EPR.Accreditation.Facade.Common.Dtos.Portal;
+using EPR.Accreditation.Facade.Controllers;
 using EPR.Accreditation.Facade.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -42,6 +43,22 @@ namespace EPR.Accreditation.UnitTests.Controllers
             Assert.AreEqual(expectedResult, okResult.Value);
 
             _mockWastePermitService.Verify(service => service.GetHasPermitExemption(accreditationExternalId), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task UpdatePermitExemption_ReturnsOk_WhenUpdateSuccessful()
+        {
+            // Arrange
+            Guid accreditationExternalId = Guid.NewGuid();
+            var permitExmeption = new PermitExemption();
+
+            // Act
+            var result = await _accreditationController.UpdatePermitExemption(accreditationExternalId, permitExmeption);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(OkResult));
+
+            _mockWastePermitService.Verify(service => service.UpdatePermitExemption(accreditationExternalId, permitExmeption), Times.Once());
         }
     }
 }
