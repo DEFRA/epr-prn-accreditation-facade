@@ -31,12 +31,12 @@ namespace EPR.Accreditation.UnitTests.Services
             _mockHttpAccreditationService.Setup(service => service.GetAccreditation(accreditationExternalId)).ReturnsAsync(accreditation);
 
             // Act
-            var result = _wastePermitService.GetHasPermitExemption(accreditationExternalId);
+            var result = await _wastePermitService.GetHasPermitExemption(accreditationExternalId);
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.IsTrue(result.Result.HasValue);
-            Assert.IsTrue(result.Result.Value);
+            Assert.IsTrue(result.HasValue);
+            Assert.IsTrue(result.Value);
 
             _mockHttpAccreditationService.Verify(service => service.GetAccreditation(accreditationExternalId), Times.Once);
         }
@@ -54,12 +54,12 @@ namespace EPR.Accreditation.UnitTests.Services
             _mockHttpAccreditationService.Setup(service => service.GetAccreditation(accreditationExternalId)).ReturnsAsync(accreditation);
 
             // Act
-            var result = _wastePermitService.GetHasPermitExemption(accreditationExternalId);
+            var result = await _wastePermitService.GetHasPermitExemption(accreditationExternalId);
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.IsTrue(result.Result.HasValue);
-            Assert.IsFalse(result.Result.Value);
+            Assert.IsTrue(result.HasValue);
+            Assert.IsFalse(result.Value);
 
             _mockHttpAccreditationService.Verify(service => service.GetAccreditation(accreditationExternalId), Times.Once);
         }
@@ -77,7 +77,7 @@ namespace EPR.Accreditation.UnitTests.Services
             _mockHttpAccreditationService.Setup(service => service.GetAccreditation(It.IsAny<Guid>())).ReturnsAsync(accreditation);
 
             // Act
-            var result = _wastePermitService.GetHasPermitExemption(Guid.NewGuid());
+            var result = await _wastePermitService.GetHasPermitExemption(Guid.NewGuid());
 
             // Assert
             Assert.IsNull(result);
@@ -106,7 +106,7 @@ namespace EPR.Accreditation.UnitTests.Services
 
 
             // Act
-            var result = _wastePermitService.UpdatePermitExemption(accreditationExternalId, permitExemption);
+            await _wastePermitService.UpdatePermitExemption(accreditationExternalId, permitExemption);
 
             // Assert
             Assert.IsTrue(permitExemption.HasPermitExemption);
@@ -132,13 +132,12 @@ namespace EPR.Accreditation.UnitTests.Services
 
 
             // Act
-            var result = _wastePermitService.UpdatePermitExemption(accreditationExternalId, permitExemption);
+            await _wastePermitService.UpdatePermitExemption(accreditationExternalId, permitExemption);
 
             // Assert
             Assert.IsFalse(permitExemption.HasPermitExemption);
 
             _mockHttpAccreditationService.Verify(service => service.UpdateAccreditation(accreditationExternalId, accreditation), Times.Once);
         }
-
     }
 }
