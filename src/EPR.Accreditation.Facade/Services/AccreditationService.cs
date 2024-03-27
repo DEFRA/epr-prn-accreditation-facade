@@ -14,6 +14,18 @@ namespace EPR.Accreditation.Facade.Services
             _httpAccreditationService = httpAccreditationService ?? throw new ArgumentNullException(nameof(httpAccreditationService));
         }
 
+        public async Task<OperatorType> GetOperatorType(Guid accreditationExternalId)
+        {
+            var operatorTypeId = await _httpAccreditationService.GetOperatorType(accreditationExternalId);
+
+            return operatorTypeId;
+        }
+
+        public async Task<Guid> CreateAccreditation(Common.Dtos.Accreditation accreditation)
+        {
+            return await _httpAccreditationService.CreateAccreditation(accreditation);
+        }
+
         public async Task<string> GetWasteSource(
             Guid accreditationExternalId,
             Guid siteExternalId,
@@ -74,6 +86,14 @@ namespace EPR.Accreditation.Facade.Services
             var accreditation = await _httpAccreditationService.GetAccreditation(accreditationExternalId);
             accreditation.WastePermit = wastePermit;
             await _httpAccreditationService.UpdateAccreditation(accreditationExternalId, accreditation);
+        }
+
+        private Common.Dtos.Accreditation CreateNewAccreditationDto(OperatorType operatorTypeId)
+        {
+            var dto = new Common.Dtos.Accreditation();
+            dto.OperatorTypeId = operatorTypeId;
+
+            return dto;
         }
     }
 }

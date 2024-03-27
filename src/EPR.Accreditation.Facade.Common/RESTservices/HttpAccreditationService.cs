@@ -1,4 +1,5 @@
 ﻿using EPR.Accreditation.Facade.Common.Dtos;
+using EPR.Accreditation.Facade.Common.Enums;
 using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
 using Microsoft.AspNetCore.Http;
 
@@ -14,6 +15,18 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
         {
         }
 
+        public async Task<OperatorType> GetOperatorType(Guid accreditationExternalId)
+        {
+            var accreditation = await Get<Dtos.Accreditation>($"{accreditationExternalId}");
+            return accreditation.OperatorTypeId;
+        }
+
+        public async Task<Guid> CreateAccreditation(Dtos.Accreditation accreditation)
+        {
+            var externalId = await Post<Guid>(accreditation);
+            return externalId;
+        }
+
         public async Task<Dtos.AccreditationMaterial> GetAccreditationMaterial(
             Guid accreditationExternalId,
             Guid siteExternalId,
@@ -21,6 +34,7 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
         {
             return await Get<Dtos.AccreditationMaterial>($"{accreditationExternalId}/Site/{siteExternalId}/Material/{materialExternalId}");
         }
+
         public async Task UpdateAccreditationMaterial(
             Guid accreditationExternalId,
             Guid siteExternalId,

@@ -5,6 +5,9 @@ namespace EPR.Accreditation.Facade.Services.Interfaces
 {
     public interface IAccreditationService
     {
+        Task<OperatorType> GetOperatorType(Guid accreditationExternalId);
+        Task<Guid> CreateAccreditation(Common.Dtos.Accreditation accreditation);
+
         Task<string> GetWasteSource(
             Guid accreditationExternalId,
             Guid siteExternalId,
