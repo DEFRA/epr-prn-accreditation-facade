@@ -1,4 +1,5 @@
-﻿using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
+﻿using EPR.Accreditation.Facade.Common.Dtos.Portal;
+using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
 using EPR.Accreditation.Facade.Services;
 using Moq;
 
@@ -63,25 +64,81 @@ namespace EPR.Accreditation.UnitTests.Services
             _mockHttpAccreditationService.Verify(service => service.GetAccreditation(accreditationExternalId), Times.Once);
         }
 
-        //[TestMethod]
-        //public async Task GetHasPermitExemption_ReturnsNull_WhenAccreditationWastePermitIsNull()
-        //{
-        //    // Arrange
+        [TestMethod]
+        public async Task GetHasPermitExemption_ReturnsNull_WhenAccreditationWastePermitIsNull()
+        {
+            // Arrange
 
-        //    var accreditation = new Facade.Common.Dtos.Accreditation
-        //    {
-        //        WastePermit = null
-        //    };
+            var accreditation = new Facade.Common.Dtos.Accreditation
+            {
+                WastePermit = null
+            };
 
-        //    _mockHttpAccreditationService.Setup(service => service.GetAccreditation(It.IsAny<Guid>())).ReturnsAsync(accreditation);
+            _mockHttpAccreditationService.Setup(service => service.GetAccreditation(It.IsAny<Guid>())).ReturnsAsync(accreditation);
 
-        //    // Act
-        //    var result = _wastePermitService.GetHasPermitExemption(Guid.NewGuid());
+            // Act
+            var result = _wastePermitService.GetHasPermitExemption(Guid.NewGuid());
 
-        //    // Assert
-        //    Assert.IsNull(result);
+            // Assert
+            Assert.IsNull(result);
 
-        //    _mockHttpAccreditationService.Verify(service => service.GetAccreditation(It.IsAny<Guid>()), Times.Once);
-        //}
+            _mockHttpAccreditationService.Verify(service => service.GetAccreditation(It.IsAny<Guid>()), Times.Once);
+        }
+
+
+        [TestMethod]
+        public async Task UpdatePermitExemption_WithPermitExemption_ShouldSetHasPermitExemptionToTrue()
+        {
+            // Arrange
+            var accreditationExternalId = Guid.NewGuid();
+
+            var permitExemption = new PermitExemption
+            {
+                HasPermitExemption = true
+            };
+
+            var accreditation = new Facade.Common.Dtos.Accreditation
+            {
+                WastePermit = new Facade.Common.Dtos.WastePermit { WastePermitExemption = permitExemption.HasPermitExemption }
+            };
+
+            _mockHttpAccreditationService.Setup(service => service.UpdateAccreditation(accreditationExternalId, accreditation));
+
+
+            // Act
+            var result = _wastePermitService.UpdatePermitExemption(accreditationExternalId, permitExemption);
+
+            // Assert
+            Assert.IsTrue(permitExemption.HasPermitExemption);
+
+            _mockHttpAccreditationService.Verify(service => service.UpdateAccreditation(accreditationExternalId, accreditation), Times.Once);
+        }
+
+        [TestMethod]
+        public async Task UpdatePermitExemption_WithPermitExemption_ShouldSetHasPermitExemptionToFalse()
+        {
+            // Arrange
+            var accreditationExternalId = Guid.NewGuid();
+
+            var permitExemption = new PermitExemption
+            {
+                HasPermitExemption = false
+            };
+
+            var accreditation = new Facade.Common.Dtos.Accreditation
+            {
+                WastePermit = new Facade.Common.Dtos.WastePermit { WastePermitExemption = permitExemption.HasPermitExemption }
+            };
+
+
+            // Act
+            var result = _wastePermitService.UpdatePermitExemption(accreditationExternalId, permitExemption);
+
+            // Assert
+            Assert.IsFalse(permitExemption.HasPermitExemption);
+
+            _mockHttpAccreditationService.Verify(service => service.UpdateAccreditation(accreditationExternalId, accreditation), Times.Once);
+        }
+
     }
 }
