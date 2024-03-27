@@ -1,23 +1,28 @@
-﻿using EPR.Accreditation.Facade.Common.Enums;
+﻿using EPR.Accreditation.Facade.Common.Dtos.Portal;
+using EPR.Accreditation.Facade.Common.Enums;
 using EPR.Accreditation.Facade.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EPR.Accreditation.Facade.Controllers
 {
     [ApiController]
-    [Route("/api/[controller]")]
+    [Route("/api/[controller]/{accreditationExternalId}/")]
     public class AccreditationController : ControllerBase
     {
         protected readonly IAccreditationService _accreditationService;
+        protected readonly IWastePermitService _wastePermitService;
 
-        public AccreditationController(IAccreditationService accreditationService)
+        public AccreditationController(
+            IAccreditationService accreditationService,
+            IWastePermitService wastePermitService)
         {
             _accreditationService = accreditationService ?? throw new ArgumentNullException(nameof(accreditationService));
+            _wastePermitService = wastePermitService ?? throw new ArgumentNullException(nameof(wastePermitService));
         }
 
-        [HttpGet("{accreditationExternalId}/Site/{siteExternalId}/Material/{materialExternalId}")]
+        [HttpGet("Site/{siteExternalId}/Material/{materialExternalId}")]
         public async Task<IActionResult> GetWasteSource(
-            Guid accreditationExternalId, 
+            Guid accreditationExternalId,
             Guid siteExternalId,
             Guid materialExternalId)
         {
@@ -29,7 +34,7 @@ namespace EPR.Accreditation.Facade.Controllers
             return Ok(wasteSource);
         }
 
-        [HttpPut("{accreditationExternalId}/Site/{siteExternalId}/Material/{materialExternalId}")]
+        [HttpPut("Site/{siteExternalId}/Material/{materialExternalId}")]
         public async Task<IActionResult> SaveWasteSource(
             Guid accreditationExternalId,
             Guid siteExternalId,
@@ -45,7 +50,7 @@ namespace EPR.Accreditation.Facade.Controllers
             return Ok();
         }
 
-        [HttpGet("{accreditationExternalId}/Site/{siteExternalId}/Material/{materialExternalId}/Name")]
+        [HttpGet("Site/{siteExternalId}/Material/{materialExternalId}/Name")]
         public async Task<IActionResult> GetMaterialName(
             Guid accreditationExternalId,
             Guid siteExternalId,
@@ -64,22 +69,42 @@ namespace EPR.Accreditation.Facade.Controllers
             return Ok(wasteSource);
         }
 
-        [HttpPost("{accreditationExternalId}/WastePermit")]
+        [HttpPost("WastePermit")]
         public async Task<IActionResult> CreateWastePermit(
-            Guid accreditationExternalId, 
+            Guid accreditationExternalId,
             Common.Dtos.WastePermit wastePermit)
         {
             await _accreditationService.CreateWastePermit(accreditationExternalId, wastePermit);
-            
+
             return Ok();
         }
 
-        [HttpGet("{accreditationExternalId}/WastePermit")]
+        [HttpGet("WastePermit")]
         public async Task<IActionResult> GetWastePermit(Guid accreditationExternalId)
         {
             var wastePermit = await _accreditationService.GetWastePermit(accreditationExternalId);
 
             return Ok(wastePermit);
+        }
+
+        [HttpGet("WastePermitExemption")]
+        public async Task<IActionResult> GetHasPermitExemption(Guid accreditationExternalId)
+        {
+            var hasPermitExemption = await _wastePermitService.GetHasPermitExemption(accreditationExternalId);
+
+            return Ok(hasPermitExemption);
+        }
+
+        [HttpPut("WastePermitExemption")]
+        public async Task<IActionResult> UpdatePermitExemption(
+            Guid accreditationExternalId,
+            [FromBody] PermitExemption permitExemption)
+        {
+            await _wastePermitService.UpdatePermitExemption(
+                accreditationExternalId,
+                permitExemption);
+
+            return Ok();
         }
     }
 }
