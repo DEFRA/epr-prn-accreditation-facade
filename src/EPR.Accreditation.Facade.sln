@@ -5,7 +5,9 @@ VisualStudioVersion = 17.8.34601.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPR.Accreditation.Facade", "EPR.Accreditation.Facade\EPR.Accreditation.Facade.csproj", "{9DD2BA3C-CBF0-49DA-A852-A65BFF02D316}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPR.Accreditation.Facade.Common", "EPR.Accreditation.Facade.Common\EPR.Accreditation.Facade.Common.csproj", "{F216A54E-E584-4A92-A977-6EC6DCB5C920}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPR.Accreditation.Facade.Common", "EPR.Accreditation.Facade.Common\EPR.Accreditation.Facade.Common.csproj", "{F216A54E-E584-4A92-A977-6EC6DCB5C920}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPR.Accreditation.UnitTests", "EPR.Accreditation.UnitTests\EPR.Accreditation.UnitTests.csproj", "{788C9D9E-2074-4B04-BAAE-A6120B556350}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{F216A54E-E584-4A92-A977-6EC6DCB5C920}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F216A54E-E584-4A92-A977-6EC6DCB5C920}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F216A54E-E584-4A92-A977-6EC6DCB5C920}.Release|Any CPU.Build.0 = Release|Any CPU
+		{788C9D9E-2074-4B04-BAAE-A6120B556350}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{788C9D9E-2074-4B04-BAAE-A6120B556350}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{788C9D9E-2074-4B04-BAAE-A6120B556350}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{788C9D9E-2074-4B04-BAAE-A6120B556350}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
