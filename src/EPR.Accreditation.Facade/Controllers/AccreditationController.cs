@@ -23,7 +23,7 @@ namespace EPR.Accreditation.Facade.Controllers
         }
 
 
-        [HttpGet("{accreditationExternalId}/OperatorType")]
+        [HttpGet("OperatorType")]
         public async Task<IActionResult> GetOperatorType(
             Guid accreditationExternalId)
         {
@@ -32,8 +32,8 @@ namespace EPR.Accreditation.Facade.Controllers
             return Ok(operatorTypeId);
         }
 
-        [HttpGet("Site/{siteExternalId}/Material/{materialExternalId}")]
         [HttpPost]
+        [Route("/api/[controller]")]
         [ProducesResponseType(typeof(Guid), 200)]
         public async Task<IActionResult> CreateAccreditation([FromBody] Common.Dtos.Accreditation accreditation)
         {
@@ -44,7 +44,7 @@ namespace EPR.Accreditation.Facade.Controllers
 
 
 
-        [HttpGet("{accreditationExternalId}/Site/{siteExternalId}/Material/{materialExternalId}")]
+        [HttpGet("Site/{siteExternalId}/Material/{materialExternalId}")]
         public async Task<IActionResult> GetWasteSource(
             Guid accreditationExternalId,
             Guid siteExternalId,
