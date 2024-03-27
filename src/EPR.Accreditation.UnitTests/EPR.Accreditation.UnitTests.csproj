@@ -26,10 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\EPR.Accreditation.Facade\EPR.Accreditation.Facade.csproj" />
   </ItemGroup>
 
