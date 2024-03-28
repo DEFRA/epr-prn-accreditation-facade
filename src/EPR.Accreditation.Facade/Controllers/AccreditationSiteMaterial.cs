@@ -11,13 +11,16 @@ namespace EPR.Accreditation.Facade.Controllers
     {
         protected readonly IAccreditationService _accreditationService;
         protected readonly IWastePermitService _wastePermitService;
+        protected readonly IAccreditationMaterialService _accreditationMaterialService;
 
         public AccreditationSiteMaterial(
             IAccreditationService accreditationService,
-            IWastePermitService wastePermitService)
+            IWastePermitService wastePermitService,
+            IAccreditationMaterialService accreditationMaterialService)
         {
             _accreditationService = accreditationService ?? throw new ArgumentNullException(nameof(accreditationService));
             _wastePermitService = wastePermitService ?? throw new ArgumentNullException(nameof(wastePermitService));
+            _accreditationMaterialService = accreditationMaterialService ?? throw new ArgumentNullException(nameof(accreditationMaterialService));
         }
 
         [HttpGet("WasteSource")]
@@ -95,6 +98,36 @@ namespace EPR.Accreditation.Facade.Controllers
                 siteExternalId,
                 materialExternalId,
                 materialOutputsDto);
+
+            return Ok();
+        }
+
+        [HttpGet("WasteLastYear")]
+        public async Task<IActionResult> GetReprocessedWasteLastYear(
+            Guid accreditationExternalId,
+            Guid siteExternalId,
+            Guid materialExternalId)
+        {
+            var reprocessedWasteLastYear = await _accreditationMaterialService.GetReprocessedWasteLastYear(
+                accreditationExternalId,
+                siteExternalId,
+                materialExternalId);
+
+            return Ok(reprocessedWasteLastYear);
+        }
+
+        [HttpPut("WasteLastYear")]
+        public async Task<IActionResult> UpdateReprocessedWasteLastYear(
+            Guid accreditationExternalId,
+            Guid siteExternalId,
+            Guid materialExternalId,
+            [FromBody] ReprocessedWasteLastYear reprocessedWasteLastYear)
+        {
+            await _accreditationMaterialService.UpdateReprocessedWasteLastYear(
+                accreditationExternalId,
+                siteExternalId,
+                materialExternalId,
+                reprocessedWasteLastYear);
 
             return Ok();
         }

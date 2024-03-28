@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
 
-        public bool WasteLastYear { get; set; }
+        public bool? WasteLastYear { get; set; }
 
         public decimal? UkPackagingWaste { get; set; }
 
