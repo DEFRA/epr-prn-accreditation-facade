@@ -1,4 +1,6 @@
-﻿using EPR.Accreditation.Facade.Common.Dtos;
+﻿using AutoMapper;
+using EPR.Accreditation.Facade.Common.Dtos;
+using EPR.Accreditation.Facade.Common.Dtos.Portal;
 using EPR.Accreditation.Facade.Common.Enums;
 using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
 using EPR.Accreditation.Facade.Services.Interfaces;
@@ -7,10 +9,14 @@ namespace EPR.Accreditation.Facade.Services
 {
     public class AccreditationService : IAccreditationService
     {
+        protected readonly IMapper _mapper;
         protected readonly IHttpAccreditationService _httpAccreditationService;
 
-        public AccreditationService(IHttpAccreditationService httpAccreditationService)
+        public AccreditationService(
+            IMapper mapper,
+            IHttpAccreditationService httpAccreditationService)
         {
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _httpAccreditationService = httpAccreditationService ?? throw new ArgumentNullException(nameof(httpAccreditationService));
         }
 
@@ -94,6 +100,51 @@ namespace EPR.Accreditation.Facade.Services
             dto.OperatorTypeId = operatorTypeId;
 
             return dto;
+        }
+
+        public async Task<MaterialOutputsDto> GetMaterialOutputs(
+            Guid accreditationExternalId, 
+            Guid siteExternalId, 
+            Guid materialExternalId)
+        {
+            var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
+                accreditationExternalId,
+                siteExternalId,
+                materialExternalId);
+
+            if (siteMaterial == null) 
+                return new MaterialOutputsDto();
+
+            return new MaterialOutputsDto
+            {
+                TonnesContaminents = siteMaterial.MaterialReprocessorDetails?.Contaminents,
+                TonnesNotProcessedOnSite = siteMaterial.MaterialReprocessorDetails?.MaterialsNotProcessedOnSite,
+                TonnesProcessLoss = siteMaterial.MaterialReprocessorDetails?.ProcessLoss
+            };
+        }
+
+        public async Task UpdateMaterialOutputs(
+            Guid accreditationExternalId, 
+            Guid siteExternalId, 
+            Guid materialExternalId,
+            MaterialOutputsDto materialOutputsDto)
+        {
+            var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
+                accreditationExternalId,
+                siteExternalId,
+                materialExternalId);
+
+            if (siteMaterial == null ||
+                siteMaterial.MaterialReprocessorDetails == null)
+                throw new Exception(); // should end up with a not found result as we should have a SiteMaterial and MaterialReprocessorDetails by now
+
+            siteMaterial.MaterialReprocessorDetails = _mapper.Map(materialOutputsDto, siteMaterial.MaterialReprocessorDetails);
+
+            await _httpAccreditationService.UpdateAccreditationMaterial(
+                accreditationExternalId,
+                siteExternalId,
+                materialExternalId,
+                siteMaterial);
         }
     }
 }
