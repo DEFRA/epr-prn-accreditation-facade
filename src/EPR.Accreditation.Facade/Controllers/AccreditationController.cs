@@ -1,9 +1,4 @@
-﻿using EPR.Accreditation.Facade.Common.Dtos.Portal;
-using EPR.Accreditation.Facade.Common.Enums;
-using EPR.Accreditation.Facade.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc;
-
-namespace EPR.Accreditation.Facade.Controllers
+﻿namespace EPR.Accreditation.Facade.Controllers
 {
     [ApiController]
     [Route("/api/[controller]/{accreditationExternalId}/")]
@@ -42,7 +37,7 @@ namespace EPR.Accreditation.Facade.Controllers
             return Ok(externalId);
         }
 
-        [HttpGet("Site/{siteExternalId}/Material/{materialExternalId}")]
+        [HttpGet("Site/{siteExternalId}/Material/{materialExternalId}/WasteSource")]
         public async Task<IActionResult> GetWasteSource(
             Guid accreditationExternalId,
             Guid siteExternalId,
@@ -56,7 +51,7 @@ namespace EPR.Accreditation.Facade.Controllers
             return Ok(wasteSource);
         }
 
-        [HttpPut("Site/{siteExternalId}/Material/{materialExternalId}")]
+        [HttpPut("Site/{siteExternalId}/Material/{materialExternalId}/WasteSource")]
         public async Task<IActionResult> SaveWasteSource(
             Guid accreditationExternalId,
             Guid siteExternalId,
@@ -89,6 +84,36 @@ namespace EPR.Accreditation.Facade.Controllers
                 language);
 
             return Ok(wasteSource);
+        }
+
+        [HttpGet("Site/{siteExternalId}/Material/{materialExternalId}/MaterialOutputs")]
+        public async Task<IActionResult> GetMaterialOutputs(
+            Guid accreditationExternalId,
+            Guid siteExternalId,
+            Guid materialExternalId)
+        {
+            var materialOoutputs = await _accreditationService.GetMaterialOutputs(
+                accreditationExternalId,
+                siteExternalId,
+                materialExternalId);
+
+            return Ok(materialOoutputs);
+        }
+
+        [HttpPut("Site/{siteExternalId}/Material/{materialExternalId}/MaterialOutputs")]
+        public async Task<IActionResult> UpdateMaterialOutputs(
+            Guid accreditationExternalId,
+            Guid siteExternalId,
+            Guid materialExternalId,
+            [FromBody] MaterialOutputsDto materialOutputsDto)
+        {
+            await _accreditationService.UpdateMaterialOutputs(
+                accreditationExternalId,
+                siteExternalId,
+                materialExternalId,
+                materialOutputsDto);
+
+            return Ok();
         }
 
         [HttpPost("WastePermit")]
