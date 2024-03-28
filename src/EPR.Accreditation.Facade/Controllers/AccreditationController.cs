@@ -1,4 +1,8 @@
-﻿namespace EPR.Accreditation.Facade.Controllers
+﻿using EPR.Accreditation.Facade.Common.Dtos.Portal;
+using EPR.Accreditation.Facade.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+
+namespace EPR.Accreditation.Facade.Controllers
 {
     [ApiController]
     [Route("/api/[controller]/{accreditationExternalId}/")]
@@ -6,16 +10,13 @@
     {
         protected readonly IAccreditationService _accreditationService;
         protected readonly IWastePermitService _wastePermitService;
-        protected readonly IAccreditationMaterialService _accreditationMaterialService;
 
         public AccreditationController(
             IAccreditationService accreditationService,
-            IWastePermitService wastePermitService,
-            IAccreditationMaterialService accreditationMaterialService)
+            IWastePermitService wastePermitService)
         {
             _accreditationService = accreditationService ?? throw new ArgumentNullException(nameof(accreditationService));
             _wastePermitService = wastePermitService ?? throw new ArgumentNullException(nameof(wastePermitService));
-            _accreditationMaterialService = accreditationMaterialService ?? throw new ArgumentNullException(nameof(accreditationMaterialService));
         }
 
         [HttpGet("OperatorType")]
@@ -71,36 +72,6 @@
             await _wastePermitService.UpdatePermitExemption(
                 accreditationExternalId,
                 permitExemption);
-
-            return Ok();
-        }
-
-        [HttpGet("Site/{siteExternalId}/Material/{materialExternalId}/WasteLastYear")]
-        public async Task<IActionResult> GetReprocessedWasteLastYear(
-            Guid accreditationExternalId,
-            Guid siteExternalId,
-            Guid materialExternalId)
-        {
-            var reprocessedWasteLastYear = await _accreditationMaterialService.GetReprocessedWasteLastYear(
-                accreditationExternalId,
-                siteExternalId,
-                materialExternalId);
-
-            return Ok(reprocessedWasteLastYear);
-        }
-
-        [HttpPut("Site/{siteExternalId}/Material/{materialExternalId}/WasteLastYear")]
-        public async Task<IActionResult> UpdateReprocessedWasteLastYear(
-            Guid accreditationExternalId,
-            Guid siteExternalId,
-            Guid materialExternalId,
-            [FromBody] ReprocessedWasteLastYear reprocessedWasteLastYear)
-        {
-            await _accreditationMaterialService.UpdateReprocessedWasteLastYear(
-                accreditationExternalId,
-                siteExternalId,
-                materialExternalId,
-                reprocessedWasteLastYear);
 
             return Ok();
         }
