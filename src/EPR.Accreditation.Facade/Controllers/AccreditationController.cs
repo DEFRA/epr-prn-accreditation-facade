@@ -1,4 +1,9 @@
-﻿namespace EPR.Accreditation.Facade.Controllers
+﻿using EPR.Accreditation.Facade.Common.Dtos.Portal;
+using EPR.Accreditation.Facade.Common.Enums;
+using EPR.Accreditation.Facade.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+
+namespace EPR.Accreditation.Facade.Controllers
 {
     [ApiController]
     [Route("/api/[controller]/{accreditationExternalId}/")]
