@@ -7,18 +7,19 @@ namespace EPR.Accreditation.Facade.Controllers
     [Route("/api/[controller]/{siteId}")]
     public class ExemptionReferenceController : ControllerBase
     {
-        protected readonly ISaveAndComeBackService _exemptionService;
+        protected readonly IExemptionReferenceService _exemptionReferenceService;
 
-        public ExemptionReferenceController(IExemptionService exemeptionService)
+        public ExemptionReferenceController(IExemptionReferenceService exemptionService)
         {
-            _exemptionService = exemeptionService ?? throw new ArgumentNullException(nameof(exemeptionService));
+            _exemptionReferenceService = exemptionService ?? throw new ArgumentNullException(nameof(exemptionService));
         }
 
         [HttpGet]
         public async Task<IActionResult> GetExemptionReference(int siteId)
         {
-            var exemptionReference = await _exemptionService.GetExemptionReference(siteId);
+            var exemptionReference = await _exemptionReferenceService.GetExemptionReference(siteId);
 
             return Ok(exemptionReference);
         }
     }
+}
