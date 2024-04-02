@@ -14,6 +14,13 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
         {
         }
 
+        public async Task<int> CreateExemptionReference(
+            int siteId,
+            ExemptionReference exemptionReference)
+        {
+            return await Post<int>($"{siteId}/ExemptionReference", exemptionReference);
+        }
+
         public async Task<ExemptionReference> GetExemptionReference(
             int exemptionReferenceId,
             int siteId)

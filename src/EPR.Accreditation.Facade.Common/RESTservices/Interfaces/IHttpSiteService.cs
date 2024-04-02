@@ -4,6 +4,10 @@ namespace EPR.Accreditation.Facade.Common.RESTservices.Interfaces
 {
     public interface IHttpSiteService
     {
+        Task<int> CreateExemptionReference(
+            int siteId,
+            ExemptionReference exemptionReference);
+
         Task<ExemptionReference> GetExemptionReference(
             int exemptionReferenceId,
             int siteId);

@@ -13,6 +13,15 @@ namespace EPR.Accreditation.Facade.Services
             _httpExemptionReferenceService = httpExemptionReferenceService ?? throw new ArgumentNullException(nameof(httpExemptionReferenceService));
         }
 
+        public async Task<int> CreateExemptionReference(
+            int siteId,
+            ExemptionReference exemptionReference)
+        {
+            return await _httpExemptionReferenceService.CreateExemptionReference(
+                siteId,
+                exemptionReference);
+        }
+
         public async Task<ExemptionReference> GetExemptionReference(
             int exemptionReferenceId,
             int siteId)

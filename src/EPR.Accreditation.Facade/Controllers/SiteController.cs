@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace EPR.Accreditation.Facade.Controllers
 {
     [ApiController]
-    [Route("/api/Site/{siteId}")]
+    [Route("/api/Site/{siteId}/ExemptionReference")]
     public class SiteController : ControllerBase
     {
         protected readonly ISiteService _siteServiceService;
@@ -15,7 +15,20 @@ namespace EPR.Accreditation.Facade.Controllers
             _siteServiceService = siteService ?? throw new ArgumentNullException(nameof(siteService));
         }
 
-        [HttpGet("ExemptionReference/{exemptionReferenceId}")]
+        [HttpPost]
+        [ProducesResponseType(typeof(int), 200)]
+        public async Task<IActionResult> CreateExemptionReference(
+            int siteId,
+            [FromBody] ExemptionReference exemptionReference)
+        {
+            var exemptionReferenceId = await _siteServiceService.CreateExemptionReference(
+                siteId,
+                exemptionReference);
+
+            return Ok(exemptionReferenceId);
+        }
+
+        [HttpGet("{exemptionReferenceId}")]
         public async Task<IActionResult> GetExemptionReference(
             int exemptionReferenceId,
             int siteId)
@@ -27,7 +40,7 @@ namespace EPR.Accreditation.Facade.Controllers
             return Ok(exemptionReference);
         }
 
-        [HttpPut("ExemptionReference/{exemptionReferenceId}")]
+        [HttpPut("{exemptionReferenceId}")]
         public async Task<IActionResult> UpdateExemptionReference(
             int exemptionReferenceId,
             int siteId,
