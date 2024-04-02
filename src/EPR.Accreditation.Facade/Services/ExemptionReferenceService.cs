@@ -17,5 +17,21 @@ namespace EPR.Accreditation.Facade.Services
         {
             return await _httpExemptionReferenceService.GetExemptionReference(siteId);
         }
+
+        public async Task UpdateExemptionReference(
+            int exemptionReferenceId,
+            int siteId,
+            ExemptionReference exemptionReference)
+        {
+            var updatedExemptionReference = new ExemptionReference
+            {
+                Reference = exemptionReference.Reference
+            };
+
+            await _httpExemptionReferenceService.UpdateExemptionReference(
+                exemptionReferenceId,
+                siteId,
+                updatedExemptionReference);
+        }
     }
 }
