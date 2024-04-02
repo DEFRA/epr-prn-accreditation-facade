@@ -46,13 +46,13 @@ namespace EPR.Accreditation.Facade.Helpers
             );
 
             services
-                .AddScoped<IExemptionReferenceService, ExemptionReferenceService>()
-                .AddScoped<IHttpExemptionReferenceService>(s =>
-                    new HttpExemptionReferenceService(
+                .AddScoped<ISiteService, SiteService>()
+                .AddScoped<IHttpSiteService>(s =>
+                    new HttpSiteService(
                         s.GetRequiredService<IHttpContextAccessor>(),
                         s.GetRequiredService<IHttpClientFactory>(),
                         s.GetRequiredService<IOptions<ServicesConfiguration>>().Value.AccreditationAPI.Url,
-                        "ExemptionReference"
+                        "Site"
                     )
             );
 

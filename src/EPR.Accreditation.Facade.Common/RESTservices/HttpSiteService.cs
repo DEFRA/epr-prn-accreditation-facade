@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Http;
 
 namespace EPR.Accreditation.Facade.Common.RESTservices
 {
-    public class HttpExemptionReferenceService : BaseHttpService, IHttpExemptionReferenceService
+    public class HttpSiteService : BaseHttpService, IHttpSiteService
     {
-        public HttpExemptionReferenceService(
+        public HttpSiteService(
             IHttpContextAccessor httpContextAccessor,
             IHttpClientFactory httpClientFactory,
             string baseUrl,
@@ -14,9 +14,11 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
         {
         }
 
-        public async Task<ExemptionReference> GetExemptionReference(int siteId)
+        public async Task<ExemptionReference> GetExemptionReference(
+            int exemptionReferenceId,
+            int siteId)
         {
-            return await Get<ExemptionReference>($"{siteId}");
+            return await Get<ExemptionReference>($"{siteId}/ExemptionReference/{exemptionReferenceId}");
         }
 
         public async Task UpdateExemptionReference(
@@ -24,7 +26,7 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
             int siteId,
             ExemptionReference exemptionReference)
         {
-            await Put($"{exemptionReferenceId}", exemptionReference);
+            await Put($"{siteId}/ExemptionReference/{exemptionReferenceId}", exemptionReference);
         }
     }
 }

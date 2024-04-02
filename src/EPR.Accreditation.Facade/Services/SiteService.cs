@@ -4,18 +4,22 @@ using EPR.Accreditation.Facade.Services.Interfaces;
 
 namespace EPR.Accreditation.Facade.Services
 {
-    public class ExemptionReferenceService : IExemptionReferenceService
+    public class SiteService : ISiteService
     {
-        protected readonly IHttpExemptionReferenceService _httpExemptionReferenceService;
+        protected readonly IHttpSiteService _httpExemptionReferenceService;
 
-        public ExemptionReferenceService(IHttpExemptionReferenceService httpExemptionReferenceService)
+        public SiteService(IHttpSiteService httpExemptionReferenceService)
         {
             _httpExemptionReferenceService = httpExemptionReferenceService ?? throw new ArgumentNullException(nameof(httpExemptionReferenceService));
         }
 
-        public async Task<ExemptionReference> GetExemptionReference(int siteId)
+        public async Task<ExemptionReference> GetExemptionReference(
+            int exemptionReferenceId,
+            int siteId)
         {
-            return await _httpExemptionReferenceService.GetExemptionReference(siteId);
+            return await _httpExemptionReferenceService.GetExemptionReference(
+                exemptionReferenceId,
+                siteId);
         }
 
         public async Task UpdateExemptionReference(
