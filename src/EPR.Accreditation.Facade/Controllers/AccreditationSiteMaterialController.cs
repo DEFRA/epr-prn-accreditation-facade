@@ -7,13 +7,13 @@ namespace EPR.Accreditation.Facade.Controllers
 {
     [ApiController]
     [Route("/api/Accreditation/{accreditationExternalId}/Site/{siteExternalId}/Material/{materialExternalId}")]
-    public class AccreditationSiteMaterial : ControllerBase
+    public class AccreditationSiteMaterialController : ControllerBase
     {
         protected readonly IAccreditationService _accreditationService;
         protected readonly IWastePermitService _wastePermitService;
         protected readonly IAccreditationMaterialService _accreditationMaterialService;
 
-        public AccreditationSiteMaterial(
+        public AccreditationSiteMaterialController(
             IAccreditationService accreditationService,
             IWastePermitService wastePermitService,
             IAccreditationMaterialService accreditationMaterialService)
