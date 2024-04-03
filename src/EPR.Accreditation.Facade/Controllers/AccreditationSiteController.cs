@@ -6,11 +6,11 @@ namespace EPR.Accreditation.Facade.Controllers
 {
     [ApiController]
     [Route("/api/Accreditation/{accreditationExternalId}/Site/{siteExternalId}")]
-    public class SiteController : ControllerBase
+    public class AccreditationSiteController : ControllerBase
     {
         protected readonly ISiteService _siteService;
 
-        public SiteController(ISiteService siteService)
+        public AccreditationSiteController(ISiteService siteService)
         {
             _siteService = siteService ?? throw new ArgumentNullException(nameof(siteService));
         }
