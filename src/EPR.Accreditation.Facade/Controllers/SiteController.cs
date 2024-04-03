@@ -1,4 +1,5 @@
-﻿using EPR.Accreditation.Facade.Services.Interfaces;
+﻿using EPR.Accreditation.Facade.Common.Dtos.Portal;
+using EPR.Accreditation.Facade.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EPR.Accreditation.Facade.Controllers
@@ -24,6 +25,20 @@ namespace EPR.Accreditation.Facade.Controllers
                 siteExternalId);
 
             return Ok(exemptionReferences);
+        }
+
+        [HttpPut("ExemptionReferences")]
+        public async Task<IActionResult> UpdatePermitExemption(
+            Guid accreditationExternalId,
+            Guid siteExternalId,
+            [FromBody] IEnumerable<ExemptionReference> exemptionReferences)
+        {
+            await _siteService.UpdateExemptionReferences(
+                accreditationExternalId,
+                siteExternalId,
+                exemptionReferences);
+
+            return Ok();
         }
     }
 }

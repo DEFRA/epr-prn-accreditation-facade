@@ -1,4 +1,5 @@
-﻿using EPR.Accreditation.Facade.Common.Dtos.Portal;
+﻿using EPR.Accreditation.Facade.Common.Dtos;
+using EPR.Accreditation.Facade.Common.Dtos.Portal;
 using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
 using EPR.Accreditation.Facade.Services.Interfaces;
 
@@ -25,6 +26,23 @@ namespace EPR.Accreditation.Facade.Services
                 return null;
 
             return site.ExemptionReferences;
+        }
+
+        public async Task UpdateExemptionReferences(
+            Guid accreditationExternalId,
+            Guid externalSiteId,
+            IEnumerable<ExemptionReference> references)
+        {
+            var site = new Site
+            {
+                ExemptionReferences = references
+            };
+
+            await _httpSiteService.UpdateSite(
+                accreditationExternalId,
+                externalSiteId,
+                site
+                );
         }
     }
 }
