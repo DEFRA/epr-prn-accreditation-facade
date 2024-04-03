@@ -30,9 +30,9 @@ variables:
   - name: solutionFolder
     value: src
   - name: projectFolder
-    value: FrontendSchemeRegistration.UI
+    value: EPR.Accreditation.Facade
   - name: testProjectFolder
-    value: FrontendSchemeRegistration.UI.UnitTests
+    value: EPR.Accreditation.Facade.UnitTests
   - name: sonarQubeProjectKey
     value: epr-prn-accreditation-facade
   - name: sonarQubeProjectName
