@@ -33,11 +33,13 @@ namespace EPR.Accreditation.Facade.Services
         }
 
         public async Task<string> GetWasteSource(
+            SiteType siteType,
             Guid accreditationExternalId,
             Guid siteExternalId,
             Guid materialExternalId)
         {
             var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
+                siteType,
                 accreditationExternalId,
                 siteExternalId,
                 materialExternalId);
@@ -46,6 +48,7 @@ namespace EPR.Accreditation.Facade.Services
         }
 
         public async Task UpdateWasteSource(
+            SiteType siteType,
             Guid accreditationExternalId,
             Guid siteExternalId,
             Guid materialExternalId,
@@ -57,6 +60,7 @@ namespace EPR.Accreditation.Facade.Services
             };
 
             await _httpAccreditationService.UpdateAccreditationMaterial(
+                siteType,
                 accreditationExternalId,
                 siteExternalId,
                 materialExternalId,
@@ -64,12 +68,14 @@ namespace EPR.Accreditation.Facade.Services
         }
 
         public async Task<string> GetWasteMaterialName(
+            SiteType siteType,
             Guid accreditationExternalId, 
             Guid siteExternalId, 
             Guid materialExternalId, 
             Language language)
         {
             var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
+                siteType,
                 accreditationExternalId,
                 siteExternalId,
                 materialExternalId);
@@ -108,6 +114,7 @@ namespace EPR.Accreditation.Facade.Services
             Guid materialExternalId)
         {
             var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
+                SiteType.Site,
                 accreditationExternalId,
                 siteExternalId,
                 materialExternalId);
@@ -130,6 +137,7 @@ namespace EPR.Accreditation.Facade.Services
             MaterialOutputsDto materialOutputsDto)
         {
             var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
+                SiteType.Site,
                 accreditationExternalId,
                 siteExternalId,
                 materialExternalId);
@@ -141,6 +149,7 @@ namespace EPR.Accreditation.Facade.Services
             siteMaterial.MaterialReprocessorDetails = _mapper.Map(materialOutputsDto, siteMaterial.MaterialReprocessorDetails);
 
             await _httpAccreditationService.UpdateAccreditationMaterial(
+                SiteType.Site,
                 accreditationExternalId,
                 siteExternalId,
                 materialExternalId,

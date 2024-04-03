@@ -10,17 +10,20 @@ namespace EPR.Accreditation.Facade.Services.Interfaces
         Task<Guid> CreateAccreditation(Common.Dtos.Accreditation accreditation);
 
         Task<string> GetWasteSource(
+            SiteType siteType,
             Guid accreditationExternalId,
             Guid siteExternalId,
             Guid materialExternalId);
 
         Task UpdateWasteSource(
+            SiteType siteType,
             Guid accreditationExternalId,
             Guid siteExternalId,
             Guid materialExternalId,
             string wasteSource);
 
         Task<string> GetWasteMaterialName(
+            SiteType siteType,
             Guid accreditationExternalId,
             Guid siteExternalId,
             Guid materialExternalId,
