@@ -1,5 +1,6 @@
 ﻿using EPR.Accreditation.Facade.Common.Dtos;
 using EPR.Accreditation.Facade.Common.Dtos.Portal;
+using EPR.Accreditation.Facade.Common.Enums;
 using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
 using EPR.Accreditation.Facade.Services.Interfaces;
 
@@ -20,6 +21,7 @@ namespace EPR.Accreditation.Facade.Services
             Guid materialExternalId)
         {
             var accreditationMaterial = await _httpAccreditationService.GetAccreditationMaterial(
+                SiteType.Site,
                 accreditationExternalId,
                 siteExternalId,
                 materialExternalId);
@@ -45,11 +47,11 @@ namespace EPR.Accreditation.Facade.Services
             };
 
             await _httpAccreditationService.UpdateAccreditationMaterial(
+                SiteType.Site,
                 accreditationExternalId,
                 siteExternalId,
                 materialExternalId,
-                accreditationMaterial
-                );
+                accreditationMaterial);
         }
     }
 }
