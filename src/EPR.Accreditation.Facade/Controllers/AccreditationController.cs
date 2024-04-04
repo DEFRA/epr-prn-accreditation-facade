@@ -8,7 +8,7 @@ using System;
 namespace EPR.Accreditation.Facade.Controllers
 {
     [ApiController]
-    [Route("/api/[controller]/{accreditationExternalId}/")]
+    [Route("/api/[controller]/")]
     public class AccreditationController : ControllerBase
     {
         protected readonly IAccreditationService _accreditationService;
