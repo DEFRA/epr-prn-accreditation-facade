@@ -15,6 +15,18 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
         {
         }
 
+        public async Task<CheckYourAnswersDto> GetCheckYourAnswers(Guid accreditationExternalId)
+        {
+            var accreditationDto = await Get<Dtos.Accreditation>($"{accreditationExternalId}");
+            var vm = new CheckYourAnswersDto();
+            vm.PartAReferenceNumber = accreditationDto.WastePermit.PartAActivityReferenceNumber;
+            vm.PartBReferenceNumber = accreditationDto.WastePermit.PartBActivityReferenceNumber;
+            //vm.WasteManagementLicenceNumber = "UNKNOWN";
+            //vm.ExemptionReferenceNumber = accreditationDto.Site. .WastePermitExemption.HasValue ? accreditationDto.WastePermit.WastePermitExemption. : string.Empty;
+
+            return vm;
+        }
+
         public async Task<OperatorType> GetOperatorType(Guid accreditationExternalId)
         {
             var accreditation = await Get<Dtos.Accreditation>($"{accreditationExternalId}");
@@ -60,5 +72,6 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
         }
 
         private string GetSiteName(SiteType siteType) => siteType == SiteType.Site ? "Site" : "OverseasSite";
+
     }
 }

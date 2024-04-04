@@ -46,5 +46,6 @@ namespace EPR.Accreditation.Facade.Services.Interfaces
             Guid siteExternalId,
             Guid materialExternalId,
             MaterialOutputsDto materialOutputsDto);
+        Task<CheckYourAnswersDto> GetCheckYourAnswers(Guid accreditationExternalId);
     }
 }
