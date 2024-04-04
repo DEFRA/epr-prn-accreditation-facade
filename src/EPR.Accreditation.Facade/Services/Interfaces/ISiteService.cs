@@ -4,7 +4,7 @@ namespace EPR.Accreditation.Facade.Services.Interfaces
 {
     public interface ISiteService
     {
-        public Task<IEnumerable<ExemptionReference>> GetExemptionReferences(
+        public Task<IEnumerable<string>> GetExemptionReferences(
             Guid accreditationExternalId,
             Guid externalSiteId);
 
