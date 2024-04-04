@@ -1,5 +1,7 @@
-﻿using EPR.Accreditation.Facade.Helpers;
+﻿using AutoMapper;
+using EPR.Accreditation.Facade.Helpers;
 using EPR.Accreditation.Facade.Middleware;
+using EPR.Accreditation.Facade.Profiles;
 using System.Security.Authentication;
 
 namespace EPR.Accreditation.Facade
@@ -29,7 +31,13 @@ namespace EPR.Accreditation.Facade
                     };
                 });
             services.AddFacadeDependencies(_config);
-            
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new AccreditationProfile());
+                mc.AllowNullCollections = true;
+            });
+            var mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

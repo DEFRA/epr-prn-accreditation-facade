@@ -1,6 +1,7 @@
 ﻿
 
 using EPR.Accreditation.Facade.Common.Exceptions;
+using System.Diagnostics;
 
 namespace EPR.Accreditation.Facade.Middleware
 {
@@ -30,6 +31,9 @@ namespace EPR.Accreditation.Facade.Middleware
             {
                 // Log other exceptions
                 context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+#if DEBUG
+                Debug.WriteLine($"{ex.Message}{Environment.NewLine}{ex.StackTrace}");
+#endif
             }
         }
     }

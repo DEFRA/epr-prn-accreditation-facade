@@ -49,6 +49,9 @@ namespace EPR.Accreditation.Facade.Helpers
                 .AddScoped<IWastePermitService, WastePermitService>();
 
             services
+                .AddScoped<IAccreditationMaterialService, AccreditationMaterialService>();
+
+            services
                 .AddScoped<ISiteService, SiteService>()
                 .AddScoped<IHttpSiteService>(s =>
                     new HttpSiteService(

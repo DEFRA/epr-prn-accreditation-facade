@@ -1,4 +1,5 @@
 ﻿using EPR.Accreditation.Facade.Common.Dtos;
+using EPR.Accreditation.Facade.Common.Dtos.Portal;
 using EPR.Accreditation.Facade.Common.Enums;
 
 namespace EPR.Accreditation.Facade.Services.Interfaces
@@ -9,17 +10,20 @@ namespace EPR.Accreditation.Facade.Services.Interfaces
         Task<Guid> CreateAccreditation(Common.Dtos.Accreditation accreditation);
 
         Task<string> GetWasteSource(
+            SiteType siteType,
             Guid accreditationExternalId,
             Guid siteExternalId,
             Guid materialExternalId);
 
         Task UpdateWasteSource(
+            SiteType siteType,
             Guid accreditationExternalId,
             Guid siteExternalId,
             Guid materialExternalId,
             string wasteSource);
 
         Task<string> GetWasteMaterialName(
+            SiteType siteType,
             Guid accreditationExternalId,
             Guid siteExternalId,
             Guid materialExternalId,
@@ -31,5 +35,16 @@ namespace EPR.Accreditation.Facade.Services.Interfaces
 
         Task<WastePermit> GetWastePermit(
             Guid accreditationExternalId);
+
+        Task<MaterialOutputsDto> GetMaterialOutputs(
+            Guid accreditationExternalId,
+            Guid siteExternalId,
+            Guid materialExternalId);
+
+        Task UpdateMaterialOutputs(
+            Guid accreditationExternalId,
+            Guid siteExternalId,
+            Guid materialExternalId,
+            MaterialOutputsDto materialOutputsDto);
     }
 }

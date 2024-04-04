@@ -1,0 +1,6 @@
+variables:
+  azureSubscription: 'AZD-RWD-DEV4'
+  docker.imageName: 'epraccreditationfacade'
+  acr.azureContainerRegistryName: 'devrwdinfac1401'
+  acr.repositoryName: 'epraccreditationfacaderepository'
+  serviceName: 'devrwdwebwa4417'
