@@ -14,13 +14,9 @@ namespace EPR.Accreditation.Facade.Services
             _httpSiteService = httpSiteService ?? throw new ArgumentNullException(nameof(httpSiteService));
         }
 
-        public async Task<IEnumerable<string>> GetExemptionReferences(
-            Guid accreditationExternalId,
-            Guid siteExternalId)
+        public async Task<IEnumerable<string>> GetExemptionReferences(Guid accreditationExternalId)
         {
-            var site = await _httpSiteService.GetSite(
-                accreditationExternalId,
-                siteExternalId);
+            var site = await _httpSiteService.GetSite(accreditationExternalId);
 
             if (site.ExemptionReferences == null)
                 return null;
@@ -30,7 +26,6 @@ namespace EPR.Accreditation.Facade.Services
 
         public async Task UpdateExemptionReferences(
             Guid accreditationExternalId,
-            Guid externalSiteId,
             IEnumerable<ExemptionReference> references)
         {
             var site = new Site
@@ -40,7 +35,6 @@ namespace EPR.Accreditation.Facade.Services
 
             await _httpSiteService.UpdateSite(
                 accreditationExternalId,
-                externalSiteId,
                 site
                 );
         }
