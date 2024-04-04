@@ -16,15 +16,6 @@ namespace EPR.Accreditation.Facade.Controllers
             _siteService = siteService ?? throw new ArgumentNullException(nameof(siteService));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateSite(
-            Common.Dtos.Site site)
-        {
-            await _siteService.CreateSite(site);
-
-            return Ok();
-        }
-
         [HttpGet("{accreditationExternalId}/Site/{siteExternalId}")]
         public async Task<IActionResult> GetSite(
             Guid accreditationExternalId,
@@ -33,17 +24,6 @@ namespace EPR.Accreditation.Facade.Controllers
             var site = await _siteService.GetSite(accreditationExternalId, siteExternalId);
 
             return Ok(site);
-        }
-
-        [HttpPut]
-        public async Task<IActionResult> UpdateSite(
-            Guid SiteId,
-            [FromBody] Site site)
-        {
-            await _siteService.UpdateSite(
-                SiteId, site);
-
-            return Ok();
         }
     }
 }
