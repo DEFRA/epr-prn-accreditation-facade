@@ -58,6 +58,12 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
         {
             await Put($"{accreditationExternalId}", accreditation);
         }
+        //public async Task<> GetOverseasSite(
+        //    Guid accreditationExternalId,
+        //    Guid siteExternalId)
+        //{
+        //    await Post($"{accreditationExternalId}", accreditation);
+        //}
 
         private string GetSiteName(SiteType siteType) => siteType == SiteType.Site ? "Site" : "OverseasSite";
     }
