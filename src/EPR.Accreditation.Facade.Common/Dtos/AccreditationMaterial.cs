@@ -15,6 +15,8 @@ namespace EPR.Accreditation.Facade.Common.Dtos
         [MaxLength(200)]
         public string WasteSource { get; set; }
 
+        public bool? WasteLastYear { get; set; }
+
         public MaterialReprocessorDetails MaterialReprocessorDetails { get; set; }
 
         public IEnumerable<WasteCode> WasteCodes { get; set; }
