@@ -17,39 +17,31 @@ namespace EPR.Accreditation.Facade.Services
 
         public async Task<bool?> GetReprocessedWasteLastYear(
             Guid accreditationExternalId,
-            Guid siteExternalId,
             Guid materialExternalId)
         {
             var accreditationMaterial = await _httpAccreditationService.GetAccreditationMaterial(
                 SiteType.Site,
                 accreditationExternalId,
-                siteExternalId,
+                null,
                 materialExternalId);
 
-            if (accreditationMaterial.MaterialReprocessorDetails == null)
-                return null;
-
-            return accreditationMaterial.MaterialReprocessorDetails.WasteLastYear;
+            return accreditationMaterial.WasteLastYear;
         }
 
         public async Task UpdateReprocessedWasteLastYear(
             Guid accreditationExternalId,
-            Guid siteExternalId,
             Guid materialExternalId,
             ReprocessedWasteLastYear reprocessedWasteLastYear)
         {
             var accreditationMaterial = new Common.Dtos.AccreditationMaterial
             {
-                MaterialReprocessorDetails = new MaterialReprocessorDetails
-                {
-                    WasteLastYear = reprocessedWasteLastYear.HasReprocessedWasteLastYear
-                }
+                WasteLastYear = reprocessedWasteLastYear.HasReprocessedWasteLastYear
             };
 
             await _httpAccreditationService.UpdateAccreditationMaterial(
                 SiteType.Site,
                 accreditationExternalId,
-                siteExternalId,
+                null,
                 materialExternalId,
                 accreditationMaterial);
         }
