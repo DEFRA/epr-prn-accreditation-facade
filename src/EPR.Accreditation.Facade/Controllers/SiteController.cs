@@ -15,11 +15,11 @@ namespace EPR.Accreditation.Facade.Controllers
             _siteService = siteService ?? throw new ArgumentNullException(nameof(siteService));
         }
 
-        [HttpGet("Site/{siteExternalId}")]
+        [HttpGet("Site/{id}")]
         public async Task<IActionResult> GetSite(
-            Guid siteExternalId)
+            Guid id)
         {
-            var site = await _siteService.GetSite(siteExternalId);
+            var site = await _siteService.GetSite(id);
 
             return Ok(site);
         }
