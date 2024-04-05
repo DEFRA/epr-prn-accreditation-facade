@@ -25,6 +25,9 @@ namespace EPR.Accreditation.Facade.Services
                 null,
                 materialExternalId);
 
+            if (accreditationMaterial == null)
+                return null;
+
             return accreditationMaterial.WasteLastYear;
         }
 

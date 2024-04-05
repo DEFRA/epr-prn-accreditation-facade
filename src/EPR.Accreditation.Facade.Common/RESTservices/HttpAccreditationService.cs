@@ -60,7 +60,7 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
         }
 
         private string GetSiteName(
-            SiteType siteType,
-            Guid? externailId) => siteType == SiteType.Site ? "Site" : $"OverseasSite/{externailId}";
+            SiteType siteType, 
+            Guid? siteExternalId) => siteType == SiteType.Site ? "Site" : $"OverseasSite/{siteExternalId}";
     }
 }

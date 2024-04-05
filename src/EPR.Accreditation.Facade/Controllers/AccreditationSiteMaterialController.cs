@@ -56,6 +56,7 @@ namespace EPR.Accreditation.Facade.Controllers
         [HttpGet("Name")]
         public async Task<IActionResult> GetMaterialName(
             Guid accreditationExternalId,
+            Guid? siteExternalId,
             Guid materialExternalId,
             Language language)
         {
