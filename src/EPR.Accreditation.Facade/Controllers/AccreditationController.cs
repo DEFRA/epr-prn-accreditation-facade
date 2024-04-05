@@ -87,5 +87,14 @@ namespace EPR.Accreditation.Facade.Controllers
 
             return Ok(site);
         }
+
+        [HttpGet("TaskProgress")]
+        public async Task<IActionResult> GetTaskProgress(
+            Guid accreditationExternalId)
+        {
+            var taskProgress = await _accreditationService.GetTaskProgress(accreditationExternalId);
+
+            return Ok(taskProgress);
+        }
     }
 }

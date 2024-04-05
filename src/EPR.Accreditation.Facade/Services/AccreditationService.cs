@@ -155,5 +155,14 @@ namespace EPR.Accreditation.Facade.Services
                 materialExternalId,
                 siteMaterial);
         }
+
+        public async Task<List<AccreditationTaskProgress>> GetTaskProgress(
+                Guid accreditationExternalId)
+        {
+            var taskProgress = await _httpAccreditationService.GetTaskProgress(
+                accreditationExternalId);
+
+            return taskProgress;
+        }
     }
 }

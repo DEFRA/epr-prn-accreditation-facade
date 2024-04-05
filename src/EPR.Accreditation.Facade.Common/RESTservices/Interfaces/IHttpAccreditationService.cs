@@ -28,5 +28,8 @@ namespace EPR.Accreditation.Facade.Common.RESTservices.Interfaces
         Task UpdateAccreditation(
             Guid accreditationExternalId,
             DTO.Accreditation accreditation);
+
+        Task<List<Dtos.AccreditationTaskProgress>> GetTaskProgress(
+            Guid accreditationExternalId);
     }
 }

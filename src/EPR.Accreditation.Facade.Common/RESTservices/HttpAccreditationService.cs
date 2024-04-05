@@ -60,5 +60,11 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
         }
 
         private string GetSiteName(SiteType siteType) => siteType == SiteType.Site ? "Site" : "OverseasSite";
+
+        public async Task<List<AccreditationTaskProgress>> GetTaskProgress(
+            Guid accreditationExternalId)
+        {
+            return await Get<List<AccreditationTaskProgress>>($"{accreditationExternalId}/TaskProgress");
+        }
     }
 }
