@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace EPR.Accreditation.Facade.Controllers
 {
     [ApiController]
-    [Route("/api/Accreditation/{accreditationExternalId}/Site/{siteExternalId}/Material/{materialExternalId}")]
+    [Route("/api/Accreditation/{accreditationExternalId}/Site/Material/{materialExternalId}")]
     public class AccreditationSiteMaterialController : ControllerBase
     {
         protected readonly IAccreditationService _accreditationService;
@@ -58,7 +58,7 @@ namespace EPR.Accreditation.Facade.Controllers
         [HttpGet("Name")]
         public async Task<IActionResult> GetMaterialName(
             Guid accreditationExternalId,
-            Guid siteExternalId,
+            Guid? siteExternalId,
             Guid materialExternalId,
             Language language)
         {

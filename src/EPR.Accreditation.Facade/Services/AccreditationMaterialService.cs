@@ -26,10 +26,10 @@ namespace EPR.Accreditation.Facade.Services
                 siteExternalId,
                 materialExternalId);
 
-            if (accreditationMaterial.MaterialReprocessorDetails == null)
+            if (accreditationMaterial == null)
                 return null;
 
-            return accreditationMaterial.MaterialReprocessorDetails.WasteLastYear;
+            return accreditationMaterial.WasteLastYear;
         }
 
         public async Task UpdateReprocessedWasteLastYear(
@@ -40,10 +40,7 @@ namespace EPR.Accreditation.Facade.Services
         {
             var accreditationMaterial = new Common.Dtos.AccreditationMaterial
             {
-                MaterialReprocessorDetails = new MaterialReprocessorDetails
-                {
-                    WasteLastYear = reprocessedWasteLastYear.HasReprocessedWasteLastYear
-                }
+                WasteLastYear = reprocessedWasteLastYear.HasReprocessedWasteLastYear
             };
 
             await _httpAccreditationService.UpdateAccreditationMaterial(

@@ -25,7 +25,7 @@ namespace EPR.Accreditation.Facade.Services.Interfaces
         Task<string> GetWasteMaterialName(
             SiteType siteType,
             Guid accreditationExternalId,
-            Guid siteExternalId,
+            Guid? siteExternalId,
             Guid materialExternalId,
             Language language);
 
