@@ -5,7 +5,6 @@ namespace EPR.Accreditation.Facade.Services.Interfaces
     public interface ISiteService
     {
         Task<DTO.Site> GetSite(
-            Guid accreditationExternalId,
             Guid siteExternalId);
     }
 }

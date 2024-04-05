@@ -22,10 +22,9 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
         }
 
         public async Task<Dtos.Site> GetSite(
-            Guid accreditationExternalId,
             Guid siteExternalId)
         {
-            return await Get<Dtos.Site>($"{accreditationExternalId}/Site/{siteExternalId}");
+            return await Get<Dtos.Site>($"{siteExternalId}/Site");
         }
 
         public async Task UpdateSite(

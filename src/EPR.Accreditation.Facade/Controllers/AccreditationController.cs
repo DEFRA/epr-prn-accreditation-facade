@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace EPR.Accreditation.Facade.Controllers
 {
     [ApiController]
-    [Route("/api/[controller]/")]
+    [Route("/api/[controller]/{accreditationExternalId}/")]
     public class AccreditationController : ControllerBase
     {
         protected readonly IAccreditationService _accreditationService;

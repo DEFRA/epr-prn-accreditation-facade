@@ -14,10 +14,9 @@ namespace EPR.Accreditation.Facade.Services
         }
 
         public async Task<DTO.Site> GetSite(
-            Guid accreditationExternalId,
             Guid siteExternalId)
         {
-            var site = await _httpSiteService.GetSite(accreditationExternalId, siteExternalId);
+            var site = await _httpSiteService.GetSite(siteExternalId);
 
             return site;
         }
