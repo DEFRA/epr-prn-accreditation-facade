@@ -17,13 +17,12 @@ namespace EPR.Accreditation.Facade.Services
 
         public async Task<bool?> GetReprocessedWasteLastYear(
             Guid accreditationExternalId,
-            Guid siteExternalId,
             Guid materialExternalId)
         {
             var accreditationMaterial = await _httpAccreditationService.GetAccreditationMaterial(
                 SiteType.Site,
                 accreditationExternalId,
-                siteExternalId,
+                null,
                 materialExternalId);
 
             if (accreditationMaterial == null)
@@ -34,7 +33,6 @@ namespace EPR.Accreditation.Facade.Services
 
         public async Task UpdateReprocessedWasteLastYear(
             Guid accreditationExternalId,
-            Guid siteExternalId,
             Guid materialExternalId,
             ReprocessedWasteLastYear reprocessedWasteLastYear)
         {
@@ -46,7 +44,7 @@ namespace EPR.Accreditation.Facade.Services
             await _httpAccreditationService.UpdateAccreditationMaterial(
                 SiteType.Site,
                 accreditationExternalId,
-                siteExternalId,
+                null,
                 materialExternalId,
                 accreditationMaterial);
         }

@@ -35,7 +35,7 @@ namespace EPR.Accreditation.Facade.Services
         public async Task<string> GetWasteSource(
             SiteType siteType,
             Guid accreditationExternalId,
-            Guid siteExternalId,
+            Guid? siteExternalId,
             Guid materialExternalId)
         {
             var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
@@ -50,7 +50,7 @@ namespace EPR.Accreditation.Facade.Services
         public async Task UpdateWasteSource(
             SiteType siteType,
             Guid accreditationExternalId,
-            Guid siteExternalId,
+            Guid? siteExternalId,
             Guid materialExternalId,
             string wasteSource)
         {
@@ -110,13 +110,12 @@ namespace EPR.Accreditation.Facade.Services
 
         public async Task<MaterialOutputsDto> GetMaterialOutputs(
             Guid accreditationExternalId, 
-            Guid siteExternalId, 
             Guid materialExternalId)
         {
             var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
                 SiteType.Site,
                 accreditationExternalId,
-                siteExternalId,
+                null,
                 materialExternalId);
 
             if (siteMaterial == null) 
@@ -132,15 +131,14 @@ namespace EPR.Accreditation.Facade.Services
         }
 
         public async Task UpdateMaterialOutputs(
-            Guid accreditationExternalId, 
-            Guid siteExternalId, 
+            Guid accreditationExternalId,
             Guid materialExternalId,
             MaterialOutputsDto materialOutputsDto)
         {
             var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
                 SiteType.Site,
                 accreditationExternalId,
-                siteExternalId,
+                null,
                 materialExternalId);
 
             if (siteMaterial == null)
@@ -153,7 +151,7 @@ namespace EPR.Accreditation.Facade.Services
             await _httpAccreditationService.UpdateAccreditationMaterial(
                 SiteType.Site,
                 accreditationExternalId,
-                siteExternalId,
+                null,
                 materialExternalId,
                 siteMaterial);
         }

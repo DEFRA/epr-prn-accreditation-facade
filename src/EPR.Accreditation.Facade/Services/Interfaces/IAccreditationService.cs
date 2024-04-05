@@ -12,13 +12,13 @@ namespace EPR.Accreditation.Facade.Services.Interfaces
         Task<string> GetWasteSource(
             SiteType siteType,
             Guid accreditationExternalId,
-            Guid siteExternalId,
+            Guid? siteExternalId,
             Guid materialExternalId);
 
         Task UpdateWasteSource(
             SiteType siteType,
             Guid accreditationExternalId,
-            Guid siteExternalId,
+            Guid? siteExternalId,
             Guid materialExternalId,
             string wasteSource);
 
@@ -38,12 +38,10 @@ namespace EPR.Accreditation.Facade.Services.Interfaces
 
         Task<MaterialOutputsDto> GetMaterialOutputs(
             Guid accreditationExternalId,
-            Guid siteExternalId,
             Guid materialExternalId);
 
         Task UpdateMaterialOutputs(
             Guid accreditationExternalId,
-            Guid siteExternalId,
             Guid materialExternalId,
             MaterialOutputsDto materialOutputsDto);
     }
