@@ -1,6 +1,4 @@
-﻿using EPR.Accreditation.Facade.Common.Dtos;
-using EPR.Accreditation.Facade.Common.Enums;
-using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
+﻿using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
 using Microsoft.AspNetCore.Http;
 
 namespace EPR.Accreditation.Facade.Common.RESTservices
