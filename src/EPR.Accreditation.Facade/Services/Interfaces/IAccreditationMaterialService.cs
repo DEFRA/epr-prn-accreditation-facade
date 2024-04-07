@@ -6,12 +6,10 @@ namespace EPR.Accreditation.Facade.Services.Interfaces
     {
         public Task<bool?> GetReprocessedWasteLastYear(
             Guid accreditationExternalId,
-            Guid siteExternalId,
             Guid materialExternalId);
 
         public Task UpdateReprocessedWasteLastYear(
             Guid accreditationExternalId,
-            Guid siteExternalId,
             Guid materialExternalId,
             ReprocessedWasteLastYear reprocessedWasteLastYear);
     }
