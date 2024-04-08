@@ -24,7 +24,7 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
             Guid accreditationExternalId,
             Site site)
         {
-            await Put($"{accreditationExternalId}/Site/", site);
+            await Put($"{accreditationExternalId}/Site", site);
         }
     }
 }

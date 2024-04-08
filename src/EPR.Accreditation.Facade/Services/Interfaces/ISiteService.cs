@@ -1,6 +1,4 @@
-﻿using EPR.Accreditation.Facade.Common.Dtos.Portal;
-
-namespace EPR.Accreditation.Facade.Services.Interfaces
+﻿namespace EPR.Accreditation.Facade.Services.Interfaces
 {
     public interface ISiteService
     {
@@ -8,6 +6,6 @@ namespace EPR.Accreditation.Facade.Services.Interfaces
 
         public Task UpdateExemptionReferences(
             Guid accreditationExternalId,
-            IEnumerable<ExemptionReference> references);
+            IEnumerable<string> references);
     }
 }

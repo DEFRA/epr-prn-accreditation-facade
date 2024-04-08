@@ -1,5 +1,4 @@
 ﻿using EPR.Accreditation.Facade.Common.Dtos;
-using EPR.Accreditation.Facade.Common.Dtos.Portal;
 using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
 using EPR.Accreditation.Facade.Services.Interfaces;
 
@@ -26,11 +25,11 @@ namespace EPR.Accreditation.Facade.Services
 
         public async Task UpdateExemptionReferences(
             Guid accreditationExternalId,
-            IEnumerable<ExemptionReference> references)
+            IEnumerable<string> references)
         {
             var site = new Site
             {
-                //ExemptionReferences = references
+                ExemptionReferences = references
             };
 
             await _httpSiteService.UpdateSite(
