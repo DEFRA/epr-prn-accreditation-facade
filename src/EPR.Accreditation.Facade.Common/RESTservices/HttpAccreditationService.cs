@@ -47,22 +47,22 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
         public async Task<Dtos.AccreditationMaterial> GetAccreditationMaterial(
             SiteType siteType,
             Guid accreditationExternalId,
-            Guid siteExternalId,
+            Guid? siteExternalId,
             Guid materialExternalId)
         {
-            var site = GetSiteName(siteType);
-            return await Get<Dtos.AccreditationMaterial>($"{accreditationExternalId}/{site}/{siteExternalId}/Material/{materialExternalId}");
+            var site = GetSiteName(siteType, siteExternalId);
+            return await Get<Dtos.AccreditationMaterial>($"{accreditationExternalId}/{site}/Material/{materialExternalId}");
         }
 
         public async Task UpdateAccreditationMaterial(
             SiteType siteType,
             Guid accreditationExternalId,
-            Guid siteExternalId,
+            Guid? siteExternalId,
             Guid materialExternalId,
             AccreditationMaterial accreditationMaterial)
         {
-            var site = GetSiteName(siteType);
-            await Put($"{accreditationExternalId}/{site}/{siteExternalId}/Material/{materialExternalId}", accreditationMaterial);
+            var site = GetSiteName(siteType, siteExternalId);
+            await Put($"{accreditationExternalId}/{site}/Material/{materialExternalId}", accreditationMaterial);
         }
         public async Task<Dtos.Accreditation> GetAccreditation(
             Guid accreditationExternalId)
@@ -76,7 +76,8 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
             await Put($"{accreditationExternalId}", accreditation);
         }
 
-        private string GetSiteName(SiteType siteType) => siteType == SiteType.Site ? "Site" : "OverseasSite";
-
+        private string GetSiteName(
+            SiteType siteType, 
+            Guid? siteExternalId) => siteType == SiteType.Site ? "Site" : $"OverseasSite/{siteExternalId}";
     }
 }

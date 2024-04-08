@@ -13,13 +13,13 @@ namespace EPR.Accreditation.Facade.Common.RESTservices.Interfaces
         Task<DTO.AccreditationMaterial> GetAccreditationMaterial(
             SiteType siteType,
             Guid accreditationExternalId,
-            Guid siteExternalId,
+            Guid? siteExternalId,
             Guid materialExternalId);
 
         Task UpdateAccreditationMaterial(
             SiteType siteType,
             Guid accreditationExternalId,
-            Guid siteExternalId,
+            Guid? siteExternalId,
             Guid materialExternalId,
             DTO.AccreditationMaterial accreditationMaterial);
 
