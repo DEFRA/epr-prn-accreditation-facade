@@ -18,11 +18,16 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
         public async Task<CheckYourAnswersDto> GetCheckYourAnswers(Guid accreditationExternalId)
         {
             var accreditationDto = await Get<Dtos.Accreditation>($"{accreditationExternalId}");
+
             var vm = new CheckYourAnswersDto();
+            vm.Id = accreditationExternalId;
+            vm.SiteAddress = accreditationDto.Site.Address1;
+            vm.WasteCarrierRegistrationNumber = "NOT MAPPED";
+            vm.WasteManagementLicenceNumber = "NOT MAPPED";
             vm.PartAReferenceNumber = accreditationDto.WastePermit.PartAActivityReferenceNumber;
             vm.PartBReferenceNumber = accreditationDto.WastePermit.PartBActivityReferenceNumber;
-            //vm.WasteManagementLicenceNumber = "UNKNOWN";
-            //vm.ExemptionReferenceNumber = accreditationDto.Site. .WastePermitExemption.HasValue ? accreditationDto.WastePermit.WastePermitExemption. : string.Empty;
+            vm.DischargeConsentNumber = accreditationDto.WastePermit.DischargeConsentNumber;
+            vm.ExemptionReferenceNumber = "NOT MAPPED";
 
             return vm;
         }

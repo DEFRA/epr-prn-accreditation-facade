@@ -11,6 +11,5 @@
         public string PartBReferenceNumber { get; set; }
         public string DischargeConsentNumber { get; set; }
         public string ExemptionReferenceNumber { get; set; }
-        public string PeopleOfAuthority { get; set; }
     }
 }
