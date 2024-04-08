@@ -35,7 +35,7 @@ namespace EPR.Accreditation.Facade.Services
         public async Task<string> GetWasteSource(
             SiteType siteType,
             Guid accreditationExternalId,
-            Guid siteExternalId,
+            Guid? siteExternalId,
             Guid materialExternalId)
         {
             var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
@@ -50,7 +50,7 @@ namespace EPR.Accreditation.Facade.Services
         public async Task UpdateWasteSource(
             SiteType siteType,
             Guid accreditationExternalId,
-            Guid siteExternalId,
+            Guid? siteExternalId,
             Guid materialExternalId,
             string wasteSource)
         {
@@ -70,7 +70,7 @@ namespace EPR.Accreditation.Facade.Services
         public async Task<string> GetWasteMaterialName(
             SiteType siteType,
             Guid accreditationExternalId, 
-            Guid siteExternalId, 
+            Guid? siteExternalId, 
             Guid materialExternalId, 
             Language language)
         {
@@ -110,13 +110,12 @@ namespace EPR.Accreditation.Facade.Services
 
         public async Task<MaterialOutputsDto> GetMaterialOutputs(
             Guid accreditationExternalId, 
-            Guid siteExternalId, 
             Guid materialExternalId)
         {
             var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
                 SiteType.Site,
                 accreditationExternalId,
-                siteExternalId,
+                null,
                 materialExternalId);
 
             if (siteMaterial == null) 
@@ -124,6 +123,7 @@ namespace EPR.Accreditation.Facade.Services
 
             return new MaterialOutputsDto
             {
+                WasteLastYear = siteMaterial.WasteLastYear,
                 TonnesContaminents = siteMaterial.MaterialReprocessorDetails?.Contaminents,
                 TonnesNotProcessedOnSite = siteMaterial.MaterialReprocessorDetails?.MaterialsNotProcessedOnSite,
                 TonnesProcessLoss = siteMaterial.MaterialReprocessorDetails?.ProcessLoss
@@ -131,27 +131,27 @@ namespace EPR.Accreditation.Facade.Services
         }
 
         public async Task UpdateMaterialOutputs(
-            Guid accreditationExternalId, 
-            Guid siteExternalId, 
+            Guid accreditationExternalId,
             Guid materialExternalId,
             MaterialOutputsDto materialOutputsDto)
         {
             var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
                 SiteType.Site,
                 accreditationExternalId,
-                siteExternalId,
+                null,
                 materialExternalId);
 
-            if (siteMaterial == null ||
-                siteMaterial.MaterialReprocessorDetails == null)
+            if (siteMaterial == null)
                 throw new Exception(); // should end up with a not found result as we should have a SiteMaterial and MaterialReprocessorDetails by now
 
-            siteMaterial.MaterialReprocessorDetails = _mapper.Map(materialOutputsDto, siteMaterial.MaterialReprocessorDetails);
+            siteMaterial.MaterialReprocessorDetails = _mapper.Map(
+                materialOutputsDto, 
+                siteMaterial.MaterialReprocessorDetails);
 
             await _httpAccreditationService.UpdateAccreditationMaterial(
                 SiteType.Site,
                 accreditationExternalId,
-                siteExternalId,
+                null,
                 materialExternalId,
                 siteMaterial);
         }
