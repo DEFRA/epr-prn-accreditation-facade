@@ -17,10 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="RESTservices\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\EPR.Accreditation.Facade\EPR.Accreditation.Facade.csproj" />
   </ItemGroup>
 
