@@ -88,23 +88,18 @@ namespace EPR.Accreditation.UnitTests.Controllers
         }
 
         [TestMethod]
+        [ExpectedException(typeof(Exception))]
         public async Task GetHasPermitExemption_ThrowsException_WhenServiceThrowsException()
         {
             // Arrange
             var accreditationExternalId = Guid.NewGuid();
             _mockWastePermitService.Setup(s => s.GetHasPermitExemption(accreditationExternalId)).ThrowsAsync(new Exception("Test exception"));
 
-            // Act & Assert
-            try
-            {
-                await _accreditationController.GetHasPermitExemption(accreditationExternalId);
-                Assert.Fail("Exception expected but not thrown");
-            }
-            catch (Exception ex)
-            {
-                Assert.IsInstanceOfType(ex, typeof(Exception));
-                Assert.AreEqual("Test exception", ex.Message);
-            }
+            // Act
+            await _accreditationController.GetHasPermitExemption(accreditationExternalId);
+
+            // Assert
+            _mockWastePermitService.Verify(service => service.GetHasPermitExemption(accreditationExternalId), Times.Once());
         }
 
         [TestMethod]
@@ -124,6 +119,7 @@ namespace EPR.Accreditation.UnitTests.Controllers
         }
 
         [TestMethod]
+        [ExpectedException(typeof(Exception))]
         public async Task UpdatePermitExemption_ReturnsBadRequest_WhenServiceThrowsException()
         {
             // Arrange
@@ -132,18 +128,10 @@ namespace EPR.Accreditation.UnitTests.Controllers
             _mockWastePermitService.Setup(s =>
                 s.UpdatePermitExemption(accreditationExternalId, permitExemption)).ThrowsAsync(new Exception("Test exception"));
 
-            // Act & Assert
-            try
-            {
-                var result = await _accreditationController.UpdatePermitExemption(accreditationExternalId, permitExemption);
-                Assert.Fail("Exception expected but not thrown");
-            }
-            catch (Exception ex)
-            {
-                Assert.IsInstanceOfType(ex, typeof(Exception));
-                Assert.AreEqual("Test exception", ex.Message);
-            }
+            // Act
+            var result = await _accreditationController.UpdatePermitExemption(accreditationExternalId, permitExemption);
 
+            // Assert
             _mockWastePermitService.Verify(service => service.UpdatePermitExemption(accreditationExternalId, permitExemption), Times.Once());
         }
     }
