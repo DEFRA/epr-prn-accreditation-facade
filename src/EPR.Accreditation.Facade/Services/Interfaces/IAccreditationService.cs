@@ -54,5 +54,8 @@ namespace EPR.Accreditation.Facade.Services.Interfaces
             Guid materialExternalId,
             MaterialOutputsDto materialOutputsDto);
         Task<CheckYourAnswersDto> GetCheckYourAnswers(Guid accreditationExternalId);
+
+        Task<List<AccreditationTaskProgress>> GetTaskProgress(
+            Guid accreditationExternalId);
     }
 }

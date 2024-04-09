@@ -82,6 +82,13 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
         private string GetSiteName(
             SiteType siteType, 
             Guid? siteExternalId) => siteType == SiteType.Site ? "Site" : $"OverseasSite/{siteExternalId}";
+        private string GetSiteName(SiteType siteType) => siteType == SiteType.Site ? "Site" : "OverseasSite";
+
+        public async Task<List<AccreditationTaskProgress>> GetTaskProgress(
+            Guid accreditationExternalId)
+        {
+            return await Get<List<AccreditationTaskProgress>>($"{accreditationExternalId}/TaskProgress");
+        }
 
         private string GetAdressAsSingleLine(Dtos.Site dto)
         {

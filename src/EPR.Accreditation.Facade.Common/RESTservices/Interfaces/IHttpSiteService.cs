@@ -1,14 +1,14 @@
-﻿using EPR.Accreditation.Facade.Common.Dtos;
+﻿using DTO = EPR.Accreditation.Facade.Common.Dtos;
 
 namespace EPR.Accreditation.Facade.Common.RESTservices.Interfaces
 {
     public interface IHttpSiteService
     {
-        Task<Site> GetSite(
-            Guid accreditationExternalId);
-
+        Task<DTO.Site> GetSite(
+           Guid siteExternalId);
+   
         Task UpdateSite(
             Guid accreditationExternalId,
-            Site site);
+            DTO.Site site);
     }
 }

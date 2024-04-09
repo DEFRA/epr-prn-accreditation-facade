@@ -10,13 +10,16 @@ namespace EPR.Accreditation.Facade.Controllers
     {
         protected readonly IAccreditationService _accreditationService;
         protected readonly IWastePermitService _wastePermitService;
+        protected readonly ISiteService _siteService;
 
         public AccreditationController(
             IAccreditationService accreditationService,
-            IWastePermitService wastePermitService)
+            IWastePermitService wastePermitService,
+            ISiteService siteService)
         {
             _accreditationService = accreditationService ?? throw new ArgumentNullException(nameof(accreditationService));
             _wastePermitService = wastePermitService ?? throw new ArgumentNullException(nameof(wastePermitService));
+            _siteService = siteService ?? throw new ArgumentNullException(nameof(siteService));
         }
 
         [HttpGet("CheckYourAnswers")]
@@ -83,6 +86,24 @@ namespace EPR.Accreditation.Facade.Controllers
                 permitExemption);
 
             return Ok();
+        }
+
+        [HttpGet("Site")]
+        public async Task<IActionResult> GetSite(
+            Guid accreditationExternalId)
+        {
+            var site = await _siteService.GetSite(accreditationExternalId);
+
+            return Ok(site);
+        }
+
+        [HttpGet("TaskProgress")]
+        public async Task<IActionResult> GetTaskProgress(
+            Guid accreditationExternalId)
+        {
+            var taskProgress = await _accreditationService.GetTaskProgress(accreditationExternalId);
+
+            return Ok(taskProgress);
         }
     }
 }

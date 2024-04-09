@@ -1,6 +1,7 @@
 ﻿using EPR.Accreditation.Facade.Common.Dtos;
 using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
 using EPR.Accreditation.Facade.Services.Interfaces;
+using DTO = EPR.Accreditation.Facade.Common.Dtos;
 
 namespace EPR.Accreditation.Facade.Services
 {
@@ -36,6 +37,14 @@ namespace EPR.Accreditation.Facade.Services
                 accreditationExternalId,
                 site
                 );
+        }
+
+        public async Task<DTO.Site> GetSite(
+            Guid id)
+        {
+            var site = await _httpSiteService.GetSite(id);
+
+            return site;
         }
     }
 }
