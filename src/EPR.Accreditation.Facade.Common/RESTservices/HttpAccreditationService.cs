@@ -15,6 +15,26 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
         {
         }
 
+        public async Task<CheckYourAnswersDto> GetCheckYourAnswers(Guid accreditationExternalId)
+        {
+            var accreditationDto = await Get<Dtos.Accreditation>($"{accreditationExternalId}");
+
+            // TODO: update [NOT MAPPED] entries later when they have been implemented. 
+            // TODO: update vm.Completed later when it has been implemented.
+            var vm = new CheckYourAnswersDto();
+            vm.Id = accreditationExternalId;
+            vm.Completed = false;
+            vm.SiteAddress = GetAdressAsSingleLine(accreditationDto.Site);
+            vm.WasteCarrierRegistrationNumber = "NOT MAPPED";
+            vm.WasteManagementLicenceNumber = "NOT MAPPED";
+            vm.PartAReferenceNumber = accreditationDto.WastePermit?.PartAActivityReferenceNumber;
+            vm.PartBReferenceNumber = accreditationDto.WastePermit?.PartBActivityReferenceNumber;
+            vm.DischargeConsentNumber = accreditationDto.WastePermit?.DischargeConsentNumber;
+            vm.ExemptionReferenceNumber = "NOT MAPPED";
+
+            return vm;
+        }
+
         public async Task<OperatorType> GetOperatorType(Guid accreditationExternalId)
         {
             var accreditation = await Get<Dtos.Accreditation>($"{accreditationExternalId}");
@@ -62,5 +82,17 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
         private string GetSiteName(
             SiteType siteType, 
             Guid? siteExternalId) => siteType == SiteType.Site ? "Site" : $"OverseasSite/{siteExternalId}";
+
+        private string GetAdressAsSingleLine(Dtos.Site dto)
+        {
+            if (dto == null)
+            {
+                return string.Empty;
+            }
+
+            var address = $"{dto.Address1}, {dto.Address2}, {dto.Town}, {dto.County}, {dto.Postcode}";
+
+            return address;
+        }
     }
 }

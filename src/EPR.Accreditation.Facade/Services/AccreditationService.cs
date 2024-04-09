@@ -20,6 +20,13 @@ namespace EPR.Accreditation.Facade.Services
             _httpAccreditationService = httpAccreditationService ?? throw new ArgumentNullException(nameof(httpAccreditationService));
         }
 
+        public async Task<CheckYourAnswersDto> GetCheckYourAnswers(Guid accreditationExternalId)
+        {
+            var checkYourAnswersDto = await _httpAccreditationService.GetCheckYourAnswers(accreditationExternalId);
+
+            return checkYourAnswersDto;
+        }
+
         public async Task<OperatorType> GetOperatorType(Guid accreditationExternalId)
         {
             var operatorTypeId = await _httpAccreditationService.GetOperatorType(accreditationExternalId);
@@ -155,5 +162,7 @@ namespace EPR.Accreditation.Facade.Services
                 materialExternalId,
                 siteMaterial);
         }
+
+
     }
 }

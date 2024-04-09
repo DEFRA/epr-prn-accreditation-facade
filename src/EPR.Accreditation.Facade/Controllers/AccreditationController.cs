@@ -19,6 +19,15 @@ namespace EPR.Accreditation.Facade.Controllers
             _wastePermitService = wastePermitService ?? throw new ArgumentNullException(nameof(wastePermitService));
         }
 
+        [HttpGet("CheckYourAnswers")]
+        public async Task<IActionResult> GetCheckYourAnswers(
+            Guid accreditationExternalId)
+        {
+            var checkYourAnswersDto = await _accreditationService.GetCheckYourAnswers(accreditationExternalId);
+
+            return Ok(checkYourAnswersDto);
+        }
+
         [HttpGet("OperatorType")]
         public async Task<IActionResult> GetOperatorType(
             Guid accreditationExternalId)
