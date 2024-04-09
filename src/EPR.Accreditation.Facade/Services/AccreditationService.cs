@@ -227,5 +227,14 @@ namespace EPR.Accreditation.Facade.Services
 
             return taskProgress;
         }
+
+        public async Task<MaterialReprocessorDetails> GetLastCalendarYearWaste(Guid accreditationExternalId, Guid accreditationMaterialExternalId)
+        {
+            AccreditationMaterial accreditationMaterial = await _httpAccreditationService.GetLastCalendarYearWaste(
+                accreditationExternalId, 
+                accreditationMaterialExternalId);
+
+            return accreditationMaterial.MaterialReprocessorDetails;
+        }
     }
 }

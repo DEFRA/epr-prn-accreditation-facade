@@ -1,4 +1,5 @@
-﻿using EPR.Accreditation.Facade.Common.Dtos.Portal;
+﻿using EPR.Accreditation.Facade.Common.Dtos;
+using EPR.Accreditation.Facade.Common.Dtos.Portal;
 using EPR.Accreditation.Facade.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -104,6 +105,18 @@ namespace EPR.Accreditation.Facade.Controllers
             var taskProgress = await _accreditationService.GetTaskProgress(accreditationExternalId);
 
             return Ok(taskProgress);
+        }
+
+        [HttpGet("LastCalendarYearWaste")]
+        public async Task<IActionResult> LastCalendarYearWaste(
+            Guid accreditationExternalId,
+            Guid accreditationMaterialExternalId)
+        {
+            MaterialReprocessorDetails materialReprocessorDetails = await _accreditationService.GetLastCalendarYearWaste(
+                accreditationExternalId, 
+                accreditationMaterialExternalId);
+
+            return Ok(materialReprocessorDetails);
         }
     }
 }
