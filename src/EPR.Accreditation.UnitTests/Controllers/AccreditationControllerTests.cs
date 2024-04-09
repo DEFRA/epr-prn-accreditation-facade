@@ -88,6 +88,26 @@ namespace EPR.Accreditation.UnitTests.Controllers
         }
 
         [TestMethod]
+        public async Task GetHasPermitExemption_ThrowsException_WhenServiceThrowsException()
+        {
+            // Arrange
+            var accreditationExternalId = Guid.NewGuid();
+            _mockWastePermitService.Setup(s => s.GetHasPermitExemption(accreditationExternalId)).ThrowsAsync(new Exception("Test exception"));
+
+            // Act & Assert
+            try
+            {
+                await _accreditationController.GetHasPermitExemption(accreditationExternalId);
+                Assert.Fail("Exception expected but not thrown");
+            }
+            catch (Exception ex)
+            {
+                Assert.IsInstanceOfType(ex, typeof(Exception));
+                Assert.AreEqual("Test exception", ex.Message);
+            }
+        }
+
+        [TestMethod]
         public async Task UpdatePermitExemption_ReturnsOk_WhenUpdateSuccessful()
         {
             // Arrange
@@ -104,16 +124,18 @@ namespace EPR.Accreditation.UnitTests.Controllers
         }
 
         [TestMethod]
-        public async Task GetHasPermitExemption_ThrowsException_WhenServiceThrowsException()
+        public async Task UpdatePermitExemption_ReturnsBadRequest_WhenServiceThrowsException()
         {
             // Arrange
             var accreditationExternalId = Guid.NewGuid();
-            _mockWastePermitService.Setup(s => s.GetHasPermitExemption(accreditationExternalId)).ThrowsAsync(new Exception("Test exception"));
+            var permitExemption = new PermitExemption(); // Create a PermitExemption object
+            _mockWastePermitService.Setup(s =>
+                s.UpdatePermitExemption(accreditationExternalId, permitExemption)).ThrowsAsync(new Exception("Test exception"));
 
             // Act & Assert
             try
             {
-                await _accreditationController.GetHasPermitExemption(accreditationExternalId);
+                var result = await _accreditationController.UpdatePermitExemption(accreditationExternalId, permitExemption);
                 Assert.Fail("Exception expected but not thrown");
             }
             catch (Exception ex)
