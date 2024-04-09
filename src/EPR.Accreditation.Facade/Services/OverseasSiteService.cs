@@ -8,13 +8,17 @@ namespace EPR.Accreditation.Facade.Services
     {
         protected readonly IHttpAccreditationService _httpAccreditationService;
 
+        public OverseasSiteService(IHttpAccreditationService httpAccreditationService)
+        {
+            _httpAccreditationService = httpAccreditationService;
+        }
+
         public async Task<OverseasReprocessingSite> GetOverseasSite(
             Guid externalId, 
             Guid siteId)
         {
-            //var overseasSite = _httpAccreditationService.
-
-            throw new NotImplementedException();
+            var overseasSite = await _httpAccreditationService.GetOverseasSite(externalId, siteId);
+            return overseasSite;
         }
     }
 }

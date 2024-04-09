@@ -4,6 +4,6 @@ namespace EPR.Accreditation.Facade.Services.Interfaces
 {
     public interface IOverseasSiteService
     {
-        Task<OverseasReprocessingSite> GetOverseasSite(Guid externalId, Guid siteId);
+        public Task<OverseasReprocessingSite> GetOverseasSite(Guid externalId, Guid siteId);
     }
 }

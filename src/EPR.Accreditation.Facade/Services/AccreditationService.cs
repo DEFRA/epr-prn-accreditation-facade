@@ -155,5 +155,12 @@ namespace EPR.Accreditation.Facade.Services
                 materialExternalId,
                 siteMaterial);
         }
+
+        public async Task<bool?> GetHasOverseasAgent(Guid accreditationExternalId)
+        {
+            var hasOverseasAgent = await _httpAccreditationService.GetHasOverseasAgent(accreditationExternalId);
+
+            return hasOverseasAgent;
+        }
     }
 }

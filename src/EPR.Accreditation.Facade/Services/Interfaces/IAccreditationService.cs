@@ -44,5 +44,7 @@ namespace EPR.Accreditation.Facade.Services.Interfaces
             Guid accreditationExternalId,
             Guid materialExternalId,
             MaterialOutputsDto materialOutputsDto);
+
+        Task<bool?> GetHasOverseasAgent(Guid accreditationExternalId);
     }
 }

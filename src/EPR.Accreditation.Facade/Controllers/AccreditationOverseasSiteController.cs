@@ -15,7 +15,7 @@ namespace EPR.Accreditation.Facade.Controllers
             _overseasSiteService = overseasSiteService ?? throw new ArgumentNullException(nameof(overseasSiteService));
         }
 
-        [HttpGet]
+        [HttpGet("site")]
         public async Task<IActionResult> GetSite(
             Guid accreditationExternalId,
             Guid siteExternalId)
@@ -25,5 +25,7 @@ namespace EPR.Accreditation.Facade.Controllers
                 siteExternalId);
             return Ok(site);
         }
+
+
     }
 }

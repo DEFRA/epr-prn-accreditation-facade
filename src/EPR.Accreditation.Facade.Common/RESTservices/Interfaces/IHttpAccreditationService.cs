@@ -28,5 +28,11 @@ namespace EPR.Accreditation.Facade.Common.RESTservices.Interfaces
         Task UpdateAccreditation(
             Guid accreditationExternalId,
             DTO.Accreditation accreditation);
+
+        Task<Dtos.OverseasReprocessingSite> GetOverseasSite(
+            Guid accreditationExternalId,
+            Guid siteExternalId);
+
+        Task<bool?> GetHasOverseasAgent(Guid accreditationExternalId);
     }
 }
