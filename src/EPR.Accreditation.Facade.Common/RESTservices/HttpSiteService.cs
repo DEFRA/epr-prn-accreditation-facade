@@ -1,4 +1,5 @@
-﻿using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
+﻿using EPR.Accreditation.Facade.Common.Dtos;
+using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
 using Microsoft.AspNetCore.Http;
 
 namespace EPR.Accreditation.Facade.Common.RESTservices
@@ -13,10 +14,18 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
         {
         }
 
+
         public async Task<Dtos.Site> GetSite(
             Guid siteExternalId)
         {
             return await Get<Dtos.Site>($"{siteExternalId}/Site");
+        }
+
+        public async Task UpdateSite(
+            Guid accreditationExternalId,
+            Site site)
+        {
+            await Put($"{accreditationExternalId}/Site", site);
         }
     }
 }
