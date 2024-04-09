@@ -73,6 +73,32 @@ namespace EPR.Accreditation.Facade.Controllers
             return Ok(wasteSource);
         }
 
+        [HttpGet("NonWasteInputs")]
+        public async Task<IActionResult> GetNonWasteInputs(
+            Guid accreditationExternalId,
+            Guid materialExternalId)
+        {
+            var nonWasteInputs = await _accreditationService.GetNonWasteInputs(
+                accreditationExternalId,
+                materialExternalId);
+
+            return Ok(nonWasteInputs);
+        }
+
+        [HttpPut("NonWasteInputs")]
+        public async Task<IActionResult> UpdateNonWasteInputs(
+            Guid accreditationExternalId,
+            Guid materialExternalId,
+            [FromBody] NonWasteInputsDto nonWasteInputsDto)
+        {
+            await _accreditationService.UpdateNonWasteInputs(
+                accreditationExternalId,
+                materialExternalId,
+                nonWasteInputsDto);
+
+            return Ok();
+        }
+
         [HttpGet("MaterialOutputs")]
         public async Task<IActionResult> GetMaterialOutputs(
             Guid accreditationExternalId,

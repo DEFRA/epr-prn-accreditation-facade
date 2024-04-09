@@ -108,6 +108,62 @@ namespace EPR.Accreditation.Facade.Services
             return dto;
         }
 
+        public async Task<NonWasteInputsDto> GetNonWasteInputs(Guid accreditationExternalId, Guid materialExternalId)
+        {
+            var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
+                SiteType.Site,
+                accreditationExternalId,
+                null,
+                materialExternalId);
+
+            if (siteMaterial == null)
+                return new NonWasteInputsDto();
+
+            return new NonWasteInputsDto
+            {
+                WasteLastYear = siteMaterial.WasteLastYear,
+                NonWasteInputRecords = siteMaterial.MaterialReprocessorDetails?
+                    .ReprocessorSupportingInformation?
+                    .Where(rsi => rsi.ReprocessorSupportingInformationTypeId == ReprocessorSupportingInformationType.NonWasteInputs)
+                    .Select(rsi => new NonWasteInputRecordDto
+                    {
+                        Type = rsi.Type,
+                        Tonnes = rsi.Tonnes
+                    })
+            };
+        }
+
+        public async Task UpdateNonWasteInputs(
+            Guid accreditationExternalId, 
+            Guid materialExternalId, 
+            NonWasteInputsDto nonWasteInputsDto)
+        {
+            if (nonWasteInputsDto != null &&
+                nonWasteInputsDto.NonWasteInputRecords != null &&
+                nonWasteInputsDto.NonWasteInputRecords.Any())
+            {
+                var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
+                    SiteType.Site,
+                    accreditationExternalId,
+                    null,
+                    materialExternalId);
+
+                if (siteMaterial == null)
+                    throw new Exception(); // should end up with a not found result as we should have a SiteMaterial and MaterialReprocessorDetails by now
+
+                siteMaterial.MaterialReprocessorDetails.ReprocessorSupportingInformation = _mapper.Map(
+                    nonWasteInputsDto.NonWasteInputRecords,
+                    siteMaterial.MaterialReprocessorDetails.ReprocessorSupportingInformation);//, items => items["type"] = ReprocessorSupportingInformationType.NonWasteInputs);
+
+                await _httpAccreditationService.UpdateAccreditationMaterial(
+                    SiteType.Site,
+                    accreditationExternalId,
+                    null,
+                    materialExternalId,
+                    siteMaterial);
+            }
+        }
+
         public async Task<MaterialOutputsDto> GetMaterialOutputs(
             Guid accreditationExternalId, 
             Guid materialExternalId)
