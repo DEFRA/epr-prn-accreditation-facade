@@ -36,6 +36,15 @@ namespace EPR.Accreditation.Facade.Services.Interfaces
         Task<WastePermit> GetWastePermit(
             Guid accreditationExternalId);
 
+        Task<NonWasteInputsDto> GetNonWasteInputs(
+            Guid accreditationExternalId,
+            Guid materialExternalId);
+
+        Task UpdateNonWasteInputs(
+            Guid accreditationExternalId,
+            Guid materialExternalId,
+            NonWasteInputsDto materialOutputsDto);
+
         Task<MaterialOutputsDto> GetMaterialOutputs(
             Guid accreditationExternalId,
             Guid materialExternalId);
@@ -44,6 +53,10 @@ namespace EPR.Accreditation.Facade.Services.Interfaces
             Guid accreditationExternalId,
             Guid materialExternalId,
             MaterialOutputsDto materialOutputsDto);
+        Task<CheckYourAnswersDto> GetCheckYourAnswers(Guid accreditationExternalId);
+
+        Task<List<AccreditationTaskProgress>> GetTaskProgress(
+            Guid accreditationExternalId);
 
         Task<bool?> GetHasOverseasAgent(Guid accreditationExternalId);
     }
