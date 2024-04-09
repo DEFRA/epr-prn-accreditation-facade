@@ -6,10 +6,9 @@ namespace EPR.Accreditation.Facade.Common.RESTservices.Interfaces
     {
         Task<DTO.Site> GetSite(
            Guid siteExternalId);
-    }
-
-    Task UpdateSite(
+   
+        Task UpdateSite(
             Guid accreditationExternalId,
-            Site site);
+            DTO.Site site);
     }
 }
