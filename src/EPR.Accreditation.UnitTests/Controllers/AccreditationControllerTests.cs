@@ -112,15 +112,15 @@ namespace EPR.Accreditation.UnitTests.Controllers
         {
             // Arrange
             Guid accreditationExternalId = Guid.NewGuid();
-            var permitExmeption = new PermitExemption();
+            var permitExemption = new PermitExemption();
 
             // Act
-            var result = await _accreditationController.UpdatePermitExemption(accreditationExternalId, permitExmeption);
+            var result = await _accreditationController.UpdatePermitExemption(accreditationExternalId, permitExemption);
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(OkResult));
 
-            _mockWastePermitService.Verify(service => service.UpdatePermitExemption(accreditationExternalId, permitExmeption), Times.Once());
+            _mockWastePermitService.Verify(service => service.UpdatePermitExemption(accreditationExternalId, permitExemption), Times.Once());
         }
 
         [TestMethod]
@@ -128,7 +128,7 @@ namespace EPR.Accreditation.UnitTests.Controllers
         {
             // Arrange
             var accreditationExternalId = Guid.NewGuid();
-            var permitExemption = new PermitExemption(); // Create a PermitExemption object
+            var permitExemption = new PermitExemption();
             _mockWastePermitService.Setup(s =>
                 s.UpdatePermitExemption(accreditationExternalId, permitExemption)).ThrowsAsync(new Exception("Test exception"));
 
@@ -143,6 +143,8 @@ namespace EPR.Accreditation.UnitTests.Controllers
                 Assert.IsInstanceOfType(ex, typeof(Exception));
                 Assert.AreEqual("Test exception", ex.Message);
             }
+
+            _mockWastePermitService.Verify(service => service.UpdatePermitExemption(accreditationExternalId, permitExemption), Times.Once());
         }
     }
 }
