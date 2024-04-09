@@ -1,4 +1,5 @@
-﻿using EPR.Accreditation.Facade.Common.Enums;
+﻿using EPR.Accreditation.Facade.Common.Dtos;
+using EPR.Accreditation.Facade.Common.Enums;
 using DTO = EPR.Accreditation.Facade.Common.Dtos;
 
 namespace EPR.Accreditation.Facade.Common.RESTservices.Interfaces
@@ -28,6 +29,7 @@ namespace EPR.Accreditation.Facade.Common.RESTservices.Interfaces
         Task UpdateAccreditation(
             Guid accreditationExternalId,
             DTO.Accreditation accreditation);
+        Task<CheckYourAnswersDto> GetCheckYourAnswers(Guid accreditationExternalId);
 
         Task<List<Dtos.AccreditationTaskProgress>> GetTaskProgress(
             Guid accreditationExternalId);
