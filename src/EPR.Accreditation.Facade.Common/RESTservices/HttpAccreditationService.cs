@@ -1,4 +1,5 @@
 ﻿using EPR.Accreditation.Facade.Common.Dtos;
+using EPR.Accreditation.Facade.Common.Dtos.Portal;
 using EPR.Accreditation.Facade.Common.Enums;
 using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -108,10 +109,10 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
             return address;
         }
 
-        public async Task<bool?> GetHasOverseasAgent(Guid accreditationExternalId)
+        public async Task<HasOverseasAgentDto> GetHasOverseasAgent(Guid accreditationExternalId)
         {
             var accreditation = await Get<Dtos.Accreditation>($"{accreditationExternalId}");
-            return accreditation.HasOverseasAgent;
+            return new HasOverseasAgentDto { HasOverseasAgent = accreditation.HasOverseasAgent };
         }
 
         public async Task SetHasOverseasAgent(Guid accreditationExternalId, bool? hasOverseasAgent)

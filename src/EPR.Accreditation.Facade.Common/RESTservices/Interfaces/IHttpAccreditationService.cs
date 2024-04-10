@@ -1,4 +1,5 @@
 ﻿using EPR.Accreditation.Facade.Common.Dtos;
+using EPR.Accreditation.Facade.Common.Dtos.Portal;
 using EPR.Accreditation.Facade.Common.Enums;
 using DTO = EPR.Accreditation.Facade.Common.Dtos;
 
@@ -38,7 +39,7 @@ namespace EPR.Accreditation.Facade.Common.RESTservices.Interfaces
             Guid accreditationExternalId,
             Guid siteExternalId);
 
-        Task<bool?> GetHasOverseasAgent(Guid accreditationExternalId);
+        Task<HasOverseasAgentDto> GetHasOverseasAgent(Guid accreditationExternalId);
 
         Task SetHasOverseasAgent(Guid accreditationExternalId, bool? hasOverseasAgent);
     }

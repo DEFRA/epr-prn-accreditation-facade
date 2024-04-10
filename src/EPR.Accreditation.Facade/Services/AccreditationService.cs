@@ -228,7 +228,7 @@ namespace EPR.Accreditation.Facade.Services
             return taskProgress;
         }
 
-        public async Task<bool?> GetHasOverseasAgent(Guid accreditationExternalId)
+        public async Task<HasOverseasAgentDto> GetHasOverseasAgent(Guid accreditationExternalId)
         {
             var hasOverseasAgent = await _httpAccreditationService.GetHasOverseasAgent(accreditationExternalId);
 
