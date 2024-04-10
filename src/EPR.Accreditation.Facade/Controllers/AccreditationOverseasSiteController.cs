@@ -25,7 +25,5 @@ namespace EPR.Accreditation.Facade.Controllers
                 siteExternalId);
             return Ok(site);
         }
-
-
     }
 }

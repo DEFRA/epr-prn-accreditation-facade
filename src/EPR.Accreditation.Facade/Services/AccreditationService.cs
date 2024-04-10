@@ -234,5 +234,12 @@ namespace EPR.Accreditation.Facade.Services
 
             return hasOverseasAgent;
         }
+
+        public async Task SetHasOverseasAgent(
+            Guid accreditationExternalId, 
+            bool? hasOverseasAgent)
+        {
+            await _httpAccreditationService.SetHasOverseasAgent(accreditationExternalId, hasOverseasAgent);
+        }
     }
 }

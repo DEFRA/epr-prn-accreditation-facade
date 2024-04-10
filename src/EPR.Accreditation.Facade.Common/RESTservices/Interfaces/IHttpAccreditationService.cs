@@ -39,5 +39,7 @@ namespace EPR.Accreditation.Facade.Common.RESTservices.Interfaces
             Guid siteExternalId);
 
         Task<bool?> GetHasOverseasAgent(Guid accreditationExternalId);
+
+        Task SetHasOverseasAgent(Guid accreditationExternalId, bool? hasOverseasAgent);
     }
 }

@@ -20,5 +20,10 @@ namespace EPR.Accreditation.Facade.Services
             var overseasSite = await _httpAccreditationService.GetOverseasSite(externalId, siteId);
             return overseasSite;
         }
+
+        public async Task<OverseasReprocessingSite> UpdateOverseasSite(Guid externalId, Guid siteId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

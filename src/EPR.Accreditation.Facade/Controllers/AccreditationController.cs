@@ -114,5 +114,15 @@ namespace EPR.Accreditation.Facade.Controllers
 
             return Ok(operatorTypeId);
         }
+
+        [HttpPut("HasOverseasAgent")]
+        public async Task<IActionResult> SetHasOverseasAgent(
+            Guid accreditationExternalId,
+            [FromBody] bool? hasOverseasAgent)
+        {
+            await _accreditationService.SetHasOverseasAgent(accreditationExternalId, hasOverseasAgent);
+
+            return Ok();
+        }
     }
 }
