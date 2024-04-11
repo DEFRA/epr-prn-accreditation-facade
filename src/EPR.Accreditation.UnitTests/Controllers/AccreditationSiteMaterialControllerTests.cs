@@ -1,0 +1,83 @@
+﻿using EPR.Accreditation.Facade.Common.Dtos.Portal;
+using EPR.Accreditation.Facade.Controllers;
+using EPR.Accreditation.Facade.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using Moq;
+
+namespace EPR.Accreditation.UnitTests.Controllers
+{
+    [TestClass]
+    public class AccreditationSiteMaterialControllerTests
+    {
+        private AccreditationSiteMaterialController _accreditationSiteMaterialController;
+        private Mock<IAccreditationService> _mockAccreditationService;
+        private Mock<IWastePermitService> _mockWastePermitService;
+        private Mock<IAccreditationMaterialService> _mockAccreditationMaterialService;
+
+        [TestInitialize]
+        public void Init()
+        {
+            _mockAccreditationService = new Mock<IAccreditationService>();
+            _mockWastePermitService = new Mock<IWastePermitService>();
+            _mockAccreditationMaterialService = new Mock<IAccreditationMaterialService>();
+
+            _accreditationSiteMaterialController = new AccreditationSiteMaterialController(
+                _mockAccreditationService.Object,
+                _mockWastePermitService.Object,
+                _mockAccreditationMaterialService.Object);
+        }
+
+        [TestMethod]
+        public async Task GetReprocessedWasteLastYear_ReturnsOk()
+        {
+            // Arrange
+            var accreditationExternalId = Guid.NewGuid();
+            var materialExternalId = Guid.NewGuid();
+            var expectedResult = false;
+
+            _mockAccreditationMaterialService.Setup(s =>
+                s.GetReprocessedWasteLastYear(
+                    accreditationExternalId,
+                    materialExternalId))
+                .ReturnsAsync(expectedResult);
+
+            // Act
+            var result = await _accreditationSiteMaterialController
+                .GetReprocessedWasteLastYear(
+                accreditationExternalId,
+                materialExternalId) as OkObjectResult;
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(200, result.StatusCode);
+            Assert.AreEqual(expectedResult, result.Value);
+        }
+
+        [TestMethod]
+        public async Task UpdateReprocessedWasteLastYear_ReturnsOk()
+        {
+            // Arrange
+            var accreditationExternalId = Guid.NewGuid();
+            var materialExternalId = Guid.NewGuid();
+            var reprocessedWasteLastYear = new ReprocessedWasteLastYear();
+
+            _mockAccreditationMaterialService.Setup(s =>
+                s.UpdateReprocessedWasteLastYear(
+                    accreditationExternalId,
+                    materialExternalId,
+                    reprocessedWasteLastYear))
+                .Returns(Task.CompletedTask);
+
+            // Act
+            var result = await _accreditationSiteMaterialController
+                .UpdateReprocessedWasteLastYear(
+                accreditationExternalId,
+                materialExternalId,
+                reprocessedWasteLastYear) as OkResult;
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(200, result.StatusCode);
+        }
+    }
+}
