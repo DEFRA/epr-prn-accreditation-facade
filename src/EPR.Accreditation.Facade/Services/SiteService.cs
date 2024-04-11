@@ -49,10 +49,10 @@ namespace EPR.Accreditation.Facade.Services
         }
 
         public async Task<Guid> CreateSite(
-            Guid siteExternalId,
+            Guid accreditationExternalId,
             Common.Dtos.Site site)
         {
-            return await _httpSiteService.CreateSite(siteExternalId, site);
+            return await _httpSiteService.CreateSite(accreditationExternalId, site);
         }
 
         public async Task UpdateSite(
