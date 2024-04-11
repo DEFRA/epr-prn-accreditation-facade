@@ -1,4 +1,5 @@
 ﻿using EPR.Accreditation.Facade.Common.Dtos;
+using EPR.Accreditation.Facade.Common.Enums;
 using EPR.Accreditation.Facade.Common.RESTservices;
 using Microsoft.AspNetCore.Http;
 using Moq;
@@ -114,6 +115,69 @@ namespace EPR.Accreditation.UnitTests.RESTservices
             var capturedPayload = JsonConvert.DeserializeObject<Facade.Common.Dtos.Accreditation>(_capturedPayload);
             Assert.AreEqual(expectedUrl.ToLower(), _capturedUrl.ToLower());
             Assert.IsTrue(AreObjectsEqual(accreditationDto, capturedPayload));
+        }
+
+        [TestMethod]
+        public async Task GetAccreditationMaterial_CallsEndPointSuccesfully_WithExpectedOutput()
+        {
+            // Arrange
+            var siteType = SiteType.Site;
+            var accreditationExternalId = Guid.NewGuid();
+            var siteExternalId = Guid.NewGuid();
+            var materialExternalId = Guid.NewGuid();
+            var siteName = "Site";
+            var expectedOutput = new Facade.Common.Dtos.AccreditationMaterial();
+            SetClientResponse(HttpStatusCode.OK, expectedOutput);
+
+            var expectedUrl = $"{_baseUrl}/{_endpointName}/{accreditationExternalId}/{siteName}/Material/{materialExternalId}";
+
+            // Act
+            var result = await _httpAccreditationService.GetAccreditationMaterial(
+                siteType,
+                accreditationExternalId,
+                siteExternalId,
+                materialExternalId);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expectedUrl.ToLower(), _capturedUrl.ToLower());
+        }
+
+        [TestMethod]
+        public async Task UpdateAccreditationMaterial_CallsEndPointSuccesfully_WithExpectedOutput()
+        {
+            // Arrange
+            var siteType = SiteType.Site;
+            var accreditationExternalId = Guid.NewGuid();
+            var siteExternalId = Guid.NewGuid();
+            var materialExternalId = Guid.NewGuid();
+            var siteName = "Site";
+            var accreditationMaterialDto = new AccreditationMaterial
+            {
+                ExternalId = accreditationExternalId,
+                AnnualCapacity = 100000,
+                WeeklyCapacity = 2000,
+                WasteSource = "Example waste source",
+                WasteLastYear = true,
+                MaterialReprocessorDetails = new MaterialReprocessorDetails(),
+                WasteCodes = new List<WasteCode>(),
+                Material = new Material()
+            };
+
+            var expectedUrl = $"{_baseUrl}/{_endpointName}/{accreditationExternalId}/{siteName}/Material/{materialExternalId}";
+
+            // Act
+            await _httpAccreditationService.UpdateAccreditationMaterial(
+                siteType,
+                accreditationExternalId,
+                siteExternalId,
+                materialExternalId,
+                accreditationMaterialDto);
+
+            // Assert
+            var capturedPayload = JsonConvert.DeserializeObject<Facade.Common.Dtos.AccreditationMaterial>(_capturedPayload);
+            Assert.AreEqual(expectedUrl.ToLower(), _capturedUrl.ToLower());
+            Assert.IsTrue(AreObjectsEqual(accreditationMaterialDto, capturedPayload));
         }
 
         private bool AreObjectsEqual<T>(T obj1, T obj2)
