@@ -51,6 +51,11 @@ namespace EPR.Accreditation.UnitTests.Controllers
             Assert.IsNotNull(result);
             Assert.AreEqual(200, result.StatusCode);
             Assert.AreEqual(expectedResult, result.Value);
+
+            _mockAccreditationMaterialService.Verify(s =>
+            s.GetReprocessedWasteLastYear(
+                accreditationExternalId,
+                materialExternalId), Times.Once());
         }
 
         [TestMethod]
@@ -78,6 +83,12 @@ namespace EPR.Accreditation.UnitTests.Controllers
             // Assert
             Assert.IsNotNull(result);
             Assert.AreEqual(200, result.StatusCode);
+
+            _mockAccreditationMaterialService.Verify(s =>
+            s.UpdateReprocessedWasteLastYear(
+                accreditationExternalId,
+                materialExternalId,
+                reprocessedWasteLastYear), Times.Once());
         }
     }
 }
