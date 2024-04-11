@@ -14,7 +14,6 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
         {
         }
 
-
         public async Task<Dtos.Site> GetSite(
             Guid siteExternalId)
         {
