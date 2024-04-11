@@ -90,9 +90,9 @@ namespace EPR.Accreditation.Facade.Controllers
 
         [HttpGet("Site")]
         public async Task<IActionResult> GetSite(
-            Guid accreditationExternalId)
+            Guid siteExternalId)
         {
-            var site = await _siteService.GetSite(accreditationExternalId);
+            var site = await _siteService.GetSite(siteExternalId);
 
             return Ok(site);
         }
@@ -104,6 +104,27 @@ namespace EPR.Accreditation.Facade.Controllers
             var taskProgress = await _accreditationService.GetTaskProgress(accreditationExternalId);
 
             return Ok(taskProgress);
+        }
+
+        [HttpPost("Site")]
+        public async Task<IActionResult> CreateSite(
+            Guid accreditationExternalId,
+            [FromBody]
+            Common.Dtos.Site site)
+        {
+            await _siteService.CreateSite(accreditationExternalId, site);
+
+            return Ok(site);
+        }
+
+        [HttpPut("Site")]
+        public async Task<IActionResult> UpdateSite(
+    Guid siteExternalId,
+    [FromBody] Common.Dtos.Site site)
+        {
+            await _siteService.UpdateSite(siteExternalId, site);
+
+            return Ok();
         }
     }
 }

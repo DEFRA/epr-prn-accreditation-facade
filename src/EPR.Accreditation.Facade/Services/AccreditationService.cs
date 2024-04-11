@@ -128,7 +128,7 @@ namespace EPR.Accreditation.Facade.Services
 
             return new NonWasteInputsDto
             {
-                WasteLastYear = siteMaterial.WasteLastYear,
+                //WasteLastYear = siteMaterial.WasteLastYear,
                 NonWasteInputRecords = siteMaterial.MaterialReprocessorDetails?
                     .ReprocessorSupportingInformation?
                     .Where(rsi => rsi.ReprocessorSupportingInformationTypeId == ReprocessorSupportingInformationType.NonWasteInputs)
@@ -186,7 +186,7 @@ namespace EPR.Accreditation.Facade.Services
 
             return new MaterialOutputsDto
             {
-                WasteLastYear = siteMaterial.WasteLastYear,
+                //WasteLastYear = siteMaterial.WasteLastYear,
                 TonnesContaminents = siteMaterial.MaterialReprocessorDetails?.Contaminents,
                 TonnesNotProcessedOnSite = siteMaterial.MaterialReprocessorDetails?.MaterialsNotProcessedOnSite,
                 TonnesProcessLoss = siteMaterial.MaterialReprocessorDetails?.ProcessLoss

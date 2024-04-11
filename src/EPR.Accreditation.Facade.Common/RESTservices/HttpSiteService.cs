@@ -14,7 +14,6 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
         {
         }
 
-
         public async Task<Dtos.Site> GetSite(
             Guid siteExternalId)
         {
@@ -26,6 +25,14 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
             Site site)
         {
             await Put($"{accreditationExternalId}/Site", site);
+        }
+
+        public async Task<Guid> CreateSite(
+            Guid accreditationExternalId,
+            Site site)
+        {
+            var externalId = await Post<Guid>($"{accreditationExternalId}/Site", site);
+            return externalId;
         }
     }
 }

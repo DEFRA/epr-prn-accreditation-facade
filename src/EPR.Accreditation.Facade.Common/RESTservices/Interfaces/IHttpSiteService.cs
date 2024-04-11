@@ -1,4 +1,5 @@
-﻿using DTO = EPR.Accreditation.Facade.Common.Dtos;
+﻿using EPR.Accreditation.Facade.Common.Dtos;
+using DTO = EPR.Accreditation.Facade.Common.Dtos;
 
 namespace EPR.Accreditation.Facade.Common.RESTservices.Interfaces
 {
@@ -8,7 +9,10 @@ namespace EPR.Accreditation.Facade.Common.RESTservices.Interfaces
            Guid siteExternalId);
    
         Task UpdateSite(
-            Guid accreditationExternalId,
+            Guid siteExternalId,
             DTO.Site site);
+
+        Task<Guid> CreateSite(Guid siteExternalId,
+                        DTO.Site site);
     }
 }
