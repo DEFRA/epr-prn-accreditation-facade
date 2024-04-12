@@ -181,16 +181,7 @@ namespace EPR.Accreditation.Facade.Services
                 null,
                 materialExternalId);
 
-            if (siteMaterial == null) 
-                return new MaterialOutputsDto();
-
-            return new MaterialOutputsDto
-            {
-                WasteLastYear = siteMaterial.WasteLastYear,
-                TonnesContaminents = siteMaterial.MaterialReprocessorDetails?.Contaminents,
-                TonnesNotProcessedOnSite = siteMaterial.MaterialReprocessorDetails?.MaterialsNotProcessedOnSite,
-                TonnesProcessLoss = siteMaterial.MaterialReprocessorDetails?.ProcessLoss
-            };
+            return siteMaterial == null ? new MaterialOutputsDto() : _mapper.Map<MaterialOutputsDto>(siteMaterial);
         }
 
         public async Task UpdateMaterialOutputs(
@@ -209,6 +200,46 @@ namespace EPR.Accreditation.Facade.Services
 
             siteMaterial.MaterialReprocessorDetails = _mapper.Map(
                 materialOutputsDto, 
+                siteMaterial.MaterialReprocessorDetails);
+
+            await _httpAccreditationService.UpdateAccreditationMaterial(
+                SiteType.Site,
+                accreditationExternalId,
+                null,
+                materialExternalId,
+                siteMaterial);
+        }
+
+
+        public async Task<MaterialWasteOutputsDto> GetMaterialWasteOutputs(
+            Guid accreditationExternalId,
+            Guid materialExternalId)
+        {
+            var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
+                SiteType.Site,
+                accreditationExternalId,
+                null,
+                materialExternalId);
+
+            return siteMaterial == null ? new MaterialWasteOutputsDto() : _mapper.Map<MaterialWasteOutputsDto>(siteMaterial);
+        }
+
+        public async Task UpdateMaterialWasteOutputs(
+            Guid accreditationExternalId,
+            Guid materialExternalId,
+            MaterialWasteOutputsDto materialWasteOutputsDto)
+        {
+            var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
+                SiteType.Site,
+                accreditationExternalId,
+                null,
+                materialExternalId);
+
+            if (siteMaterial == null)
+                throw new Exception(); // should end up with a not found result as we should have a SiteMaterial and MaterialReprocessorDetails by now
+
+            siteMaterial.MaterialReprocessorDetails = _mapper.Map(
+                materialWasteOutputsDto,
                 siteMaterial.MaterialReprocessorDetails);
 
             await _httpAccreditationService.UpdateAccreditationMaterial(
