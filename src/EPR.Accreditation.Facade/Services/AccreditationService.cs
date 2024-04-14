@@ -275,7 +275,7 @@ namespace EPR.Accreditation.Facade.Services
             var overseasSite = await _httpAccreditationService.GetOverseasReprocessingSite(accreditationExternalId, overseasSiteExternalId);
             if (overseasSite == null)
             {
-                throw new Exception($"Over seas site with id {overseasSite.ExternalId.Value} not found.");
+                throw new Exception($"Over seas site with id {overseasSiteExternalId} not found.");
             }
 
             var overseasSiteOutputs = _mapper.Map<OverseasReprocessingSiteOutputs>(overseasSite);
@@ -287,9 +287,9 @@ namespace EPR.Accreditation.Facade.Services
             OverseasReprocessingSiteOutputs overseasSiteOutputs)
         {
             var overseasSite = await _httpAccreditationService.GetOverseasReprocessingSite(accreditationExternalId, overseasSiteOutputs.ExternalId.Value);
-            if (overseasSite != null )
+            if (overseasSite == null )
             {
-                throw new Exception($"Over seas site with id {overseasSite.ExternalId.Value} not found.");
+                throw new Exception($"Over seas site with id {overseasSiteOutputs.ExternalId.Value} not found.");
             }
 
             overseasSite.Outputs = overseasSiteOutputs.Outputs;
