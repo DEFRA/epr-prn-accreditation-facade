@@ -267,5 +267,35 @@ namespace EPR.Accreditation.Facade.Services
 
             return accreditationMaterial.MaterialReprocessorDetails;
         }
+
+        public async Task<OverseasReprocessingSiteOutputs> GetOverseasReprocessingSiteOutputs(
+            Guid accreditationExternalId,
+            Guid overseasSiteExternalId)
+        {
+            var overseasSite = await _httpAccreditationService.GetOverseasReprocessingSite(accreditationExternalId, overseasSiteExternalId);
+            if (overseasSite == null)
+            {
+                throw new Exception($"Over seas site with id {overseasSite.ExternalId.Value} not found.");
+            }
+
+            var overseasSiteOutputs = _mapper.Map<OverseasReprocessingSiteOutputs>(overseasSite);
+            return overseasSiteOutputs;
+        }
+
+        public async Task UpdateOverseasReprocessingSiteOutputs(
+            Guid accreditationExternalId,
+            OverseasReprocessingSiteOutputs overseasSiteOutputs)
+        {
+            var overseasSite = await _httpAccreditationService.GetOverseasReprocessingSite(accreditationExternalId, overseasSiteOutputs.ExternalId.Value);
+            if (overseasSite != null )
+            {
+                throw new Exception($"Over seas site with id {overseasSite.ExternalId.Value} not found.");
+            }
+
+            overseasSite.Outputs = overseasSiteOutputs.Outputs;
+
+            await _httpAccreditationService.UpdateOverseasReprocessingSite(accreditationExternalId, overseasSite);
+
+        }
     }
 }

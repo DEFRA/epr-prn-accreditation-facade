@@ -70,5 +70,12 @@ namespace EPR.Accreditation.Facade.Services.Interfaces
         Task<MaterialReprocessorDetails> GetLastCalendarYearWaste(
             Guid accreditationExternalId, 
             Guid accreditationMaterialExternalId);
+
+        Task<OverseasReprocessingSiteOutputs> GetOverseasReprocessingSiteOutputs(
+            Guid accreditationExternalId,
+            Guid overseasSiteExternalId);
+        Task UpdateOverseasReprocessingSiteOutputs(
+            Guid accreditationExternalId,
+            OverseasReprocessingSiteOutputs overseasSiteOutputs);
     }
 }

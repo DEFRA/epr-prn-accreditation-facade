@@ -33,6 +33,8 @@ namespace EPR.Accreditation.Facade.Profiles
                 .ForMember(d => d.UkPackagingWaste, o => o.MapFrom(s => s.MaterialReprocessorDetails == null ? null : s.MaterialReprocessorDetails.UkPackagingWaste))
                 .ForMember(d => d.NonUkPackagingWaste, o => o.MapFrom(s => s.MaterialReprocessorDetails == null ? null : s.MaterialReprocessorDetails.NonUkPackagingWaste))
                 .ForMember(d => d.NonPackagingWaste, o => o.MapFrom(s => s.MaterialReprocessorDetails == null ? null : s.MaterialReprocessorDetails.NonPackagingWaste));
+
+            CreateMap<OverseasReprocessingSite, OverseasReprocessingSiteOutputs>();
         }
     }
 }
