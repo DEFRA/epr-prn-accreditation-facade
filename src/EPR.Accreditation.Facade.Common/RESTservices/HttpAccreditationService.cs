@@ -117,7 +117,7 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
         }
         public async Task UpdateOverseasReprocessingSite(Guid accreditationExternalId, OverseasReprocessingSite overseasSite)
         {
-            await Put($"{accreditationExternalId}/OverseasSite/{overseasSite.ExternalId}", overseasSite);
+            await Put($"{accreditationExternalId}/OverseasSite", overseasSite);
         }
     }
 }
