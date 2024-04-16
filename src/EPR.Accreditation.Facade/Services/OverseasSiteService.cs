@@ -29,10 +29,12 @@ namespace EPR.Accreditation.Facade.Services
 
         public async Task UpdateReprocessorDetails(
             Guid accreditationExternalId,
+            Guid overseasSiteExternalId,
             OverseasAddress reprocessorDetails)
         {
             var overseasSite = new OverseasReprocessingSite
             {
+                ExternalId = overseasSiteExternalId,
                 OverseasAddress = reprocessorDetails
             };
 

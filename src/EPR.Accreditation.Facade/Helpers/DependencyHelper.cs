@@ -72,6 +72,15 @@ namespace EPR.Accreditation.Facade.Helpers
                         "Accreditation"
                     ));
 
+            services
+                .AddScoped<IOverseasSiteService, OverseasSiteService>()
+                .AddScoped<IHttpOverseasSiteService>(s =>
+                    new HttpOverseasSiteService(
+                        s.GetRequiredService<IHttpContextAccessor>(),
+                        s.GetRequiredService<IHttpClientFactory>(),
+                        s.GetRequiredService<IOptions<ServicesConfiguration>>().Value.AccreditationAPI.Url,
+                        "Accreditation"));
+
             return services;
         }
     }
