@@ -69,9 +69,6 @@ namespace EPR.Accreditation.Facade.Services.Interfaces
 
         Task<List<AccreditationTaskProgress>> GetTaskProgress(
             Guid accreditationExternalId);
-        Task<MaterialReprocessorDetails> GetLastCalendarYearWaste(
-            Guid accreditationExternalId, 
-            Guid accreditationMaterialExternalId);
 
         Task<OverseasReprocessingSiteOutputs> GetOverseasReprocessingSiteOutputs(
             Guid accreditationExternalId,
