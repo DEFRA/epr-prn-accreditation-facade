@@ -90,7 +90,7 @@ namespace EPR.Accreditation.Facade.Controllers
         public async Task<IActionResult> UpdateNonWasteInputs(
             Guid accreditationExternalId,
             Guid materialExternalId,
-            [FromBody] NonWasteInputsDto nonWasteInputsDto)
+            [FromBody] ReprocessingSupportingInformationDto nonWasteInputsDto)
         {
             await _accreditationService.UpdateReprocessorSupportingInformation(
                 accreditationExternalId,
@@ -118,7 +118,7 @@ namespace EPR.Accreditation.Facade.Controllers
         public async Task<IActionResult> UpdateProductsProduced(
             Guid accreditationExternalId,
             Guid materialExternalId,
-            [FromBody] NonWasteInputsDto nonWasteInputsDto)
+            [FromBody] ReprocessingSupportingInformationDto nonWasteInputsDto)
         {
             await _accreditationService.UpdateReprocessorSupportingInformation(
                 accreditationExternalId,

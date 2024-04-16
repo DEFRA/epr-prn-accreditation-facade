@@ -13,7 +13,7 @@ namespace EPR.Accreditation.Facade.Profiles
                 .ForMember(d => d.Contaminents, o => o.MapFrom(s => s.TonnesContaminents))
                 .ForMember(d => d.ProcessLoss, o => o.MapFrom(s => s.TonnesProcessLoss));
 
-            CreateMap<NonWasteInputRecordDto, ReprocessorSupportingInformation>()
+            CreateMap<ReprocessingSupportingInformationRecordDto, ReprocessorSupportingInformation>()
                 .ForMember(
                     d => d.ReprocessorSupportingInformationTypeId, 
                     opt => opt.MapFrom((src, dest, destMember, context) => context.Items["ReprocessorSupportingInformationType"]));

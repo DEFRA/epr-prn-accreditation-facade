@@ -115,7 +115,7 @@ namespace EPR.Accreditation.Facade.Services
             return dto;
         }
 
-        public async Task<NonWasteInputsDto> GetReprocessorSupportingInformation(
+        public async Task<ReprocessingSupportingInformationDto> GetReprocessorSupportingInformation(
             Guid accreditationExternalId, 
             Guid materialExternalId,
             ReprocessorSupportingInformationType reprocessorSupportingInformationType)
@@ -127,15 +127,15 @@ namespace EPR.Accreditation.Facade.Services
                 materialExternalId);
 
             if (siteMaterial == null)
-                return new NonWasteInputsDto();
+                return new ReprocessingSupportingInformationDto();
 
-            return new NonWasteInputsDto
+            return new ReprocessingSupportingInformationDto
             {
                 WasteLastYear = siteMaterial.WasteLastYear,
-                NonWasteInputRecords = siteMaterial.MaterialReprocessorDetails?
+                Records = siteMaterial.MaterialReprocessorDetails?
                     .ReprocessorSupportingInformation?
                     .Where(rsi => rsi.ReprocessorSupportingInformationTypeId == reprocessorSupportingInformationType)
-                    .Select(rsi => new NonWasteInputRecordDto
+                    .Select(rsi => new ReprocessingSupportingInformationRecordDto
                     {
                         Type = rsi.Type,
                         Tonnes = rsi.Tonnes
@@ -146,12 +146,12 @@ namespace EPR.Accreditation.Facade.Services
         public async Task UpdateReprocessorSupportingInformation(
             Guid accreditationExternalId, 
             Guid materialExternalId, 
-            NonWasteInputsDto nonWasteInputsDto,
+            ReprocessingSupportingInformationDto nonWasteInputsDto,
             ReprocessorSupportingInformationType reprocessorSupportingInformationType)
         {
             if (nonWasteInputsDto != null &&
-                nonWasteInputsDto.NonWasteInputRecords != null &&
-                nonWasteInputsDto.NonWasteInputRecords.Any())
+                nonWasteInputsDto.Records != null &&
+                nonWasteInputsDto.Records.Any())
             {
                 // we're only updating reprocessor supporting information, so
                 // create an empy AccreditationMaterial and empty MaterialReprocessorDetails
@@ -162,7 +162,7 @@ namespace EPR.Accreditation.Facade.Services
                     MaterialReprocessorDetails = new MaterialReprocessorDetails
                     {
                         ReprocessorSupportingInformation = _mapper.Map<List<ReprocessorSupportingInformation>>(
-                            nonWasteInputsDto.NonWasteInputRecords, 
+                            nonWasteInputsDto.Records, 
                             context => context.Items["ReprocessorSupportingInformationType"] = reprocessorSupportingInformationType)
                     }
                 };
