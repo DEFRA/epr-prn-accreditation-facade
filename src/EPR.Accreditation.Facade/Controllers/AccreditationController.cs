@@ -12,15 +12,18 @@ namespace EPR.Accreditation.Facade.Controllers
         protected readonly IAccreditationService _accreditationService;
         protected readonly IWastePermitService _wastePermitService;
         protected readonly ISiteService _siteService;
+        protected readonly IAccreditationMaterialService _accreditationMaterialService;
 
         public AccreditationController(
             IAccreditationService accreditationService,
             IWastePermitService wastePermitService,
-            ISiteService siteService)
+            ISiteService siteService,
+            IAccreditationMaterialService accreditationMaterialService)
         {
             _accreditationService = accreditationService ?? throw new ArgumentNullException(nameof(accreditationService));
             _wastePermitService = wastePermitService ?? throw new ArgumentNullException(nameof(wastePermitService));
             _siteService = siteService ?? throw new ArgumentNullException(nameof(siteService));
+            _accreditationMaterialService = accreditationMaterialService ?? throw new ArgumentNullException(nameof(accreditationMaterialService));
         }
 
         [HttpGet("CheckYourAnswers")]
@@ -112,7 +115,7 @@ namespace EPR.Accreditation.Facade.Controllers
             Guid accreditationExternalId,
             Guid accreditationMaterialExternalId)
         {
-            MaterialReprocessorDetails materialReprocessorDetails = await _accreditationService.GetLastCalendarYearWaste(
+            MaterialReprocessorDetails materialReprocessorDetails = await _accreditationMaterialService.GetReprocessedWasteLastYearData(
                 accreditationExternalId, 
                 accreditationMaterialExternalId);
 
