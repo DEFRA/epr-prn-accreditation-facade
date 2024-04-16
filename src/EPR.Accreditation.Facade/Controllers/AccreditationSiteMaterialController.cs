@@ -78,9 +78,10 @@ namespace EPR.Accreditation.Facade.Controllers
             Guid accreditationExternalId,
             Guid materialExternalId)
         {
-            var nonWasteInputs = await _accreditationService.GetNonWasteInputs(
+            var nonWasteInputs = await _accreditationService.GetReprocessorSupportingInformation(
                 accreditationExternalId,
-                materialExternalId);
+                materialExternalId,
+                ReprocessorSupportingInformationType.NonWasteInputs);
 
             return Ok(nonWasteInputs);
         }
@@ -91,10 +92,39 @@ namespace EPR.Accreditation.Facade.Controllers
             Guid materialExternalId,
             [FromBody] NonWasteInputsDto nonWasteInputsDto)
         {
-            await _accreditationService.UpdateNonWasteInputs(
+            await _accreditationService.UpdateReprocessorSupportingInformation(
                 accreditationExternalId,
                 materialExternalId,
-                nonWasteInputsDto);
+                nonWasteInputsDto,
+                ReprocessorSupportingInformationType.NonWasteInputs);
+
+            return Ok();
+        }
+
+        [HttpGet("ProductsProduced")]
+        public async Task<IActionResult> GetProductsProduced(
+            Guid accreditationExternalId,
+            Guid materialExternalId)
+        {
+            var nonWasteInputs = await _accreditationService.GetReprocessorSupportingInformation(
+                accreditationExternalId,
+                materialExternalId,
+                ReprocessorSupportingInformationType.ProductsProduced);
+
+            return Ok(nonWasteInputs);
+        }
+
+        [HttpPut("ProductsProduced")]
+        public async Task<IActionResult> UpdateProductsProduced(
+            Guid accreditationExternalId,
+            Guid materialExternalId,
+            [FromBody] NonWasteInputsDto nonWasteInputsDto)
+        {
+            await _accreditationService.UpdateReprocessorSupportingInformation(
+                accreditationExternalId,
+                materialExternalId,
+                nonWasteInputsDto,
+                ReprocessorSupportingInformationType.ProductsProduced);
 
             return Ok();
         }

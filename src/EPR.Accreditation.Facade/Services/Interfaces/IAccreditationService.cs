@@ -36,14 +36,16 @@ namespace EPR.Accreditation.Facade.Services.Interfaces
         Task<WastePermit> GetWastePermit(
             Guid accreditationExternalId);
 
-        Task<NonWasteInputsDto> GetNonWasteInputs(
-            Guid accreditationExternalId,
-            Guid materialExternalId);
-
-        Task UpdateNonWasteInputs(
+        Task<NonWasteInputsDto> GetReprocessorSupportingInformation(
             Guid accreditationExternalId,
             Guid materialExternalId,
-            NonWasteInputsDto materialOutputsDto);
+            ReprocessorSupportingInformationType reprocessorSupportingInformationType);
+
+        Task UpdateReprocessorSupportingInformation(
+            Guid accreditationExternalId,
+            Guid materialExternalId,
+            NonWasteInputsDto materialOutputsDto,
+            ReprocessorSupportingInformationType reprocessorSupportingInformationType);
 
         Task<MaterialOutputsDto> GetMaterialOutputs(
             Guid accreditationExternalId,

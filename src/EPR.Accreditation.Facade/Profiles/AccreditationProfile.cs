@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using EPR.Accreditation.Facade.Common.Dtos;
 using EPR.Accreditation.Facade.Common.Dtos.Portal;
-using EPR.Accreditation.Facade.Common.Enums;
 
 namespace EPR.Accreditation.Facade.Profiles
 {
@@ -15,7 +14,9 @@ namespace EPR.Accreditation.Facade.Profiles
                 .ForMember(d => d.ProcessLoss, o => o.MapFrom(s => s.TonnesProcessLoss));
 
             CreateMap<NonWasteInputRecordDto, ReprocessorSupportingInformation>()
-                .ForMember(d => d.ReprocessorSupportingInformationTypeId, o => o.MapFrom(s => ReprocessorSupportingInformationType.NonWasteInputs));
+                .ForMember(
+                    d => d.ReprocessorSupportingInformationTypeId, 
+                    opt => opt.MapFrom((src, dest, destMember, context) => context.Items["ReprocessorSupportingInformationType"]));
         }
     }
 }
