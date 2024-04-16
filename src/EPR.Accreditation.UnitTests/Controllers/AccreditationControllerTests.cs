@@ -13,6 +13,7 @@ namespace EPR.Accreditation.UnitTests.Controllers
         private Mock<IAccreditationService> _mockAccreditationService;
         private Mock<IWastePermitService> _mockWastePermitService;
         private Mock<ISiteService> _mockSiteService;
+        private Mock<IAccreditationMaterialService> _mockMaterialService;
 
         [TestInitialize]
 
@@ -21,11 +22,13 @@ namespace EPR.Accreditation.UnitTests.Controllers
             _mockAccreditationService = new Mock<IAccreditationService>();
             _mockWastePermitService = new Mock<IWastePermitService>();
             _mockSiteService = new Mock<ISiteService>();
+            _mockMaterialService = new Mock<IAccreditationMaterialService>();
 
             _accreditationController = new AccreditationController(
                 _mockAccreditationService.Object,
                 _mockWastePermitService.Object,
-                _mockSiteService.Object
+                _mockSiteService.Object,
+                _mockMaterialService.Object
                 );
         }
 
