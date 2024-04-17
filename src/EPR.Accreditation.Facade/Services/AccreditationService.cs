@@ -239,7 +239,9 @@ namespace EPR.Accreditation.Facade.Services
             Guid accreditationExternalId, 
             bool? hasOverseasAgent)
         {
-            await _httpAccreditationService.SetHasOverseasAgent(accreditationExternalId, hasOverseasAgent);
+            var accreditation = await _httpAccreditationService.GetAccreditation(accreditationExternalId);
+            accreditation.HasOverseasAgent = hasOverseasAgent;
+            await _httpAccreditationService.UpdateAccreditation(accreditationExternalId, accreditation);
         }
     }
 }
