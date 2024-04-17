@@ -22,7 +22,9 @@ namespace EPR.Accreditation.Facade.Services
                 overseasSiteExternalId);
 
             if (overseasSite.OverseasAddress == null)
+            {
                 return null;
+            }
 
             return overseasSite.OverseasAddress;
         }
@@ -40,8 +42,7 @@ namespace EPR.Accreditation.Facade.Services
 
             await _httpOverseasSiteService.UpdateOverseasReprocessingSite(
                 accreditationExternalId,
-                overseasSite
-                );
+                overseasSite);
         }
     }
 }

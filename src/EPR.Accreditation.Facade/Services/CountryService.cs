@@ -15,14 +15,7 @@ namespace EPR.Accreditation.Facade.Services
 
         public async Task<IEnumerable<Country>> GetCountryList()
         {
-            var listOfCountries = await _httpCountryService.GetCountryList();
-
-            if (listOfCountries == null)
-            {
-                return null;
-            }
-
-            return listOfCountries;
+            return await _httpCountryService.GetCountryList();
         }
     }
 }
