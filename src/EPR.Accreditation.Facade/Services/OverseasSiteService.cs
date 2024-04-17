@@ -1,26 +1,21 @@
 ﻿using EPR.Accreditation.Facade.Common.Dtos;
 using EPR.Accreditation.Facade.Services.Interfaces;
 using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
-using EPR.Accreditation.Facade.Services.Interfaces;
 
 namespace EPR.Accreditation.Facade.Services
 {
     public class OverseasSiteService : IOverseasSiteService
     {
         protected readonly IHttpOverseasSiteService _httpOverseasSiteService;
-        protected readonly IHttpAccreditationService _httpAccreditationService;
 
-        public OverseasSiteService(IHttpAccreditationService httpAccreditationService)
+        public OverseasSiteService(IHttpOverseasSiteService httpOverseasSiteService)
         {
-            _httpAccreditationService = httpAccreditationService;
+            _httpOverseasSiteService = httpOverseasSiteService ?? throw new ArgumentNullException(nameof(httpOverseasSiteService));
         }
 
         public async Task<OverseasAddress> GetReprocessorDetails(
             Guid accreditationExternalId,
             Guid overseasSiteExternalId)
-        public async Task<OverseasReprocessingSite> GetOverseasSite(
-            Guid externalId, 
-            Guid siteId)
         {
             var overseasSite = await _httpOverseasSiteService.GetOverseasReprocessingSite(
                 accreditationExternalId,
@@ -32,8 +27,6 @@ namespace EPR.Accreditation.Facade.Services
             }
 
             return overseasSite.OverseasAddress;
-            var overseasSite = await _httpAccreditationService.GetOverseasSite(externalId, siteId);
-            return overseasSite;
         }
 
         public async Task UpdateReprocessorDetails(
@@ -42,7 +35,6 @@ namespace EPR.Accreditation.Facade.Services
             OverseasAddress reprocessorDetails)
         {
             var overseasSite = new OverseasReprocessingSite
-        public async Task<OverseasReprocessingSite> UpdateOverseasSite(Guid externalId, Guid siteId)
             {
                 ExternalId = overseasSiteExternalId,
                 OverseasAddress = reprocessorDetails
@@ -51,7 +43,6 @@ namespace EPR.Accreditation.Facade.Services
             await _httpOverseasSiteService.UpdateOverseasReprocessingSite(
                 accreditationExternalId,
                 overseasSite);
-            throw new NotImplementedException();
         }
     }
 }

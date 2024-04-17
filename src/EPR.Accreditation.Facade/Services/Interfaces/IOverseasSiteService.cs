@@ -12,7 +12,5 @@ namespace EPR.Accreditation.Facade.Services.Interfaces
             Guid accreditationExternalId,
             Guid overseasSiteExternalId,
             OverseasAddress reprocessorDetails);
-        public Task<OverseasReprocessingSite> GetOverseasSite(Guid externalId, Guid siteId);
-        public Task<OverseasReprocessingSite> UpdateOverseasSite(Guid externalId, Guid siteId);
     }
 }
