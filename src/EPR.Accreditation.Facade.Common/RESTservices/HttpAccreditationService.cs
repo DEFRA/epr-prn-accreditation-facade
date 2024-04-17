@@ -90,6 +90,13 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
             return await Get<List<AccreditationTaskProgress>>($"{accreditationExternalId}/TaskProgress");
         }
 
+        public async Task<AccreditationMaterial> GetLastCalendarYearWaste(
+            Guid accreditationExternalId, 
+            Guid accreditationMaterialExternalId)
+        {
+            return await Get<AccreditationMaterial>($"{accreditationExternalId}/Site/Material/{accreditationMaterialExternalId}");
+        }
+
         private string GetAdressAsSingleLine(Dtos.Site dto)
         {
             if (dto == null)
