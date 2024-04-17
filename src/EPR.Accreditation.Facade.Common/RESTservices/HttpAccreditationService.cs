@@ -79,12 +79,6 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
         {
             await Put($"{accreditationExternalId}", accreditation);
         }
-        public async Task<Dtos.OverseasReprocessingSite> GetOverseasSite(
-            Guid accreditationExternalId,
-            Guid siteExternalId)
-        {
-            return await Get<Dtos.OverseasReprocessingSite>($"{accreditationExternalId}/OverseasSite/{siteExternalId}");
-        }
 
         private string GetSiteName(
             SiteType siteType, 

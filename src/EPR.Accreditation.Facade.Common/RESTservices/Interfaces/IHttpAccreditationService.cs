@@ -36,10 +36,6 @@ namespace EPR.Accreditation.Facade.Common.RESTservices.Interfaces
             Guid accreditationExternalId);
         Task<AccreditationMaterial> GetLastCalendarYearWaste(Guid accreditationExternalId, Guid accreditationMaterialExternalId);
 
-        Task<Dtos.OverseasReprocessingSite> GetOverseasSite(
-            Guid accreditationExternalId,
-            Guid siteExternalId);
-
         Task<HasOverseasAgentDto> GetHasOverseasAgent(Guid accreditationExternalId);
 
         Task SetHasOverseasAgent(Guid accreditationExternalId, bool? hasOverseasAgent);
