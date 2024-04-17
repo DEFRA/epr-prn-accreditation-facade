@@ -1,10 +1,11 @@
 ﻿using EPR.Accreditation.Facade.Common.Dtos;
+using EPR.Accreditation.Facade.Common.Dtos.Portal;
 
 namespace EPR.Accreditation.Facade.Services.Interfaces
 {
     public interface IOverseasSiteService
     {
-        public Task<OverseasAddress> GetReprocessorDetails(
+        public Task<ReprocessorDetailsDto> GetReprocessorDetails(
             Guid accreditationExternalId,
             Guid overseasSiteExternalId);
 
