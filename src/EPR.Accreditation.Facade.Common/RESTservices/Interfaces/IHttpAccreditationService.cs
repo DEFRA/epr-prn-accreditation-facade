@@ -30,13 +30,13 @@ namespace EPR.Accreditation.Facade.Common.RESTservices.Interfaces
         Task UpdateAccreditation(
             Guid accreditationExternalId,
             DTO.Accreditation accreditation);
+
         Task<CheckYourAnswersDto> GetCheckYourAnswers(Guid accreditationExternalId);
 
         Task<List<Dtos.AccreditationTaskProgress>> GetTaskProgress(
             Guid accreditationExternalId);
-        Task<AccreditationMaterial> GetLastCalendarYearWaste(Guid accreditationExternalId, Guid accreditationMaterialExternalId);
 
-        Task<HasOverseasAgentDto> GetHasOverseasAgent(Guid accreditationExternalId);
+        Task<AccreditationMaterial> GetLastCalendarYearWaste(Guid accreditationExternalId, Guid accreditationMaterialExternalId);
 
         Task SetHasOverseasAgent(Guid accreditationExternalId, bool? hasOverseasAgent);
     }

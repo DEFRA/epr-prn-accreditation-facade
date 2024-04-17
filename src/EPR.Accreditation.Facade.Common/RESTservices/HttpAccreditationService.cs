@@ -110,12 +110,6 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
             return address;
         }
 
-        public async Task<HasOverseasAgentDto> GetHasOverseasAgent(Guid accreditationExternalId)
-        {
-            var accreditation = await Get<Dtos.Accreditation>($"{accreditationExternalId}");
-            return new HasOverseasAgentDto { HasOverseasAgent = accreditation.HasOverseasAgent };
-        }
-
         public async Task SetHasOverseasAgent(Guid accreditationExternalId, bool? hasOverseasAgent)
         {
             await Put($"{accreditationExternalId}/HasOverseasAgent", hasOverseasAgent);
