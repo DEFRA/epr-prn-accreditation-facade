@@ -78,9 +78,10 @@ namespace EPR.Accreditation.Facade.Controllers
             Guid accreditationExternalId,
             Guid materialExternalId)
         {
-            var nonWasteInputs = await _accreditationService.GetNonWasteInputs(
+            var nonWasteInputs = await _accreditationService.GetReprocessorSupportingInformation(
                 accreditationExternalId,
-                materialExternalId);
+                materialExternalId,
+                ReprocessorSupportingInformationType.NonWasteInputs);
 
             return Ok(nonWasteInputs);
         }
@@ -89,12 +90,41 @@ namespace EPR.Accreditation.Facade.Controllers
         public async Task<IActionResult> UpdateNonWasteInputs(
             Guid accreditationExternalId,
             Guid materialExternalId,
-            [FromBody] NonWasteInputsDto nonWasteInputsDto)
+            [FromBody] ReprocessingSupportingInformationDto nonWasteInputsDto)
         {
-            await _accreditationService.UpdateNonWasteInputs(
+            await _accreditationService.UpdateReprocessorSupportingInformation(
                 accreditationExternalId,
                 materialExternalId,
-                nonWasteInputsDto);
+                nonWasteInputsDto,
+                ReprocessorSupportingInformationType.NonWasteInputs);
+
+            return Ok();
+        }
+
+        [HttpGet("ProductsProduced")]
+        public async Task<IActionResult> GetProductsProduced(
+            Guid accreditationExternalId,
+            Guid materialExternalId)
+        {
+            var nonWasteInputs = await _accreditationService.GetReprocessorSupportingInformation(
+                accreditationExternalId,
+                materialExternalId,
+                ReprocessorSupportingInformationType.ProductsProduced);
+
+            return Ok(nonWasteInputs);
+        }
+
+        [HttpPut("ProductsProduced")]
+        public async Task<IActionResult> UpdateProductsProduced(
+            Guid accreditationExternalId,
+            Guid materialExternalId,
+            [FromBody] ReprocessingSupportingInformationDto nonWasteInputsDto)
+        {
+            await _accreditationService.UpdateReprocessorSupportingInformation(
+                accreditationExternalId,
+                materialExternalId,
+                nonWasteInputsDto,
+                ReprocessorSupportingInformationType.ProductsProduced);
 
             return Ok();
         }
@@ -121,6 +151,32 @@ namespace EPR.Accreditation.Facade.Controllers
                 accreditationExternalId,
                 materialExternalId,
                 materialOutputsDto);
+
+            return Ok();
+        }
+
+        [HttpGet("MaterialWasteOutputs")]
+        public async Task<IActionResult> GetMaterialWasteOutputs(
+            Guid accreditationExternalId,
+            Guid materialExternalId)
+        {
+            var materialOoutputs = await _accreditationService.GetMaterialWasteOutputs(
+                accreditationExternalId,
+                materialExternalId);
+
+            return Ok(materialOoutputs);
+        }
+
+        [HttpPut("MaterialWasteOutputs")]
+        public async Task<IActionResult> UpdateMaterialWasteOutputs(
+            Guid accreditationExternalId,
+            Guid materialExternalId,
+            [FromBody] MaterialWasteOutputsDto materialWasteOutputsDto)
+        {
+            await _accreditationService.UpdateMaterialWasteOutputs(
+                accreditationExternalId,
+                materialExternalId,
+                materialWasteOutputsDto);
 
             return Ok();
         }

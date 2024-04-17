@@ -36,14 +36,16 @@ namespace EPR.Accreditation.Facade.Services.Interfaces
         Task<WastePermit> GetWastePermit(
             Guid accreditationExternalId);
 
-        Task<NonWasteInputsDto> GetNonWasteInputs(
-            Guid accreditationExternalId,
-            Guid materialExternalId);
-
-        Task UpdateNonWasteInputs(
+        Task<ReprocessingSupportingInformationDto> GetReprocessorSupportingInformation(
             Guid accreditationExternalId,
             Guid materialExternalId,
-            NonWasteInputsDto materialOutputsDto);
+            ReprocessorSupportingInformationType reprocessorSupportingInformationType);
+
+        Task UpdateReprocessorSupportingInformation(
+            Guid accreditationExternalId,
+            Guid materialExternalId,
+            ReprocessingSupportingInformationDto materialOutputsDto,
+            ReprocessorSupportingInformationType reprocessorSupportingInformationType);
 
         Task<MaterialOutputsDto> GetMaterialOutputs(
             Guid accreditationExternalId,
@@ -53,6 +55,16 @@ namespace EPR.Accreditation.Facade.Services.Interfaces
             Guid accreditationExternalId,
             Guid materialExternalId,
             MaterialOutputsDto materialOutputsDto);
+
+        Task<MaterialWasteOutputsDto> GetMaterialWasteOutputs(
+            Guid accreditationExternalId,
+            Guid materialExternalId);
+
+        Task UpdateMaterialWasteOutputs(
+            Guid accreditationExternalId,
+            Guid materialExternalId,
+            MaterialWasteOutputsDto materialWasteOutputsDto);
+
         Task<CheckYourAnswersDto> GetCheckYourAnswers(Guid accreditationExternalId);
 
         Task<List<AccreditationTaskProgress>> GetTaskProgress(

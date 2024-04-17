@@ -34,6 +34,7 @@ namespace EPR.Accreditation.Facade.Common.RESTservices.Interfaces
 
         Task<List<Dtos.AccreditationTaskProgress>> GetTaskProgress(
             Guid accreditationExternalId);
+        Task<AccreditationMaterial> GetLastCalendarYearWaste(Guid accreditationExternalId, Guid accreditationMaterialExternalId);
 
         Task<Dtos.OverseasReprocessingSite> GetOverseasSite(
             Guid accreditationExternalId,
