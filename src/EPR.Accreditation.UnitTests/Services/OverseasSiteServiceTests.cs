@@ -10,23 +10,42 @@
     {
         private OverseasSiteService _overseasSiteService;
         private Mock<IHttpOverseasSiteService> _mockHttpOverseasSiteService;
+        private Mock<IHttpCountryService> _mockHttpCountryService;
 
         [TestInitialize]
         public void Init()
         {
             _mockHttpOverseasSiteService = new Mock<IHttpOverseasSiteService>();
-            _overseasSiteService = new OverseasSiteService(_mockHttpOverseasSiteService.Object);
+            _mockHttpCountryService = new Mock<IHttpCountryService>();
+
+            _overseasSiteService = new OverseasSiteService(
+                _mockHttpOverseasSiteService.Object,
+                _mockHttpCountryService.Object);
         }
 
         [TestMethod]
-        public async Task GetReprocessorDetails_WithValidData_ReturnsOverseasAddress()
+        public async Task GetReprocessorDetails_ReturnsDto_WhenDataIsValid()
         {
             // Arrange
             var accreditationExternalId = Guid.NewGuid();
             var overseasSiteExternalId = Guid.NewGuid();
+            var overseasAddress = new OverseasAddress
+            {
+                Name = "OverseasName",
+                CountryId = 1,
+                Address = "Address"
+            };
             var overseasSite = new OverseasReprocessingSite
             {
-                OverseasAddress = new OverseasAddress()
+                OverseasAddress = overseasAddress
+            };
+            var countries = new List<Country>
+            {
+                new Country
+                {
+                    CountryId = 1,
+                    Name = "Country1"
+                }
             };
 
             _mockHttpOverseasSiteService.Setup(s =>
@@ -35,18 +54,25 @@
                     overseasSiteExternalId))
                 .ReturnsAsync(overseasSite);
 
+            _mockHttpCountryService.Setup(s => s.GetCountryList()).ReturnsAsync(countries);
+
             // Act
             var result = await _overseasSiteService.GetReprocessorDetails(accreditationExternalId, overseasSiteExternalId);
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.IsInstanceOfType(result, typeof(OverseasAddress));
+            Assert.AreEqual(overseasAddress.Name, result.Name);
+            Assert.AreEqual(overseasAddress.CountryId, result.CountryId);
+            Assert.AreEqual(countries, result.CountryList);
+            Assert.AreEqual(overseasAddress.Address, result.Address);
 
             _mockHttpOverseasSiteService.Verify(s =>
                 s.GetOverseasReprocessingSite(
                     accreditationExternalId,
                     overseasSiteExternalId),
                     Times.Once);
+
+            _mockHttpCountryService.Verify(s => s.GetCountryList(), Times.Once);
         }
 
         [TestMethod]
@@ -74,6 +100,48 @@
                     accreditationExternalId,
                     overseasSiteExternalId),
                     Times.Once);
+        }
+
+        [TestMethod]
+        public async Task GetReprocessorDetails_ReturnsNull_WhenCountryListIsEmpty()
+        {
+            // Arrange
+            var accreditationExternalId = Guid.NewGuid();
+            var overseasSiteExternalId = Guid.NewGuid();
+            var overseasAddress = new OverseasAddress
+            {
+                Name = "OverseasName",
+                CountryId = 1,
+                Address = "Address"
+            };
+            var overseasSite = new OverseasReprocessingSite
+            {
+                OverseasAddress = overseasAddress
+            }
+            ;
+            var countries = new List<Country>(); // Empty country list
+
+            _mockHttpOverseasSiteService.Setup(s =>
+                s.GetOverseasReprocessingSite(
+                    accreditationExternalId,
+                    overseasSiteExternalId))
+                .ReturnsAsync(overseasSite);
+
+            _mockHttpCountryService.Setup(s => s.GetCountryList()).ReturnsAsync(countries);
+
+            // Act
+            var result = await _overseasSiteService.GetReprocessorDetails(accreditationExternalId, overseasSiteExternalId);
+
+            // Assert
+            Assert.IsNull(result);
+
+            _mockHttpOverseasSiteService.Verify(s =>
+                s.GetOverseasReprocessingSite(
+                    accreditationExternalId,
+                    overseasSiteExternalId),
+                    Times.Once);
+
+            _mockHttpCountryService.Verify(s => s.GetCountryList(), Times.Once);
         }
 
         [TestMethod]

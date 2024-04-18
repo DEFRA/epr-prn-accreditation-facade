@@ -1,6 +1,7 @@
 ﻿namespace EPR.Accreditation.UnitTests.Controllers
 {
     using EPR.Accreditation.Facade.Common.Dtos;
+    using EPR.Accreditation.Facade.Common.Dtos.Portal;
     using EPR.Accreditation.Facade.Controllers;
     using EPR.Accreditation.Facade.Services.Interfaces;
     using Microsoft.AspNetCore.Mvc;
@@ -25,7 +26,7 @@
             // Arrange
             var accreditationExternalId = Guid.NewGuid();
             var overseasSiteExternalId = Guid.NewGuid();
-            var expectedDetails = new OverseasAddress();
+            var expectedDetails = new ReprocessorDetailsDto();
 
             _mockOverseasSiteService.Setup(s =>
                 s.GetReprocessorDetails(
