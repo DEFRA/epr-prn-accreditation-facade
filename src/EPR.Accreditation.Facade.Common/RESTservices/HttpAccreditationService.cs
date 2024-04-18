@@ -1,4 +1,5 @@
 ﻿using EPR.Accreditation.Facade.Common.Dtos;
+using EPR.Accreditation.Facade.Common.Dtos.Portal;
 using EPR.Accreditation.Facade.Common.Enums;
 using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -107,6 +108,11 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
             var address = $"{dto.Address1}, {dto.Address2}, {dto.Town}, {dto.County}, {dto.Postcode}";
 
             return address;
+        }
+
+        public async Task SetHasOverseasAgent(Guid accreditationExternalId, bool? hasOverseasAgent)
+        {
+            await Put($"{accreditationExternalId}/HasOverseasAgent", hasOverseasAgent);
         }
     }
 }

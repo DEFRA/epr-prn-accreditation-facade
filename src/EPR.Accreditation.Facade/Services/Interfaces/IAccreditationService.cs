@@ -69,5 +69,9 @@ namespace EPR.Accreditation.Facade.Services.Interfaces
 
         Task<List<AccreditationTaskProgress>> GetTaskProgress(
             Guid accreditationExternalId);
+
+        Task<HasOverseasAgentDto> GetHasOverseasAgent(Guid accreditationExternalId);
+
+        Task SetHasOverseasAgent(Guid accreditationExternalId, bool? hasOverseasAgent);
     }
 }
