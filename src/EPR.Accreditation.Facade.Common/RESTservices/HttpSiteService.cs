@@ -14,18 +14,19 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
         {
         }
 
-
         public async Task<Dtos.Site> GetSite(
-            Guid siteExternalId)
+            Guid id,
+            Guid? overseasSiteId = null)
         {
-            return await Get<Dtos.Site>($"{siteExternalId}/Site");
+            var siteParam = overseasSiteId.HasValue ? $"OverseasSite/{overseasSiteId}" : "Site";
+            return await Get<Dtos.Site>($"{id}/{siteParam}");
         }
 
         public async Task UpdateSite(
-            Guid accreditationExternalId,
+            Guid id,
             Site site)
         {
-            await Put($"{accreditationExternalId}/Site", site);
+            await Put($"{id}/Site", site);
         }
     }
 }
