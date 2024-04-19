@@ -40,9 +40,9 @@ namespace EPR.Accreditation.Facade.Controllers
         public async Task<IActionResult> GetCheckAnswers(
             Guid accreditationExternalId, CheckAnswersSection section)
         {
-            var checkYourAnswersDto = null//await _accreditationService.GetCheckAnswers(accreditationExternalId);
+	        var checkYourAnswersDto = await _accreditationService.GetCheckAnswers(accreditationExternalId, section);
 
-            return Ok(checkYourAnswersDto);
+			return Ok(checkYourAnswersDto);
         }      
 
         [HttpGet("OperatorType")]
