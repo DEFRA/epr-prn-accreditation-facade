@@ -1,4 +1,5 @@
-﻿using EPR.Accreditation.Facade.Common.Dtos.Portal;
+﻿using EPR.Accreditation.Facade.Common.Dtos;
+using EPR.Accreditation.Facade.Common.Dtos.Portal;
 
 namespace EPR.Accreditation.Facade.Services.Interfaces
 {
@@ -38,5 +39,9 @@ namespace EPR.Accreditation.Facade.Services.Interfaces
             Guid id,
             Guid materialId,
             ReprocessedWasteLastYear reprocessedWasteLastYear);
+
+        public Task<MaterialReprocessorDetails> GetReprocessedWasteLastYearData(
+            Guid accreditationExternalId,
+            Guid materialExternalId);
     }
 }

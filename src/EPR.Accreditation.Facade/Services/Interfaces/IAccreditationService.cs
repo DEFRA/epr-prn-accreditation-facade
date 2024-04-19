@@ -55,9 +55,23 @@ namespace EPR.Accreditation.Facade.Services.Interfaces
             Guid accreditationExternalId,
             Guid materialExternalId,
             MaterialOutputsDto materialOutputsDto);
+
+        Task<MaterialWasteOutputsDto> GetMaterialWasteOutputs(
+            Guid accreditationExternalId,
+            Guid materialExternalId);
+
+        Task UpdateMaterialWasteOutputs(
+            Guid accreditationExternalId,
+            Guid materialExternalId,
+            MaterialWasteOutputsDto materialWasteOutputsDto);
+
         Task<CheckYourAnswersDto> GetCheckYourAnswers(Guid accreditationExternalId);
 
         Task<List<AccreditationTaskProgress>> GetTaskProgress(
             Guid accreditationExternalId);
+
+        Task<HasOverseasAgentDto> GetHasOverseasAgent(Guid accreditationExternalId);
+
+        Task SetHasOverseasAgent(Guid accreditationExternalId, bool? hasOverseasAgent);
     }
 }

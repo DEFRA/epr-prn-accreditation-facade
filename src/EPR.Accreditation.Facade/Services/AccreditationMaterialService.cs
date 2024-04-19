@@ -36,6 +36,19 @@
             return accreditationMaterial.WasteLastYear;
         }
 
+        public async Task<MaterialReprocessorDetails> GetReprocessedWasteLastYearData(
+            Guid accreditationExternalId, 
+            Guid materialExternalId)
+        {
+            var accreditationMaterial = await _httpAccreditationService.GetAccreditationMaterial(
+                SiteType.Site,
+                accreditationExternalId,
+                null,
+                materialExternalId);
+
+            return accreditationMaterial.MaterialReprocessorDetails;
+        }
+
         public async Task UpdateReprocessedWasteLastYear(
             Guid accreditationExternalId,
             Guid materialExternalId,

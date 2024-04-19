@@ -1,4 +1,5 @@
 ﻿using EPR.Accreditation.Facade.Common.Dtos;
+using EPR.Accreditation.Facade.Common.Dtos.Portal;
 using EPR.Accreditation.Facade.Common.Enums;
 using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -85,9 +86,17 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
             return await Get<List<AccreditationTaskProgress>>($"{accreditationExternalId}/TaskProgress");
         }
 
-        private string GetSiteName(
-            SiteType siteType,
-            Guid? siteExternalId) => siteType == SiteType.Site ? "Site" : $"OverseasSite/{siteExternalId}";
+        public async Task SetHasOverseasAgent(Guid accreditationExternalId, bool? hasOverseasAgent)
+        {
+            await Put($"{accreditationExternalId}/HasOverseasAgent", hasOverseasAgent);
+        }
+
+        public async Task<AccreditationMaterial> GetLastCalendarYearWaste(
+            Guid accreditationExternalId, 
+            Guid accreditationMaterialExternalId)
+        {
+            return await Get<AccreditationMaterial>($"{accreditationExternalId}/Site/Material/{accreditationMaterialExternalId}");
+        }
 
         private string GetAdressAsSingleLine(Dtos.Site dto)
         {
@@ -100,5 +109,10 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
 
             return address;
         }
+
+        private string GetSiteName(
+            SiteType siteType,
+            Guid? siteExternalId) => siteType == SiteType.Site ? "Site" : $"OverseasSite/{siteExternalId}";
+
     }
 }

@@ -60,6 +60,9 @@ namespace EPR.Accreditation.Facade.Helpers
                 .AddScoped<IWastePermitService, WastePermitService>();
 
             services
+                .AddScoped<IOverseasSiteService, OverseasSiteService>();
+
+            services
                 .AddScoped<IAccreditationMaterialService, AccreditationMaterialService>();
 
             services
@@ -71,6 +74,24 @@ namespace EPR.Accreditation.Facade.Helpers
                         s.GetRequiredService<IOptions<ServicesConfiguration>>().Value.AccreditationAPI.Url,
                         "Accreditation"
                     ));
+
+            services
+                .AddScoped<IOverseasSiteService, OverseasSiteService>()
+                .AddScoped<IHttpOverseasSiteService>(s =>
+                    new HttpOverseasSiteService(
+                        s.GetRequiredService<IHttpContextAccessor>(),
+                        s.GetRequiredService<IHttpClientFactory>(),
+                        s.GetRequiredService<IOptions<ServicesConfiguration>>().Value.AccreditationAPI.Url,
+                        "Accreditation"));
+
+            services
+                .AddScoped<ICountryService, CountryService>()
+                .AddScoped<IHttpCountryService>(s =>
+                    new HttpCountryService(
+                        s.GetRequiredService<IHttpContextAccessor>(),
+                        s.GetRequiredService<IHttpClientFactory>(),
+                        s.GetRequiredService<IOptions<ServicesConfiguration>>().Value.AccreditationAPI.Url,
+                        "Country"));
 
             return services;
         }
