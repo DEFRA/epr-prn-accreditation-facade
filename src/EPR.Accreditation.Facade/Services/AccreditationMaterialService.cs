@@ -1,18 +1,23 @@
-﻿using EPR.Accreditation.Facade.Common.Dtos;
-using EPR.Accreditation.Facade.Common.Dtos.Portal;
-using EPR.Accreditation.Facade.Common.Enums;
-using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
-using EPR.Accreditation.Facade.Services.Interfaces;
-
-namespace EPR.Accreditation.Facade.Services
+﻿namespace EPR.Accreditation.Facade.Services
 {
+    using EPR.Accreditation.Facade.Common.Dtos;
+    using EPR.Accreditation.Facade.Common.Dtos.Portal;
+    using EPR.Accreditation.Facade.Common.Enums;
+    using EPR.Accreditation.Facade.Common.RESTservices;
+    using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
+    using EPR.Accreditation.Facade.Services.Interfaces;
+
     public class AccreditationMaterialService : IAccreditationMaterialService
     {
-        protected readonly IHttpAccreditationService _httpAccreditationService;
+        private readonly IHttpAccreditationService _httpAccreditationService;
+        private readonly IHttpSiteService _httpSiteService;
 
-        public AccreditationMaterialService(IHttpAccreditationService httpAccreditationService)
+        public AccreditationMaterialService(
+            IHttpAccreditationService httpAccreditationService,
+            IHttpSiteService httpSiteService)
         {
             _httpAccreditationService = httpAccreditationService ?? throw new ArgumentNullException(nameof(httpAccreditationService));
+            _httpSiteService = httpSiteService ?? throw new ArgumentNullException(nameof(httpSiteService));
         }
 
         public async Task<bool?> GetReprocessedWasteLastYear(
@@ -47,6 +52,92 @@ namespace EPR.Accreditation.Facade.Services
                 null,
                 materialExternalId,
                 accreditationMaterial);
+        }
+
+        /// <summary>
+        /// Gets the waste description codes for an application and the material
+        /// This is only relevant for exporters so a NotFound should be returned
+        /// if the accreditation is for a reprocessor
+        /// </summary>
+        /// <param name="id">The accreditation id</param>
+        /// <param name="materialId">The material id</param>
+        /// <returns>List of strings that represent the waste description codes</returns>
+        public async Task<IEnumerable<string>> GetWasteDescriptionCodes(
+            Guid id,
+            Guid siteId,
+            Guid materialId)
+        {
+            var accreditationTask = _httpAccreditationService.GetAccreditation(id);
+            var accreditationMaterialTask = _httpAccreditationService.GetAccreditationMaterial(
+                SiteType.OverseasSite,
+                id,
+                siteId,
+                materialId);
+
+            await Task.WhenAll(accreditationTask, accreditationMaterialTask);
+
+            var accreditation = accreditationTask.Result;
+            var accreditationMaterial = accreditationMaterialTask.Result;
+
+            if (accreditation == null ||
+                accreditationMaterial == null ||
+                accreditation.OperatorTypeId == OperatorType.Reprocessor) // Waste Description codes are not valid for a reprocessor
+            {
+                return null;
+            }
+
+            if (accreditationMaterial.WasteCodes == null)
+            {
+                return new List<string>();
+            }
+
+            return accreditationMaterial
+                .WasteCodes
+                .Where(wc => wc.WasteCodeTypeId == WasteCodeType.WasteDescriptionCode)
+                .Select(wc => wc.Code);
+        }
+
+        /// <summary>
+        /// Performs any necessary processing on the waste description codes and
+        /// updates them
+        /// </summary>
+        /// <param name="id">The id of the accreditation</param>
+        /// <param name="siteId">The id of the site (This should be an overseas site)</param>
+        /// <param name="materialId">The id of the material</param>
+        /// <param name="wasteDescriptionCodes">List of waste description codes</param>
+        /// <returns>Async task</returns>
+        public async Task UpdateWasteDescriptionCodes(
+            Guid id,
+            Guid siteId,
+            Guid materialId,
+            IEnumerable<string> wasteDescriptionCodes)
+        {
+            var overseasSite = await _httpSiteService.GetSite(
+                id,
+                siteId);
+
+            if ( overseasSite == null )
+            {
+                // overseas site not found, therefore this operation is invalid
+                throw new InvalidOperationException($"Overseas Site not found. Accreditation ID: {id}, Overseas Site ID: {siteId}");
+            }
+
+            var material = new AccreditationMaterial
+            {
+                WasteCodes = wasteDescriptionCodes
+                    .Select(c => new WasteCode
+                    {
+                        Code = c,
+                        WasteCodeTypeId = WasteCodeType.WasteDescriptionCode
+                    })
+            };
+
+            await _httpAccreditationService.UpdateAccreditationMaterial(
+                SiteType.OverseasSite,
+                id,
+                siteId,
+                materialId,
+                material);
         }
     }
 }
