@@ -80,15 +80,15 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
             await Put($"{accreditationExternalId}", accreditation);
         }
 
-        private string GetSiteName(
-            SiteType siteType, 
-            Guid? siteExternalId) => siteType == SiteType.Site ? "Site" : $"OverseasSite/{siteExternalId}";
-        private string GetSiteName(SiteType siteType) => siteType == SiteType.Site ? "Site" : "OverseasSite";
-
         public async Task<List<AccreditationTaskProgress>> GetTaskProgress(
             Guid accreditationExternalId)
         {
             return await Get<List<AccreditationTaskProgress>>($"{accreditationExternalId}/TaskProgress");
+        }
+
+        public async Task SetHasOverseasAgent(Guid accreditationExternalId, bool? hasOverseasAgent)
+        {
+            await Put($"{accreditationExternalId}/HasOverseasAgent", hasOverseasAgent);
         }
 
         public async Task<AccreditationMaterial> GetLastCalendarYearWaste(
@@ -110,9 +110,9 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
             return address;
         }
 
-        public async Task SetHasOverseasAgent(Guid accreditationExternalId, bool? hasOverseasAgent)
-        {
-            await Put($"{accreditationExternalId}/HasOverseasAgent", hasOverseasAgent);
-        }
+        private string GetSiteName(
+            SiteType siteType,
+            Guid? siteExternalId) => siteType == SiteType.Site ? "Site" : $"OverseasSite/{siteExternalId}";
+
     }
 }

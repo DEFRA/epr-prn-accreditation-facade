@@ -23,15 +23,32 @@ namespace EPR.Accreditation.UnitTests.Services
         {
             // Arrange
             Guid accreditationExternalId = Guid.NewGuid();
-            var site = new Site { ExemptionReferences = new List<string> { "Reference1", "Reference2" } };
-            _mockHttpSiteService.Setup(s => s.GetSite(accreditationExternalId)).ReturnsAsync(site);
+            var site = new Site
+            {
+                ExemptionReferences = new List<string>
+                {
+                    "Reference1",
+                    "Reference2"
+                } 
+            };
+            _mockHttpSiteService
+                .Setup(s =>
+                    s.GetSite(
+                        accreditationExternalId,
+                        null))
+                .ReturnsAsync(site);
 
             // Act
             var result = await _siteService.GetExemptionReferences(accreditationExternalId);
 
             // Assert
             CollectionAssert.AreEqual((System.Collections.ICollection)site.ExemptionReferences, (System.Collections.ICollection)result);
-            _mockHttpSiteService.Verify(s => s.GetSite(accreditationExternalId), Times.Once);
+            _mockHttpSiteService
+                .Verify(s => 
+                    s.GetSite(
+                        accreditationExternalId,
+                        null), 
+                Times.Once);
         }
 
         [TestMethod]
@@ -40,14 +57,24 @@ namespace EPR.Accreditation.UnitTests.Services
             // Arrange
             Guid accreditationExternalId = Guid.NewGuid();
             var site = new Site { ExemptionReferences = null };
-            _mockHttpSiteService.Setup(x => x.GetSite(accreditationExternalId)).ReturnsAsync(site);
+            _mockHttpSiteService
+                .Setup(x => 
+                    x.GetSite(
+                        accreditationExternalId,
+                        null))
+                .ReturnsAsync(site);
 
             // Act
             var result = await _siteService.GetExemptionReferences(accreditationExternalId);
 
             // Assert
             Assert.IsNull(result);
-            _mockHttpSiteService.Verify(s => s.GetSite(accreditationExternalId), Times.Once);
+            _mockHttpSiteService
+                .Verify(s =>
+                    s.GetSite(
+                        accreditationExternalId,
+                        null),
+                Times.Once);
         }
 
         [TestMethod]
