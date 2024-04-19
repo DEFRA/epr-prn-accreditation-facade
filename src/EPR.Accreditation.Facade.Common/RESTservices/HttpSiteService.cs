@@ -18,7 +18,7 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
             Guid id,
             Guid? overseasSiteId = null)
         {
-            var siteParam = overseasSiteId.HasValue ? $"Overseas/{overseasSiteId}" : "Site";
+            var siteParam = overseasSiteId.HasValue ? $"OverseasSite/{overseasSiteId}" : "Site";
             return await Get<Dtos.Site>($"{id}/{siteParam}");
         }
 
