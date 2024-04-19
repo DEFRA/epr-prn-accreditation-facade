@@ -27,6 +27,11 @@ namespace EPR.Accreditation.Facade.Services
             return checkYourAnswersDto;
         }
 
+        public async Task<CheckAnswersDto> GetCheckAnswers(Guid accreditationExternalId, CheckAnswersSection section)
+        {
+	         throw new NotImplementedException();
+        }
+
         public async Task<OperatorType> GetOperatorType(Guid accreditationExternalId)
         {
             var operatorTypeId = await _httpAccreditationService.GetOperatorType(accreditationExternalId);

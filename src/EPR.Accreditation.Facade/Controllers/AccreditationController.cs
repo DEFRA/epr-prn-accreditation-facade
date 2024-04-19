@@ -1,5 +1,6 @@
 ﻿using EPR.Accreditation.Facade.Common.Dtos;
 using EPR.Accreditation.Facade.Common.Dtos.Portal;
+using EPR.Accreditation.Facade.Common.Enums;
 using EPR.Accreditation.Facade.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -34,6 +35,15 @@ namespace EPR.Accreditation.Facade.Controllers
 
             return Ok(checkYourAnswersDto);
         }
+        
+	    [HttpGet("CheckAnswers")]
+        public async Task<IActionResult> GetCheckAnswers(
+            Guid accreditationExternalId, CheckAnswersSection section)
+        {
+            var checkYourAnswersDto = null//await _accreditationService.GetCheckAnswers(accreditationExternalId);
+
+            return Ok(checkYourAnswersDto);
+        }      
 
         [HttpGet("OperatorType")]
         public async Task<IActionResult> GetOperatorType(

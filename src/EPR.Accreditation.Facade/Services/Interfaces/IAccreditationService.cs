@@ -66,6 +66,8 @@ namespace EPR.Accreditation.Facade.Services.Interfaces
             MaterialWasteOutputsDto materialWasteOutputsDto);
 
         Task<CheckYourAnswersDto> GetCheckYourAnswers(Guid accreditationExternalId);
+        
+	    Task<CheckAnswersDto> GetCheckAnswers(Guid accreditationExternalId, CheckAnswersSection section);       
 
         Task<List<AccreditationTaskProgress>> GetTaskProgress(
             Guid accreditationExternalId);
