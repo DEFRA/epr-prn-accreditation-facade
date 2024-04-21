@@ -219,14 +219,11 @@ namespace EPR.Accreditation.Facade.Services
                 materialExternalId);
 
             if (siteMaterial == null) 
-                return new MaterialOutputsDto();
+                return new MaterialWasteOutputsDto();
 
-            return new MaterialOutputsDto
+            return new MaterialWasteOutputsDto
             {
                 WasteLastYear = siteMaterial.WasteLastYear,
-                TonnesContaminents = siteMaterial.MaterialReprocessorDetails?.Contaminents,
-                TonnesNotProcessedOnSite = siteMaterial.MaterialReprocessorDetails?.MaterialsNotProcessedOnSite,
-                TonnesProcessLoss = siteMaterial.MaterialReprocessorDetails?.ProcessLoss
             };
         }
 
