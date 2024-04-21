@@ -1,12 +1,11 @@
-﻿using EPR.Accreditation.Facade.Common.Dtos.Portal;
-using EPR.Accreditation.Facade.Common.Enums;
-using EPR.Accreditation.Facade.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc;
-
-namespace EPR.Accreditation.Facade.Controllers
+﻿namespace EPR.Accreditation.Facade.Controllers
 {
+    using EPR.Accreditation.Facade.Common.Enums;
+    using EPR.Accreditation.Facade.Services.Interfaces;
+    using Microsoft.AspNetCore.Mvc;
+
     [ApiController]
-    [Route("/api/Accreditation/{accreditationExternalId}/OverseasSite/{siteExternalId}/Material/{materialExternalId}")]
+    [Route("/api/Accreditation/{id}/OverseasSite/{siteId}/Material/{materialId}")]
     public class AccreditationOverseasSiteMaterialController : ControllerBase
     {
         protected readonly IAccreditationService _accreditationService;
@@ -25,31 +24,31 @@ namespace EPR.Accreditation.Facade.Controllers
 
         [HttpGet("WasteSource")]
         public async Task<IActionResult> GetWasteSource(
-            Guid accreditationExternalId,
-            Guid siteExternalId,
-            Guid materialExternalId)
+            Guid id,
+            Guid siteId,
+            Guid materialId)
         {
             var wasteSource = await _accreditationService.GetWasteSource(
                 SiteType.OverseasSite,
-                accreditationExternalId,
-                siteExternalId,
-                materialExternalId);
+                id,
+                siteId,
+                materialId);
 
             return Ok(wasteSource);
         }
 
         [HttpPut("WasteSource")]
         public async Task<IActionResult> SaveWasteSource(
-            Guid accreditationExternalId,
-            Guid siteExternalId,
-            Guid materialExternalId,
+            Guid id,
+            Guid siteId,
+            Guid materialId,
             [FromBody] string wasteSource)
         {
             await _accreditationService.UpdateWasteSource(
                 SiteType.OverseasSite,
-                accreditationExternalId,
-                siteExternalId,
-                materialExternalId,
+                id,
+                siteId,
+                materialId,
                 wasteSource);
 
             return Ok();
@@ -57,9 +56,9 @@ namespace EPR.Accreditation.Facade.Controllers
 
         [HttpGet("Name")]
         public async Task<IActionResult> GetMaterialName(
-            Guid accreditationExternalId,
-            Guid siteExternalId,
-            Guid materialExternalId,
+            Guid id,
+            Guid siteId,
+            Guid materialId,
             Language language)
         {
             if (language == Language.Undefined)
@@ -67,12 +66,63 @@ namespace EPR.Accreditation.Facade.Controllers
 
             var wasteSource = await _accreditationService.GetWasteMaterialName(
                 SiteType.OverseasSite,
-                accreditationExternalId,
-                siteExternalId,
-                materialExternalId,
+                id,
+                siteId,
+                materialId,
                 language);
 
             return Ok(wasteSource);
+        }
+
+        /// <summary>
+        /// Entry point to GET waste description codes for an application and
+        /// material
+        /// </summary>
+        /// <param name="id">Accreditation id</param>
+        /// <param name="siteId">The overseas site id</param>
+        /// <param name="materialId">Material id</param>
+        /// <returns>DTO containing list of waste description codes</returns>
+        [HttpGet("WasteDescriptionCodes")]
+        public async Task<IActionResult> GetWasteDescriptionCodes(
+            Guid id,
+            Guid siteId,
+            Guid materialId)
+        {
+            var wasteDescriptionCodes = await _accreditationMaterialService.GetWasteDescriptionCodes(
+                id,
+                siteId,
+                materialId);
+
+            if (wasteDescriptionCodes == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(wasteDescriptionCodes);
+        }
+
+        /// <summary>
+        /// Entry point to POST waste description codes for an application and
+        /// material
+        /// </summary>
+        /// <param name="id">Accreditation id</param>
+        /// <param name="siteId">The overseas site id</param>
+        /// <param name="materialId">Material id</param>
+        /// <returns>Ok</returns>
+        [HttpPost("WasteDescriptionCodes")]
+        public async Task<IActionResult> UpdateWasteDescriptionCodes(
+            Guid id,
+            Guid siteId,
+            Guid materialId,
+            IEnumerable<string> wasteDescriptionCodes)
+        {
+            await _accreditationMaterialService.UpdateWasteDescriptionCodes(
+                id,
+                siteId,
+                materialId,
+                wasteDescriptionCodes);
+
+            return Ok();
         }
     }
 }
