@@ -115,7 +115,10 @@ namespace EPR.Accreditation.Facade.Services
             return dto;
         }
 
-        public async Task<NonWasteInputsDto> GetNonWasteInputs(Guid accreditationExternalId, Guid materialExternalId)
+        public async Task<ReprocessingSupportingInformationDto> GetReprocessorSupportingInformation(
+            Guid accreditationExternalId, 
+            Guid materialExternalId,
+            ReprocessorSupportingInformationType reprocessorSupportingInformationType)
         {
             var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
                 SiteType.Site,
@@ -124,15 +127,15 @@ namespace EPR.Accreditation.Facade.Services
                 materialExternalId);
 
             if (siteMaterial == null)
-                return new NonWasteInputsDto();
+                return new ReprocessingSupportingInformationDto();
 
-            return new NonWasteInputsDto
+            return new ReprocessingSupportingInformationDto
             {
                 WasteLastYear = siteMaterial.WasteLastYear,
-                NonWasteInputRecords = siteMaterial.MaterialReprocessorDetails?
+                Records = siteMaterial.MaterialReprocessorDetails?
                     .ReprocessorSupportingInformation?
-                    .Where(rsi => rsi.ReprocessorSupportingInformationTypeId == ReprocessorSupportingInformationType.NonWasteInputs)
-                    .Select(rsi => new NonWasteInputRecordDto
+                    .Where(rsi => rsi.ReprocessorSupportingInformationTypeId == reprocessorSupportingInformationType)
+                    .Select(rsi => new ReprocessingSupportingInformationRecordDto
                     {
                         Type = rsi.Type,
                         Tonnes = rsi.Tonnes
@@ -140,27 +143,29 @@ namespace EPR.Accreditation.Facade.Services
             };
         }
 
-        public async Task UpdateNonWasteInputs(
+        public async Task UpdateReprocessorSupportingInformation(
             Guid accreditationExternalId, 
             Guid materialExternalId, 
-            NonWasteInputsDto nonWasteInputsDto)
+            ReprocessingSupportingInformationDto nonWasteInputsDto,
+            ReprocessorSupportingInformationType reprocessorSupportingInformationType)
         {
             if (nonWasteInputsDto != null &&
-                nonWasteInputsDto.NonWasteInputRecords != null &&
-                nonWasteInputsDto.NonWasteInputRecords.Any())
+                nonWasteInputsDto.Records != null &&
+                nonWasteInputsDto.Records.Any())
             {
-                var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
-                    SiteType.Site,
-                    accreditationExternalId,
-                    null,
-                    materialExternalId);
-
-                if (siteMaterial == null)
-                    throw new Exception(); // should end up with a not found result as we should have a SiteMaterial and MaterialReprocessorDetails by now
-
-                siteMaterial.MaterialReprocessorDetails.ReprocessorSupportingInformation = _mapper.Map(
-                    nonWasteInputsDto.NonWasteInputRecords,
-                    siteMaterial.MaterialReprocessorDetails.ReprocessorSupportingInformation);//, items => items["type"] = ReprocessorSupportingInformationType.NonWasteInputs);
+                // we're only updating reprocessor supporting information, so
+                // create an empy AccreditationMaterial and empty MaterialReprocessorDetails
+                // except with a populated ReprocessorSupportingInformation property containing
+                // only the changes supplied
+                var siteMaterial = new AccreditationMaterial
+                {
+                    MaterialReprocessorDetails = new MaterialReprocessorDetails
+                    {
+                        ReprocessorSupportingInformation = _mapper.Map<List<ReprocessorSupportingInformation>>(
+                            nonWasteInputsDto.Records, 
+                            context => context.Items["ReprocessorSupportingInformationType"] = reprocessorSupportingInformationType)
+                    }
+                };
 
                 await _httpAccreditationService.UpdateAccreditationMaterial(
                     SiteType.Site,
@@ -181,6 +186,38 @@ namespace EPR.Accreditation.Facade.Services
                 null,
                 materialExternalId);
 
+            return siteMaterial == null ? new MaterialOutputsDto() : _mapper.Map<MaterialOutputsDto>(siteMaterial);
+        }
+
+        public async Task UpdateMaterialOutputs(
+            Guid accreditationExternalId,
+            Guid materialExternalId,
+            MaterialOutputsDto materialOutputsDto)
+        {
+            var siteMaterial = new AccreditationMaterial
+            {
+                MaterialReprocessorDetails = _mapper.Map<MaterialReprocessorDetails>(materialOutputsDto)
+            };
+
+            await _httpAccreditationService.UpdateAccreditationMaterial(
+                SiteType.Site,
+                accreditationExternalId,
+                null,
+                materialExternalId,
+                siteMaterial);
+        }
+
+
+        public async Task<MaterialWasteOutputsDto> GetMaterialWasteOutputs(
+            Guid accreditationExternalId,
+            Guid materialExternalId)
+        {
+            var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
+                SiteType.Site,
+                accreditationExternalId,
+                null,
+                materialExternalId);
+
             if (siteMaterial == null) 
                 return new MaterialOutputsDto();
 
@@ -193,10 +230,10 @@ namespace EPR.Accreditation.Facade.Services
             };
         }
 
-        public async Task UpdateMaterialOutputs(
+        public async Task UpdateMaterialWasteOutputs(
             Guid accreditationExternalId,
             Guid materialExternalId,
-            MaterialOutputsDto materialOutputsDto)
+            MaterialWasteOutputsDto materialWasteOutputsDto)
         {
             var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
                 SiteType.Site,
@@ -208,7 +245,7 @@ namespace EPR.Accreditation.Facade.Services
                 throw new Exception(); // should end up with a not found result as we should have a SiteMaterial and MaterialReprocessorDetails by now
 
             siteMaterial.MaterialReprocessorDetails = _mapper.Map(
-                materialOutputsDto, 
+                materialWasteOutputsDto,
                 siteMaterial.MaterialReprocessorDetails);
 
             await _httpAccreditationService.UpdateAccreditationMaterial(
@@ -226,6 +263,30 @@ namespace EPR.Accreditation.Facade.Services
                 accreditationExternalId);
 
             return taskProgress;
+        }
+
+        public async Task<HasOverseasAgentDto> GetHasOverseasAgent(Guid accreditationExternalId)
+        {
+            var accreditation = await _httpAccreditationService.GetAccreditation(accreditationExternalId);
+
+            return accreditation == null 
+                ? new HasOverseasAgentDto() 
+                : new HasOverseasAgentDto 
+                    { 
+                        HasOverseasAgent = accreditation.HasOverseasAgent
+                    };
+        }
+
+        public async Task SetHasOverseasAgent(
+            Guid accreditationExternalId, 
+            bool? hasOverseasAgent)
+        {
+            var accreditation = new Common.Dtos.Accreditation
+            {
+                HasOverseasAgent = hasOverseasAgent,
+            };
+
+            await _httpAccreditationService.UpdateAccreditation(accreditationExternalId, accreditation);
         }
     }
 }

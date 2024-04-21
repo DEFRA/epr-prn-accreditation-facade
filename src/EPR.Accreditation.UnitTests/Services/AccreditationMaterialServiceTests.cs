@@ -1,0 +1,308 @@
+﻿namespace EPR.Accreditation.UnitTests.Services
+{
+    using EPR.Accreditation.Facade.Common.Dtos;
+    using DTO = EPR.Accreditation.Facade.Common.Dtos;
+    using EPR.Accreditation.Facade.Common.Dtos.Portal;
+    using EPR.Accreditation.Facade.Common.Enums;
+    using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
+    using EPR.Accreditation.Facade.Services;
+    using Moq;
+
+    [TestClass]
+    public class AccreditationMaterialServiceTests
+    {
+        private AccreditationMaterialService _accreditationMaterialService;
+        private Mock<IHttpAccreditationService> _mockHttpAccreditationService;
+        private Mock<IHttpSiteService> _mockHttpSiteService;
+
+        [TestInitialize]
+        public void Init()
+        {
+            _mockHttpAccreditationService = new Mock<IHttpAccreditationService>();
+            _mockHttpSiteService = new Mock<IHttpSiteService>();
+            _accreditationMaterialService = new AccreditationMaterialService(
+                _mockHttpAccreditationService.Object,
+                _mockHttpSiteService.Object);
+        }
+
+        [TestMethod]
+        public async Task GetReprocessedWasteLastYear_ReturnsWasteLastYear_WhenAccreditationMaterialExists()
+        {
+            // Arrange
+            var accreditationExternalId = Guid.NewGuid();
+            var materialExternalId = Guid.NewGuid();
+            var expectedWasteLastYear = true;
+            var accreditationMaterial = new AccreditationMaterial { WasteLastYear = expectedWasteLastYear };
+
+            _mockHttpAccreditationService.Setup(s =>
+                s.GetAccreditationMaterial(
+                    SiteType.Site,
+                    accreditationExternalId,
+                    null,
+                    materialExternalId))
+                .ReturnsAsync(accreditationMaterial);
+
+            // Act
+            var result = await _accreditationMaterialService.GetReprocessedWasteLastYear(
+                accreditationExternalId,
+                materialExternalId);
+
+            // Assert
+            Assert.IsTrue(result.HasValue);
+            Assert.AreEqual(expectedWasteLastYear, result.Value);
+
+            _mockHttpAccreditationService.Verify(s =>
+                s.GetAccreditationMaterial(
+                    SiteType.Site,
+                    accreditationExternalId,
+                    null,
+                    materialExternalId), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task GetReprocessedWasteLastYear_ReturnsNull_WhenAccreditationMaterialDoesNotExist()
+        {
+            // Arrange
+            var accreditationExternalId = Guid.NewGuid();
+            var materialExternalId = Guid.NewGuid();
+
+            _mockHttpAccreditationService.Setup(s =>
+                s.GetAccreditationMaterial(
+                    SiteType.Site,
+                    accreditationExternalId,
+                    null,
+                    materialExternalId))
+                .ReturnsAsync((AccreditationMaterial)null);
+
+            // Act
+            var result = await _accreditationMaterialService.GetReprocessedWasteLastYear(
+                accreditationExternalId,
+                materialExternalId);
+
+            // Assert
+            Assert.IsNull(result);
+
+            _mockHttpAccreditationService.Verify(s =>
+                s.GetAccreditationMaterial(
+                    SiteType.Site,
+                    accreditationExternalId,
+                    null,
+                    materialExternalId), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task UpdateReprocessedWasteLastYear_CallsUpdateAccreditationMaterialWithCorrectParameters()
+        {
+            // Arrange
+            var accreditationExternalId = Guid.NewGuid();
+            var materialExternalId = Guid.NewGuid();
+            var reprocessedWasteLastYear = new ReprocessedWasteLastYear { HasReprocessedWasteLastYear = true };
+            var expectedAccreditationMaterial = new AccreditationMaterial { WasteLastYear = true };
+
+            // Act
+            await _accreditationMaterialService.UpdateReprocessedWasteLastYear(
+                accreditationExternalId,
+                materialExternalId,
+                reprocessedWasteLastYear);
+
+            // Assert
+            _mockHttpAccreditationService.Verify(s =>
+                s.UpdateAccreditationMaterial(
+                    SiteType.Site,
+                    It.IsAny<Guid>(),
+                    null,
+                    It.IsAny<Guid>(),
+                    It.IsAny<AccreditationMaterial>()), Times.Once);
+        }
+
+        [TestMethod]
+        public async Task UpdateReprocessedWasteLastYear_WithFalseValue_CallsUpdateAccreditationMaterialWithCorrectParameters()
+        {
+            // Arrange
+            var accreditationExternalId = Guid.NewGuid();
+            var materialExternalId = Guid.NewGuid();
+            var reprocessedWasteLastYear = new ReprocessedWasteLastYear { HasReprocessedWasteLastYear = false };
+            var expectedAccreditationMaterial = new AccreditationMaterial { WasteLastYear = false };
+
+            // Act
+            await _accreditationMaterialService.UpdateReprocessedWasteLastYear(
+                accreditationExternalId,
+                materialExternalId,
+                reprocessedWasteLastYear);
+
+            // Assert
+            _mockHttpAccreditationService.Verify(s =>
+                s.UpdateAccreditationMaterial(
+                    SiteType.Site,
+                    It.IsAny<Guid>(),
+                    null,
+                    It.IsAny<Guid>(),
+                    It.IsAny<AccreditationMaterial>()), Times.Once);
+        }
+
+        [TestMethod]
+        public async Task GetWasteDescriptionCodes_AccreditationNull_ReturnsNull()
+        {
+            // Arrange
+            var id = Guid.NewGuid();
+            var siteId = Guid.NewGuid();
+            var materialId = Guid.NewGuid();
+
+            // Act
+            var result = await _accreditationMaterialService.GetWasteDescriptionCodes(
+                id,
+                siteId,
+                materialId);
+
+            // Assert
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public async Task GetWasteDescriptionCodes_AccreditationIsReproccesor_ReturnsNull()
+        {
+            // Arrange
+            var id = Guid.NewGuid();
+            var siteId = Guid.NewGuid();
+            var materialId = Guid.NewGuid();
+            _mockHttpAccreditationService
+                .Setup(a =>
+                    a.GetAccreditation(It.IsAny<Guid>()))
+                .ReturnsAsync(new DTO.Accreditation
+                {
+                    OperatorTypeId = OperatorType.Reprocessor
+                });
+
+            // Act
+            var result = await _accreditationMaterialService.GetWasteDescriptionCodes(
+                id,
+                siteId,
+                materialId);
+
+            // Assert
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public async Task GetWasteDescriptionCodes_MaterialIsNull_ReturnsNull()
+        {
+            // Arrange
+            var id = Guid.NewGuid();
+            var siteId = Guid.NewGuid();
+            var materialId = Guid.NewGuid();
+            _mockHttpAccreditationService
+                .Setup(a =>
+                    a.GetAccreditation(It.IsAny<Guid>()))
+                .ReturnsAsync(new DTO.Accreditation
+                {
+                    OperatorTypeId = OperatorType.Exporter
+                });
+
+            // Act
+            var result = await _accreditationMaterialService.GetWasteDescriptionCodes(
+                id,
+                siteId,
+                materialId);
+
+            // Assert
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public async Task GetWasteDescriptionCodes_MaterialWasteCodesNull_ReturnsEmptyList()
+        {
+            // Arrange
+            var id = Guid.NewGuid();
+            var siteId = Guid.NewGuid();
+            var materialId = Guid.NewGuid();
+            
+            _mockHttpAccreditationService
+                .Setup(a =>
+                    a.GetAccreditation(It.IsAny<Guid>()))
+                .ReturnsAsync(new DTO.Accreditation
+                {
+                    OperatorTypeId = OperatorType.Exporter
+                });
+
+            _mockHttpAccreditationService
+                .Setup(a =>
+                    a.GetAccreditationMaterial(
+                        SiteType.OverseasSite,
+                        id,
+                        siteId,
+                        materialId))
+                .ReturnsAsync(new AccreditationMaterial());
+
+            // Act
+            var result = await _accreditationMaterialService.GetWasteDescriptionCodes(
+                id,
+                siteId,
+                materialId);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Any() == false);
+        }
+
+        [TestMethod]
+        public async Task GetWasteDescriptionCodes_MaterialWasteCodesNotNull_ReturnsWasteDescriptionCodeList()
+        {
+            // Arrange
+            var id = Guid.NewGuid();
+            var siteId = Guid.NewGuid();
+            var materialId = Guid.NewGuid();
+
+            _mockHttpAccreditationService
+                .Setup(a =>
+                    a.GetAccreditation(It.IsAny<Guid>()))
+                .ReturnsAsync(new DTO.Accreditation
+                {
+                    OperatorTypeId = OperatorType.Exporter
+                });
+
+            var code1 = "A";
+            var code2 = "B";
+            _mockHttpAccreditationService
+                .Setup(a =>
+                    a.GetAccreditationMaterial(
+                        SiteType.OverseasSite,
+                        id,
+                        siteId,
+                        materialId))
+                .ReturnsAsync(new AccreditationMaterial
+                {
+                    WasteCodes = new List<WasteCode>
+                    {
+                        new()
+                        {
+                            Code = code1,
+                            WasteCodeTypeId = WasteCodeType.WasteDescriptionCode
+                        },
+                        new()
+                        {
+                            Code = "ZZ",
+                            WasteCodeTypeId = WasteCodeType.MaterialCommodityCode
+                        },
+                        new()
+                        {
+                            Code = code2,
+                            WasteCodeTypeId = WasteCodeType.WasteDescriptionCode
+                        }
+                    }
+                });
+
+            // Act
+            var result = await _accreditationMaterialService.GetWasteDescriptionCodes(
+                id,
+                siteId,
+                materialId);
+
+            var listResult = result.ToList();
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.IsTrue(listResult.Count == 2);
+            Assert.IsTrue(listResult[0] == code1);
+            Assert.IsTrue(listResult[1] == code2);
+        }
+    }
+}
