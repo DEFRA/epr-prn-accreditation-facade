@@ -94,9 +94,9 @@ namespace EPR.Accreditation.Facade.Controllers
 
         [HttpGet("Site")]
         public async Task<IActionResult> GetSite(
-            Guid siteExternalId)
+            Guid accreditationExternalId)
         {
-            var site = await _siteService.GetSite(siteExternalId);
+            var site = await _siteService.GetSite(accreditationExternalId);
 
             return Ok(site);
         }

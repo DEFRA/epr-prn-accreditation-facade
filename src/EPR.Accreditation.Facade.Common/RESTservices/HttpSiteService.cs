@@ -30,10 +30,10 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
         }
 
         public async Task<Guid> CreateSite(
-            Guid accreditationExternalId,
+            Guid id,
             Site site)
         {
-            var externalId = await Post<Guid>($"{accreditationExternalId}/Site", site);
+            var externalId = await Post<Guid>($"{id}/Site", site);
             return externalId;
         }
     }

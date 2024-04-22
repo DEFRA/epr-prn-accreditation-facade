@@ -10,10 +10,11 @@ namespace EPR.Accreditation.Facade.Common.RESTservices.Interfaces
            Guid? overseasSiteId = null);
    
         Task UpdateSite(
-            Guid siteExternalId,
+            Guid id,
             DTO.Site site);
 
-        Task<Guid> CreateSite(Guid siteExternalId,
-                        DTO.Site site);
+        Task<Guid> CreateSite(
+            Guid id,
+            DTO.Site site);
     }
 }
