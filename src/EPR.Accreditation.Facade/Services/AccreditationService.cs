@@ -29,7 +29,7 @@ namespace EPR.Accreditation.Facade.Services
 
         public async Task<CheckAnswersDto> GetCheckAnswers(Guid accreditationExternalId, CheckAnswersSection section)
         {
-	         throw new NotImplementedException();
+            return await _httpAccreditationService.GetCheckAnswers(accreditationExternalId, section);
         }
 
         public async Task<OperatorType> GetOperatorType(Guid accreditationExternalId)
@@ -81,9 +81,9 @@ namespace EPR.Accreditation.Facade.Services
 
         public async Task<string> GetWasteMaterialName(
             SiteType siteType,
-            Guid accreditationExternalId, 
-            Guid? siteExternalId, 
-            Guid materialExternalId, 
+            Guid accreditationExternalId,
+            Guid? siteExternalId,
+            Guid materialExternalId,
             Language language)
         {
             var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
@@ -121,7 +121,7 @@ namespace EPR.Accreditation.Facade.Services
         }
 
         public async Task<ReprocessingSupportingInformationDto> GetReprocessorSupportingInformation(
-            Guid accreditationExternalId, 
+            Guid accreditationExternalId,
             Guid materialExternalId,
             ReprocessorSupportingInformationType reprocessorSupportingInformationType)
         {
@@ -149,8 +149,8 @@ namespace EPR.Accreditation.Facade.Services
         }
 
         public async Task UpdateReprocessorSupportingInformation(
-            Guid accreditationExternalId, 
-            Guid materialExternalId, 
+            Guid accreditationExternalId,
+            Guid materialExternalId,
             ReprocessingSupportingInformationDto nonWasteInputsDto,
             ReprocessorSupportingInformationType reprocessorSupportingInformationType)
         {
@@ -167,7 +167,7 @@ namespace EPR.Accreditation.Facade.Services
                     MaterialReprocessorDetails = new MaterialReprocessorDetails
                     {
                         ReprocessorSupportingInformation = _mapper.Map<List<ReprocessorSupportingInformation>>(
-                            nonWasteInputsDto.Records, 
+                            nonWasteInputsDto.Records,
                             context => context.Items["ReprocessorSupportingInformationType"] = reprocessorSupportingInformationType)
                     }
                 };
@@ -182,7 +182,7 @@ namespace EPR.Accreditation.Facade.Services
         }
 
         public async Task<MaterialOutputsDto> GetMaterialOutputs(
-            Guid accreditationExternalId, 
+            Guid accreditationExternalId,
             Guid materialExternalId)
         {
             var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
@@ -265,16 +265,16 @@ namespace EPR.Accreditation.Facade.Services
         {
             var accreditation = await _httpAccreditationService.GetAccreditation(accreditationExternalId);
 
-            return accreditation == null 
-                ? new HasOverseasAgentDto() 
-                : new HasOverseasAgentDto 
-                    { 
-                        HasOverseasAgent = accreditation.HasOverseasAgent
-                    };
+            return accreditation == null
+                ? new HasOverseasAgentDto()
+                : new HasOverseasAgentDto
+                {
+                    HasOverseasAgent = accreditation.HasOverseasAgent
+                };
         }
 
         public async Task SetHasOverseasAgent(
-            Guid accreditationExternalId, 
+            Guid accreditationExternalId,
             bool? hasOverseasAgent)
         {
             var accreditation = new Common.Dtos.Accreditation

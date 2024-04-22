@@ -1,5 +1,4 @@
 ﻿using EPR.Accreditation.Facade.Common.Dtos;
-using EPR.Accreditation.Facade.Common.Dtos.Portal;
 using EPR.Accreditation.Facade.Common.Enums;
 using DTO = EPR.Accreditation.Facade.Common.Dtos;
 
@@ -39,5 +38,9 @@ namespace EPR.Accreditation.Facade.Common.RESTservices.Interfaces
         Task<AccreditationMaterial> GetLastCalendarYearWaste(Guid accreditationExternalId, Guid accreditationMaterialExternalId);
 
         Task SetHasOverseasAgent(Guid accreditationExternalId, bool? hasOverseasAgent);
+
+        Task<CheckAnswersDto> GetCheckAnswers(
+            Guid accreditationExternalId,
+            CheckAnswersSection section);
     }
 }

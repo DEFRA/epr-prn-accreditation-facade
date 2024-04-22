@@ -1,5 +1,4 @@
 ﻿using EPR.Accreditation.Facade.Common.Dtos;
-using EPR.Accreditation.Facade.Common.Dtos.Portal;
 using EPR.Accreditation.Facade.Common.Enums;
 using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -81,7 +80,7 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
         }
 
         private string GetSiteName(
-            SiteType siteType, 
+            SiteType siteType,
             Guid? siteExternalId) => siteType == SiteType.Site ? "Site" : $"OverseasSite/{siteExternalId}";
         private string GetSiteName(SiteType siteType) => siteType == SiteType.Site ? "Site" : "OverseasSite";
 
@@ -92,7 +91,7 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
         }
 
         public async Task<AccreditationMaterial> GetLastCalendarYearWaste(
-            Guid accreditationExternalId, 
+            Guid accreditationExternalId,
             Guid accreditationMaterialExternalId)
         {
             return await Get<AccreditationMaterial>($"{accreditationExternalId}/Site/Material/{accreditationMaterialExternalId}");
@@ -113,6 +112,11 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
         public async Task SetHasOverseasAgent(Guid accreditationExternalId, bool? hasOverseasAgent)
         {
             await Put($"{accreditationExternalId}/HasOverseasAgent", hasOverseasAgent);
+        }
+
+        public async Task<CheckAnswersDto> GetCheckAnswers(Guid accreditationExternalId, CheckAnswersSection section)
+        {
+            return await Get<CheckAnswersDto>($"{accreditationExternalId}/CheckAnswers/{section}");
         }
     }
 }
