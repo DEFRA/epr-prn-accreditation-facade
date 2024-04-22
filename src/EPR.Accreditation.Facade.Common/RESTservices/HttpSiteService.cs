@@ -28,5 +28,13 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
         {
             await Put($"{id}/Site", site);
         }
+
+        public async Task<Guid> CreateSite(
+            Guid id,
+            Site site)
+        {
+            var externalId = await Post<Guid>($"{id}/Site", site);
+            return externalId;
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using DTO = EPR.Accreditation.Facade.Common.Dtos;
+﻿using EPR.Accreditation.Facade.Common.Dtos;
+using DTO = EPR.Accreditation.Facade.Common.Dtos;
 
 namespace EPR.Accreditation.Facade.Services.Interfaces
 {
@@ -11,5 +12,13 @@ namespace EPR.Accreditation.Facade.Services.Interfaces
         public Task UpdateExemptionReferences(
             Guid accreditationExternalId,
             IEnumerable<string> references);
+
+        public Task<Guid> CreateSite(
+            Guid accreditationExternalId,
+            DTO.Site site);
+
+        public Task UpdateSite(
+            Guid accreditationExternalId,
+            DTO.Site site);
     }
 }
