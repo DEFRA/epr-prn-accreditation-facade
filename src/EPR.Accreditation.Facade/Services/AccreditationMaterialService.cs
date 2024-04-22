@@ -125,16 +125,6 @@
             Guid materialId,
             IEnumerable<string> wasteDescriptionCodes)
         {
-            var overseasSite = await _httpSiteService.GetSite(
-                id,
-                siteId);
-
-            if ( overseasSite == null )
-            {
-                // overseas site not found, therefore this operation is invalid
-                throw new InvalidOperationException($"Overseas Site not found. Accreditation ID: {id}, Overseas Site ID: {siteId}");
-            }
-
             var material = new AccreditationMaterial
             {
                 WasteCodes = wasteDescriptionCodes
