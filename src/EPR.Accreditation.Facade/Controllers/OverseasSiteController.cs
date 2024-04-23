@@ -5,40 +5,38 @@ using Microsoft.AspNetCore.Mvc;
 namespace EPR.Accreditation.Facade.Controllers
 {
     [ApiController]
-    [Route("/api/Accreditation/{accreditationExternalId}/[controller]")]
+    [Route("/api/Accreditation/{accreditationExternalId}/OverseasSite/{overseasSiteExternalId}")]
     public class OverseasSiteController : ControllerBase
     {
-        protected readonly IAccreditationService _accreditationService;
+        protected readonly IOverseasSiteService _overseasSiteService;
 
-        public OverseasSiteController(
-            IAccreditationService accreditationService)
+        public OverseasSiteController(IOverseasSiteService overseasSiteService)
         {
-            _accreditationService = accreditationService ?? throw new ArgumentNullException(nameof(accreditationService));
+            _overseasSiteService = overseasSiteService ?? throw new ArgumentNullException(nameof(overseasSiteService));
         }
 
-        [HttpGet("{siteExternalId}/Outputs")]
-        [ProducesResponseType(typeof(OverseasReprocessingSiteOutputs), 200)]
-        public async Task<IActionResult> GetOverseasSiteOutputs(Guid accreditationExternalId, Guid siteExternalId)
+        [HttpGet("ReprocessorDetails")]
+        public async Task<IActionResult> GetReprocessorDetails(
+            Guid accreditationExternalId,
+            Guid overseasSiteExternalId)
         {
-            var dto = await _accreditationService.GetOverseasReprocessingSiteOutputs(accreditationExternalId,siteExternalId);
+            var reprocessorDetails = await _overseasSiteService.GetReprocessorDetails(
+                accreditationExternalId,
+                overseasSiteExternalId);
 
-            if (dto == null)
-                return NotFound();
-
-            return Ok(dto);
+            return Ok(reprocessorDetails);
         }
 
-        [HttpPut("Outputs")]
-        public async Task<IActionResult> UpdateSite(
-            Guid accreditationExternalId, 
-            [FromBody] OverseasReprocessingSiteOutputs overseasReprocessingSiteOutputs)
+        [HttpPut("ReprocessorDetails")]
+        public async Task<IActionResult> UpdateReprocessorDetails(
+            Guid accreditationExternalId,
+            Guid overseasSiteExternalId,
+            [FromBody] OverseasAddress reprocessorDetails)
         {
-            if (!overseasReprocessingSiteOutputs.ExternalId.HasValue)
-            {
-                return BadRequest("Missing over seas site id");
-            }
-
-            await _accreditationService.UpdateOverseasReprocessingSiteOutputs(accreditationExternalId, overseasReprocessingSiteOutputs);
+            await _overseasSiteService.UpdateReprocessorDetails(
+                accreditationExternalId,
+                overseasSiteExternalId,
+                reprocessorDetails);
 
             return Ok();
         }

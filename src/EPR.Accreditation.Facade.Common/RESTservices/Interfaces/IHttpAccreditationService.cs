@@ -1,4 +1,5 @@
 ﻿using EPR.Accreditation.Facade.Common.Dtos;
+using EPR.Accreditation.Facade.Common.Dtos.Portal;
 using EPR.Accreditation.Facade.Common.Enums;
 using DTO = EPR.Accreditation.Facade.Common.Dtos;
 
@@ -29,10 +30,12 @@ namespace EPR.Accreditation.Facade.Common.RESTservices.Interfaces
         Task UpdateAccreditation(
             Guid accreditationExternalId,
             DTO.Accreditation accreditation);
+
         Task<CheckYourAnswersDto> GetCheckYourAnswers(Guid accreditationExternalId);
 
         Task<List<Dtos.AccreditationTaskProgress>> GetTaskProgress(
             Guid accreditationExternalId);
+
         Task<AccreditationMaterial> GetLastCalendarYearWaste(Guid accreditationExternalId, Guid accreditationMaterialExternalId);
 
         Task<OverseasReprocessingSite> GetOverseasReprocessingSite(
@@ -41,5 +44,7 @@ namespace EPR.Accreditation.Facade.Common.RESTservices.Interfaces
         Task UpdateOverseasReprocessingSite(
             Guid accreditationExternalId,
             OverseasReprocessingSite overseasSite);
+
+        Task SetHasOverseasAgent(Guid accreditationExternalId, bool? hasOverseasAgent);
     }
 }

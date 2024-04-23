@@ -121,5 +121,24 @@ namespace EPR.Accreditation.Facade.Controllers
 
             return Ok(materialReprocessorDetails);
         }
+
+        [HttpGet("HasOverseasAgent")]
+        public async Task<IActionResult> GetHasOverseasAgent(
+            Guid accreditationExternalId)
+        {
+            var hasOverseasAgent = await _accreditationService.GetHasOverseasAgent(accreditationExternalId);
+
+            return Ok(hasOverseasAgent);
+        }
+
+        [HttpPut("HasOverseasAgent")]
+        public async Task<IActionResult> SetHasOverseasAgent(
+            Guid accreditationExternalId,
+            [FromBody] bool? hasOverseasAgent)
+        {
+            await _accreditationService.SetHasOverseasAgent(accreditationExternalId, hasOverseasAgent);
+
+            return Ok();
+        }
     }
 }

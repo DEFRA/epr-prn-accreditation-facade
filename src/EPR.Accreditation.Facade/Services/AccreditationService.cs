@@ -285,5 +285,29 @@ namespace EPR.Accreditation.Facade.Services
             await _httpAccreditationService.UpdateOverseasReprocessingSite(accreditationExternalId, overseasSite);
 
         }
+
+        public async Task<HasOverseasAgentDto> GetHasOverseasAgent(Guid accreditationExternalId)
+        {
+            var accreditation = await _httpAccreditationService.GetAccreditation(accreditationExternalId);
+
+            return accreditation == null 
+                ? new HasOverseasAgentDto() 
+                : new HasOverseasAgentDto 
+                    { 
+                        HasOverseasAgent = accreditation.HasOverseasAgent
+                    };
+        }
+
+        public async Task SetHasOverseasAgent(
+            Guid accreditationExternalId, 
+            bool? hasOverseasAgent)
+        {
+            var accreditation = new Common.Dtos.Accreditation
+            {
+                HasOverseasAgent = hasOverseasAgent,
+            };
+
+            await _httpAccreditationService.UpdateAccreditation(accreditationExternalId, accreditation);
+        }
     }
 }
