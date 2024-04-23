@@ -223,7 +223,13 @@ namespace EPR.Accreditation.Facade.Services
                 null,
                 materialExternalId);
 
-            return siteMaterial == null ? new MaterialWasteOutputsDto() : _mapper.Map<MaterialWasteOutputsDto>(siteMaterial);
+            if (siteMaterial == null) 
+                return new MaterialWasteOutputsDto();
+
+            return new MaterialWasteOutputsDto
+            {
+                WasteLastYear = siteMaterial.WasteLastYear,
+            };
         }
 
         public async Task UpdateMaterialWasteOutputs(

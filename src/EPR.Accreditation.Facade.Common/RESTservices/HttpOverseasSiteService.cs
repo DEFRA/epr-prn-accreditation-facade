@@ -15,17 +15,18 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
         }
 
         public async Task<OverseasReprocessingSite> GetOverseasReprocessingSite(
-            Guid accreditationExternalId,
-            Guid overseasSiteExternalId)
+            Guid id,
+            Guid overseasSiteId)
         {
-            return await Get<OverseasReprocessingSite>($"{accreditationExternalId}/OverseasSite/{overseasSiteExternalId}");
+            return await Get<OverseasReprocessingSite>($"{id}/OverseasSite/{overseasSiteId}");
         }
 
         public async Task UpdateOverseasReprocessingSite(
-            Guid accreditationExternalId,
+            Guid id,
+            Guid overseasSiteId,
             OverseasReprocessingSite overseasReprocessingSite)
         {
-            await Put($"{accreditationExternalId}/OverseasSite", overseasReprocessingSite);
+            await Put($"{id}/OverseasSite/{overseasSiteId}", overseasReprocessingSite);
         }
     }
 }

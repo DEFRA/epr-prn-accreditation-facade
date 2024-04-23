@@ -2,18 +2,22 @@
 using EPR.Accreditation.Facade.Services.Interfaces;
 using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
 using EPR.Accreditation.Facade.Common.Dtos.Portal;
+using AutoMapper;
 
 namespace EPR.Accreditation.Facade.Services
 {
     public class OverseasSiteService : IOverseasSiteService
     {
+        protected readonly IMapper _mapper;
         protected readonly IHttpOverseasSiteService _httpOverseasSiteService;
         protected readonly IHttpCountryService _httpCountryService;
 
         public OverseasSiteService(
+            IMapper mapper,
             IHttpOverseasSiteService httpOverseasSiteService,
             IHttpCountryService httpCountryService)
         {
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _httpOverseasSiteService = httpOverseasSiteService ?? throw new ArgumentNullException(nameof(httpOverseasSiteService));
             _httpCountryService = httpCountryService ?? throw new ArgumentNullException(nameof(httpCountryService));
         }
@@ -33,36 +37,35 @@ namespace EPR.Accreditation.Facade.Services
             var overseasSite = overseasSiteTask.Result;
             var countries = countriesTask.Result;
 
-            if (overseasSite.OverseasAddress == null
-                || !countries.Any())
+            if (!countries.Any())
             {
-                return null;
+                throw new ArgumentException("Empty countries list. Cannot continue");
             }
 
             var reprocessorDetails = new ReprocessorDetailsDto
             {
-                Name = overseasSite.OverseasAddress.Name,
-                CountryId = overseasSite.OverseasAddress.CountryId,
+                Name = overseasSite.OverseasAddress?.Name,
+                CountryId = overseasSite.OverseasAddress?.CountryId,
                 CountryList = countries,
-                Address = overseasSite.OverseasAddress.Address
+                Address = overseasSite.OverseasAddress?.Address
             };
 
             return reprocessorDetails;
         }
 
         public async Task UpdateReprocessorDetails(
-            Guid accreditationExternalId,
-            Guid overseasSiteExternalId,
-            OverseasAddress reprocessorDetails)
+            Guid id,
+            Guid overseasSiteId,
+            ReprocessorDetailsDto reprocessorDetails)
         {
             var overseasSite = new OverseasReprocessingSite
             {
-                ExternalId = overseasSiteExternalId,
-                OverseasAddress = reprocessorDetails
+                OverseasAddress = _mapper.Map<OverseasAddress>(reprocessorDetails)
             };
 
             await _httpOverseasSiteService.UpdateOverseasReprocessingSite(
-                accreditationExternalId,
+                id,
+                overseasSiteId,
                 overseasSite);
         }
     }

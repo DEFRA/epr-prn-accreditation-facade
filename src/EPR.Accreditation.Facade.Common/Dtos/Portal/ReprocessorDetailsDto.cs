@@ -5,13 +5,10 @@ namespace EPR.Accreditation.Facade.Common.Dtos.Portal
 {
     public class ReprocessorDetailsDto
     {
-        public int Id { get; set; }
-
         [MaxLength(100)]
         public string Name { get; set; }
 
-        [ForeignKey("Country")]
-        public int CountryId { get; set; }
+        public int? CountryId { get; set; }
 
         [MaxLength(500)]
         public string Address { get; set; }
