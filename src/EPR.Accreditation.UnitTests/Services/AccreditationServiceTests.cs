@@ -62,34 +62,6 @@ namespace EPR.Accreditation.UnitTests.Services
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception))]
-        public async Task GetOverseasReprocessingSiteOutputs_ThrowsException_WithInValidIds()
-        {
-            // Arrange
-            var accreditationExternalId = Guid.NewGuid();
-            var siteExternalId = Guid.NewGuid();
-            var expectedOutputs = "Test output";
-            OverseasReprocessingSite overseasReprocessingSite = null;
-
-            _mockHttpAccreditationService.Setup(s =>
-                s.GetOverseasReprocessingSite(
-                    accreditationExternalId,
-                    siteExternalId))
-                .ReturnsAsync(overseasReprocessingSite);
-
-            // Act
-            var result = await accreditationService.GetOverseasReprocessingSiteOutputs(
-                accreditationExternalId,
-                siteExternalId);
-
-            // Assert
-            _mockHttpAccreditationService.Verify(s =>
-                s.GetOverseasReprocessingSite(
-                    accreditationExternalId,
-                    siteExternalId), Times.Once());
-        }
-
-        [TestMethod]
         public async Task UpdateOverseasReprocessingSiteOutputs_CallsUpdateOverseasReprocessingSite()
         {
             // Arrange
@@ -100,45 +72,6 @@ namespace EPR.Accreditation.UnitTests.Services
             var overseasReprocessingSiteOutputs = new OverseasReprocessingSiteOutputs { 
                 ExternalId = siteExternalId, 
                 Outputs = expectedOutputs };
-
-            _mockHttpAccreditationService.Setup(s =>
-                s.GetOverseasReprocessingSite(
-                    accreditationExternalId,
-                    siteExternalId))
-                .ReturnsAsync(overseasReprocessingSite);
-
-            _mockHttpAccreditationService.Setup(s =>
-                s.UpdateOverseasReprocessingSite(
-                    accreditationExternalId,
-                    It.IsAny<OverseasReprocessingSite>()))
-                .Returns(Task.CompletedTask);
-
-            // Act
-            await accreditationService.UpdateOverseasReprocessingSiteOutputs(
-                accreditationExternalId,
-                overseasReprocessingSiteOutputs);
-
-            // Assert
-            _mockHttpAccreditationService.Verify(s =>
-                s.UpdateOverseasReprocessingSite(
-                    It.IsAny<Guid>(),
-                    It.IsAny<OverseasReprocessingSite>()), Times.Once);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(Exception))]
-        public async Task UpdateOverseasReprocessingSiteOutputs_ThrowsException_WithInValidIds()
-        {
-            // Arrange
-            var accreditationExternalId = Guid.NewGuid();
-            var siteExternalId = Guid.NewGuid();
-            var expectedOutputs = "Test output";
-            OverseasReprocessingSite overseasReprocessingSite = null;
-            var overseasReprocessingSiteOutputs = new OverseasReprocessingSiteOutputs
-            {
-                ExternalId = siteExternalId,
-                Outputs = expectedOutputs
-            };
 
             _mockHttpAccreditationService.Setup(s =>
                 s.GetOverseasReprocessingSite(
