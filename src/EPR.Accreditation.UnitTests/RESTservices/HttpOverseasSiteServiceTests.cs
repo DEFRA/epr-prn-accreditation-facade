@@ -88,9 +88,9 @@
         {
             // Arrange
             var id = Guid.NewGuid();
+            var siteId = Guid.NewGuid();
             var overseasSiteDto = new OverseasReprocessingSite
             {
-                ExternalId = Guid.NewGuid(),
                 Id = 1,
                 AccreditationId = 123,
                 OverseasAddressId = 456,
@@ -102,10 +102,13 @@
                 OverseasAddress = new OverseasAddress()
             };
 
-            var expectedUrl = $"{_baseUrl}/{_endpointName}/{id}/OverseasSite";
+            var expectedUrl = $"{_baseUrl}/{_endpointName}/{id}/OverseasSite/{siteId}";
 
             // Act
-            await _httpOverseasSiteService.UpdateOverseasReprocessingSite(id, overseasSiteDto);
+            await _httpOverseasSiteService.UpdateOverseasReprocessingSite(
+                id,
+                siteId,
+                overseasSiteDto);
 
             // Assert
             var capturedPayload = JsonConvert.DeserializeObject<OverseasReprocessingSite>(_capturedPayload);

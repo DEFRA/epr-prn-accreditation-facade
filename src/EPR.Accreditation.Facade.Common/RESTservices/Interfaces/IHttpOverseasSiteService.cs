@@ -5,11 +5,12 @@ namespace EPR.Accreditation.Facade.Common.RESTservices.Interfaces
     public interface IHttpOverseasSiteService
     {
         Task<OverseasReprocessingSite> GetOverseasReprocessingSite(
-            Guid accreditationExternalId,
-            Guid overseasSiteExternalId);
+            Guid id,
+            Guid overseasSiteId);
 
         Task UpdateOverseasReprocessingSite(
-            Guid accreditationExternalId,
+            Guid id,
+            Guid overseasSiteId,
             OverseasReprocessingSite overseasReprocessingSite);
     }
 }
