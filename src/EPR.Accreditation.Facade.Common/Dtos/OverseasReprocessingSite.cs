@@ -4,8 +4,6 @@ namespace EPR.Accreditation.Facade.Common.Dtos
 {
     public class OverseasReprocessingSite
     {
-        public Guid? ExternalId { get; set; } // This has a unique key added via the dbcontext
-
         public int Id { get; set; }
 
         public int AccreditationId { get; set; }

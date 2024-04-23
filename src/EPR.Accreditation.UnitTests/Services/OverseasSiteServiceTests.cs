@@ -1,6 +1,8 @@
 ﻿namespace EPR.Accreditation.UnitTests.Services
 {
+    using AutoMapper;
     using EPR.Accreditation.Facade.Common.Dtos;
+    using EPR.Accreditation.Facade.Common.Dtos.Portal;
     using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
     using EPR.Accreditation.Facade.Services;
     using Moq;
@@ -11,14 +13,17 @@
         private OverseasSiteService _overseasSiteService;
         private Mock<IHttpOverseasSiteService> _mockHttpOverseasSiteService;
         private Mock<IHttpCountryService> _mockHttpCountryService;
+        private Mock<IMapper> _mockMapper;
 
         [TestInitialize]
         public void Init()
         {
+            _mockMapper = new Mock<IMapper>();
             _mockHttpOverseasSiteService = new Mock<IHttpOverseasSiteService>();
             _mockHttpCountryService = new Mock<IHttpCountryService>();
 
             _overseasSiteService = new OverseasSiteService(
+                _mockMapper.Object,
                 _mockHttpOverseasSiteService.Object,
                 _mockHttpCountryService.Object);
         }
@@ -76,33 +81,7 @@
         }
 
         [TestMethod]
-        public async Task GetReprocessorDetails_WithNullOverseasAddress_ReturnsNull()
-        {
-            // Arrange
-            var accreditationExternalId = Guid.NewGuid();
-            var overseasSiteExternalId = Guid.NewGuid();
-            var overseasSite = new OverseasReprocessingSite();
-
-            _mockHttpOverseasSiteService.Setup(s =>
-                s.GetOverseasReprocessingSite(
-                    accreditationExternalId,
-                    overseasSiteExternalId))
-                .ReturnsAsync(overseasSite);
-
-            // Act
-            var result = await _overseasSiteService.GetReprocessorDetails(accreditationExternalId, overseasSiteExternalId);
-
-            // Assert
-            Assert.IsNull(result);
-
-            _mockHttpOverseasSiteService.Verify(s =>
-                s.GetOverseasReprocessingSite(
-                    accreditationExternalId,
-                    overseasSiteExternalId),
-                    Times.Once);
-        }
-
-        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public async Task GetReprocessorDetails_ReturnsNull_WhenCountryListIsEmpty()
         {
             // Arrange
@@ -133,15 +112,6 @@
             var result = await _overseasSiteService.GetReprocessorDetails(accreditationExternalId, overseasSiteExternalId);
 
             // Assert
-            Assert.IsNull(result);
-
-            _mockHttpOverseasSiteService.Verify(s =>
-                s.GetOverseasReprocessingSite(
-                    accreditationExternalId,
-                    overseasSiteExternalId),
-                    Times.Once);
-
-            _mockHttpCountryService.Verify(s => s.GetCountryList(), Times.Once);
         }
 
         [TestMethod]
@@ -150,7 +120,7 @@
             // Arrange
             var accreditationExternalId = Guid.NewGuid();
             var overseasSiteExternalId = Guid.NewGuid();
-            var reprocessorDetails = new OverseasAddress();
+            var reprocessorDetails = new ReprocessorDetailsDto();
 
             // Act
             await _overseasSiteService.UpdateReprocessorDetails(
@@ -162,6 +132,7 @@
             _mockHttpOverseasSiteService.Verify(s =>
                 s.UpdateOverseasReprocessingSite(
                     accreditationExternalId,
+                    overseasSiteExternalId,
                     It.IsAny<OverseasReprocessingSite>()),
                     Times.Once);
         }

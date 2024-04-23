@@ -58,7 +58,7 @@
             // Arrange
             var accreditationExternalId = Guid.NewGuid();
             var overseasSiteExternalId = Guid.NewGuid();
-            var reprocessorDetails = new OverseasAddress();
+            var reprocessorDetails = new ReprocessorDetailsDto();
 
             // Act
             var result = await _overseasSiteController.UpdateReprocessorDetails(
