@@ -70,7 +70,6 @@ namespace EPR.Accreditation.UnitTests.Services
             var expectedOutputs = "Test output";
             var overseasReprocessingSite = new OverseasReprocessingSite { Outputs = expectedOutputs };
             var overseasReprocessingSiteOutputs = new OverseasReprocessingSiteOutputs { 
-                ExternalId = siteExternalId, 
                 Outputs = expectedOutputs };
 
             _mockHttpAccreditationService.Setup(s =>
@@ -88,6 +87,7 @@ namespace EPR.Accreditation.UnitTests.Services
             // Act
             await accreditationService.UpdateOverseasReprocessingSiteOutputs(
                 accreditationExternalId,
+                siteExternalId,
                 overseasReprocessingSiteOutputs);
 
             // Assert

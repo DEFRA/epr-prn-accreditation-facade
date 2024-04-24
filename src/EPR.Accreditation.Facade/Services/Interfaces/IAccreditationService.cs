@@ -75,6 +75,7 @@ namespace EPR.Accreditation.Facade.Services.Interfaces
             Guid overseasSiteExternalId);
         Task UpdateOverseasReprocessingSiteOutputs(
             Guid accreditationExternalId,
+            Guid overseasSiteExternalId,
             OverseasReprocessingSiteOutputs overseasSiteOutputs);
 
         Task<HasOverseasAgentDto> GetHasOverseasAgent(Guid accreditationExternalId);

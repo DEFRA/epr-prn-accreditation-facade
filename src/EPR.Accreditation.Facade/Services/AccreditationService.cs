@@ -266,10 +266,12 @@ namespace EPR.Accreditation.Facade.Services
 
         public async Task UpdateOverseasReprocessingSiteOutputs(
             Guid accreditationExternalId,
+            Guid overseasSiteExternalId,
             OverseasReprocessingSiteOutputs overseasSiteOutputs)
         {
-            var overseasSite = await _httpAccreditationService.GetOverseasReprocessingSite(accreditationExternalId, overseasSiteOutputs.ExternalId.Value);
-            overseasSite.Outputs = overseasSiteOutputs.Outputs;
+            var overseasSite = new OverseasReprocessingSite { 
+                ExternalId = overseasSiteExternalId, 
+                Outputs = overseasSiteOutputs.Outputs };
             await _httpAccreditationService.UpdateOverseasReprocessingSite(accreditationExternalId, overseasSite);
         }
 
