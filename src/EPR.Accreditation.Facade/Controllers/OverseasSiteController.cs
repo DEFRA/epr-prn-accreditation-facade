@@ -1,4 +1,5 @@
 ﻿using EPR.Accreditation.Facade.Common.Dtos;
+using EPR.Accreditation.Facade.Common.Dtos.Portal;
 using EPR.Accreditation.Facade.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,7 +36,7 @@ namespace EPR.Accreditation.Facade.Controllers
         public async Task<IActionResult> UpdateReprocessorDetails(
             Guid accreditationExternalId,
             Guid overseasSiteExternalId,
-            [FromBody] OverseasAddress reprocessorDetails)
+            [FromBody] ReprocessorDetailsDto reprocessorDetails)
         {
             await _overseasSiteService.UpdateReprocessorDetails(
                 accreditationExternalId,

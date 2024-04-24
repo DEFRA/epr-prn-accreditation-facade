@@ -140,5 +140,27 @@ namespace EPR.Accreditation.Facade.Controllers
 
             return Ok();
         }
+
+        [HttpPost("Site")]
+        [ProducesResponseType(typeof(Guid), 200)]
+        public async Task<IActionResult> CreateSite(
+            Guid accreditationExternalId,
+            [FromBody]
+            Common.Dtos.Site site)
+        {
+            var externalId = await _siteService.CreateSite(accreditationExternalId, site);
+
+            return Ok(externalId);
+        }
+
+        [HttpPut("Site")]
+        public async Task<IActionResult> UpdateSite(
+            Guid accreditationExternalId,
+            [FromBody] Common.Dtos.Site site)
+        {
+            await _siteService.UpdateSite(accreditationExternalId, site);
+
+            return Ok();
+        }
     }
 }
