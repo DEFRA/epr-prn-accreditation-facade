@@ -304,5 +304,20 @@ namespace EPR.Accreditation.Facade.Services
 
             await _httpAccreditationService.UpdateAccreditation(accreditationExternalId, accreditation);
         }
+
+        public async Task<PrnTonnesPlannedDto> GetPrnTonnesPlanned(Guid accreditationExternalId)
+        {
+            var accreditation = await _httpAccreditationService.GetAccreditation(accreditationExternalId);
+            var dto = _mapper.Map<PrnTonnesPlannedDto>(accreditation);
+            dto.PrnPlannedTonnesType = accreditation.Large == null ? null : accreditation.Large.Value ? PrnPlannedTonnesType.Over : PrnPlannedTonnesType.Upto;
+            return dto;
+        }
+
+        public async Task UpdatePrnTonnesPlanned(Guid accreditationExternalId, PrnTonnesPlannedDto prnTonnesPlannedDto)
+        {
+            var accreditation = new Common.Dtos.Accreditation { LargeFee = prnTonnesPlannedDto.PrnPlannedTonnesFee };
+            accreditation.Large = prnTonnesPlannedDto.PrnPlannedTonnesType == PrnPlannedTonnesType.Upto ? false : true;
+            await _httpAccreditationService.UpdateAccreditation(accreditationExternalId, accreditation);
+        }
     }
 }

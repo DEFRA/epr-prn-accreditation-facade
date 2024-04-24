@@ -3,6 +3,7 @@
     using AutoMapper;
     using EPR.Accreditation.Facade.Common.Dtos;
     using EPR.Accreditation.Facade.Common.Dtos.Portal;
+    using EPR.Accreditation.Facade.Common.Enums;
 
     public class AccreditationProfile : Profile
     {
@@ -38,6 +39,9 @@
             CreateMap<OverseasReprocessingSite, OverseasReprocessingSiteOutputs>();
 
             CreateMap<ReprocessorDetailsDto, OverseasAddress>();
+
+            CreateMap<Accreditation, PrnTonnesPlannedDto>()
+                .ForMember(d => d.PrnPlannedTonnesFee, o => o.MapFrom(s => s.LargeFee));
         }
     }
 }

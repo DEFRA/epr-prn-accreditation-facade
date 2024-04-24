@@ -162,5 +162,25 @@ namespace EPR.Accreditation.Facade.Controllers
 
             return Ok();
         }
+
+        [HttpPost("PrnTonnesPlanned")]
+        [ProducesResponseType(typeof(Guid), 200)]
+        public async Task<IActionResult> GetPrnTonnesPlanned(
+            Guid accreditationExternalId)
+        {
+            var externalId = await _accreditationService.GetPrnTonnesPlanned(accreditationExternalId);
+
+            return Ok(externalId);
+        }
+
+        [HttpPut("PrnTonnesPlanned")]
+        public async Task<IActionResult> UpdatePrnTonnesPlanned(
+            Guid accreditationExternalId,
+            [FromBody] PrnTonnesPlannedDto prnTonnesPlannedDto)
+        {
+            await _accreditationService.UpdatePrnTonnesPlanned(accreditationExternalId, prnTonnesPlannedDto);
+
+            return Ok();
+        }
     }
 }
