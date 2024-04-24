@@ -35,6 +35,8 @@
                     d => d.ReprocessorSupportingInformationTypeId, 
                     opt => opt.MapFrom((src, dest, destMember, context) => context.Items["ReprocessorSupportingInformationType"]));
 
+            CreateMap<OverseasReprocessingSite, OverseasReprocessingSiteOutputs>();
+
             CreateMap<ReprocessorDetailsDto, OverseasAddress>();
         }
     }

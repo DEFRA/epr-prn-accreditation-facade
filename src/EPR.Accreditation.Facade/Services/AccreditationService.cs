@@ -207,7 +207,6 @@ namespace EPR.Accreditation.Facade.Services
                 siteMaterial);
         }
 
-
         public async Task<MaterialWasteOutputsDto> GetMaterialWasteOutputs(
             Guid accreditationExternalId,
             Guid materialExternalId)
@@ -260,6 +259,26 @@ namespace EPR.Accreditation.Facade.Services
                 accreditationExternalId);
 
             return taskProgress;
+        }
+
+        public async Task<OverseasReprocessingSiteOutputs> GetOverseasReprocessingSiteOutputs(
+            Guid accreditationExternalId,
+            Guid overseasSiteExternalId)
+        {
+            var overseasSite = await _httpAccreditationService.GetOverseasReprocessingSite(accreditationExternalId, overseasSiteExternalId);
+            var overseasSiteOutputs = _mapper.Map<OverseasReprocessingSiteOutputs>(overseasSite);
+            return overseasSiteOutputs;
+        }
+
+        public async Task UpdateOverseasReprocessingSiteOutputs(
+            Guid accreditationExternalId,
+            Guid overseasSiteExternalId,
+            OverseasReprocessingSiteOutputs overseasSiteOutputs)
+        {
+            var overseasSite = new OverseasReprocessingSite { 
+                ExternalId = overseasSiteExternalId, 
+                Outputs = overseasSiteOutputs.Outputs };
+            await _httpAccreditationService.UpdateOverseasReprocessingSite(accreditationExternalId, overseasSite);
         }
 
         public async Task<HasOverseasAgentDto> GetHasOverseasAgent(Guid accreditationExternalId)

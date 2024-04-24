@@ -38,6 +38,14 @@ namespace EPR.Accreditation.Facade.Common.RESTservices.Interfaces
 
         Task<AccreditationMaterial> GetLastCalendarYearWaste(Guid accreditationExternalId, Guid accreditationMaterialExternalId);
 
+        Task<OverseasReprocessingSite> GetOverseasReprocessingSite(
+            Guid accreditationExternalId,
+            Guid overseasSiteExternalId);
+
+        Task UpdateOverseasReprocessingSite(
+            Guid accreditationExternalId,
+            OverseasReprocessingSite overseasSite);
+
         Task SetHasOverseasAgent(Guid accreditationExternalId, bool? hasOverseasAgent);
     }
 }
