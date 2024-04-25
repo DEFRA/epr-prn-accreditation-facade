@@ -152,6 +152,11 @@
                 null,
                 materialExternalId);
 
+            if (accreditationMaterial == null)
+            {
+                return null;
+            }
+
             return accreditationMaterial.HasNpwdAccreditationNumber;
         }
 
