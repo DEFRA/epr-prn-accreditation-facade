@@ -223,12 +223,12 @@ namespace EPR.Accreditation.Facade.Controllers
         public async Task<IActionResult> UpdateHasNpwdAccreditationNumber(
             Guid accreditationExternalId,
             Guid materialExternalId,
-            [FromBody] bool hasNpwdAccreditationNumber)
+            [FromBody] NpwdAccreditationNumber npwdAccreditationNumber)
         {
             await _accreditationMaterialService.UpdateHasNpwdAccreditationNumber(
                 accreditationExternalId,
                 materialExternalId,
-                hasNpwdAccreditationNumber);
+                npwdAccreditationNumber);
 
             return Ok();
         }

@@ -152,24 +152,17 @@
                 null,
                 materialExternalId);
 
-            if (accreditationMaterial != null)
-            {
-                return accreditationMaterial.HasNpwdAccreditationNumber;
-            }
-            else
-            {
-                return null;
-            }
+            return accreditationMaterial.HasNpwdAccreditationNumber;
         }
 
         public async Task UpdateHasNpwdAccreditationNumber(
             Guid accreditationExternalId,
             Guid materialExternalId,
-            bool hasNpwdAccreditationNumber)
+            NpwdAccreditationNumber npwdAccreditationNumber)
         {
             var accreditationMaterial = new Common.Dtos.AccreditationMaterial
             {
-                HasNpwdAccreditationNumber = hasNpwdAccreditationNumber
+                HasNpwdAccreditationNumber = npwdAccreditationNumber.Has2024NPWDAccreditation
             };
 
             await _httpAccreditationService.UpdateAccreditationMaterial(
