@@ -76,9 +76,9 @@ namespace EPR.Accreditation.Facade.Services
 
         public async Task<string> GetWasteMaterialName(
             SiteType siteType,
-            Guid accreditationExternalId, 
-            Guid? siteExternalId, 
-            Guid materialExternalId, 
+            Guid accreditationExternalId,
+            Guid? siteExternalId,
+            Guid materialExternalId,
             Language language)
         {
             var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
@@ -116,7 +116,7 @@ namespace EPR.Accreditation.Facade.Services
         }
 
         public async Task<ReprocessingSupportingInformationDto> GetReprocessorSupportingInformation(
-            Guid accreditationExternalId, 
+            Guid accreditationExternalId,
             Guid materialExternalId,
             ReprocessorSupportingInformationType reprocessorSupportingInformationType)
         {
@@ -144,8 +144,8 @@ namespace EPR.Accreditation.Facade.Services
         }
 
         public async Task UpdateReprocessorSupportingInformation(
-            Guid accreditationExternalId, 
-            Guid materialExternalId, 
+            Guid accreditationExternalId,
+            Guid materialExternalId,
             ReprocessingSupportingInformationDto nonWasteInputsDto,
             ReprocessorSupportingInformationType reprocessorSupportingInformationType)
         {
@@ -162,7 +162,7 @@ namespace EPR.Accreditation.Facade.Services
                     MaterialReprocessorDetails = new MaterialReprocessorDetails
                     {
                         ReprocessorSupportingInformation = _mapper.Map<List<ReprocessorSupportingInformation>>(
-                            nonWasteInputsDto.Records, 
+                            nonWasteInputsDto.Records,
                             context => context.Items["ReprocessorSupportingInformationType"] = reprocessorSupportingInformationType)
                     }
                 };
@@ -177,7 +177,7 @@ namespace EPR.Accreditation.Facade.Services
         }
 
         public async Task<MaterialOutputsDto> GetMaterialOutputs(
-            Guid accreditationExternalId, 
+            Guid accreditationExternalId,
             Guid materialExternalId)
         {
             var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
@@ -217,7 +217,7 @@ namespace EPR.Accreditation.Facade.Services
                 null,
                 materialExternalId);
 
-            if (siteMaterial == null) 
+            if (siteMaterial == null)
                 return new MaterialWasteOutputsDto();
 
             return new MaterialWasteOutputsDto
@@ -275,9 +275,11 @@ namespace EPR.Accreditation.Facade.Services
             Guid overseasSiteExternalId,
             OverseasReprocessingSiteOutputs overseasSiteOutputs)
         {
-            var overseasSite = new OverseasReprocessingSite { 
-                ExternalId = overseasSiteExternalId, 
-                Outputs = overseasSiteOutputs.Outputs };
+            var overseasSite = new OverseasReprocessingSite
+            {
+                ExternalId = overseasSiteExternalId,
+                Outputs = overseasSiteOutputs.Outputs
+            };
             await _httpAccreditationService.UpdateOverseasReprocessingSite(accreditationExternalId, overseasSite);
         }
 
@@ -285,16 +287,16 @@ namespace EPR.Accreditation.Facade.Services
         {
             var accreditation = await _httpAccreditationService.GetAccreditation(accreditationExternalId);
 
-            return accreditation == null 
-                ? new HasOverseasAgentDto() 
-                : new HasOverseasAgentDto 
-                    { 
-                        HasOverseasAgent = accreditation.HasOverseasAgent
-                    };
+            return accreditation == null
+                ? new HasOverseasAgentDto()
+                : new HasOverseasAgentDto
+                {
+                    HasOverseasAgent = accreditation.HasOverseasAgent
+                };
         }
 
         public async Task SetHasOverseasAgent(
-            Guid accreditationExternalId, 
+            Guid accreditationExternalId,
             bool? hasOverseasAgent)
         {
             var accreditation = new Common.Dtos.Accreditation
@@ -303,6 +305,35 @@ namespace EPR.Accreditation.Facade.Services
             };
 
             await _httpAccreditationService.UpdateAccreditation(accreditationExternalId, accreditation);
+        }
+
+        public async Task<bool?> GetHasNpwdAccreditationNumber(Guid accreditationExternalId)
+        {
+            var accreditation = await _httpAccreditationService.GetAccreditation(accreditationExternalId);
+
+            if (accreditation != null)
+            {
+                return accreditation.HasNpwdAccreditationNumber;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public async Task UpdateHasNpwdAccreditationNumber(
+            Guid accreditationExternalId,
+            bool hasNpwdAccreditationNumber)
+        {
+            var accreditation = new Common.Dtos.Accreditation
+            {
+                HasNpwdAccreditationNumber = hasNpwdAccreditationNumber
+            };
+
+            await _httpAccreditationService.UpdateAccreditation(
+                accreditationExternalId,
+                accreditation
+                );
         }
     }
 }
