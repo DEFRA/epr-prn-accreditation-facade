@@ -43,5 +43,14 @@ namespace EPR.Accreditation.Facade.Services.Interfaces
         public Task<MaterialReprocessorDetails> GetReprocessedWasteLastYearData(
             Guid accreditationExternalId,
             Guid materialExternalId);
+
+        Task<bool?> GetHasNpwdAccreditationNumber(
+            Guid accreditationExternalId,
+            Guid materialExternalId);
+
+        Task UpdateHasNpwdAccreditationNumber(
+            Guid accreditationExternalId,
+            Guid materialExternalId,
+            bool hasNpwdAccreditationNumber);
     }
 }

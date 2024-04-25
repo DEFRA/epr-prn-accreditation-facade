@@ -3,7 +3,6 @@
     using EPR.Accreditation.Facade.Common.Dtos;
     using EPR.Accreditation.Facade.Common.Dtos.Portal;
     using EPR.Accreditation.Facade.Common.Enums;
-    using EPR.Accreditation.Facade.Common.RESTservices;
     using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
     using EPR.Accreditation.Facade.Services.Interfaces;
 
@@ -37,7 +36,7 @@
         }
 
         public async Task<MaterialReprocessorDetails> GetReprocessedWasteLastYearData(
-            Guid accreditationExternalId, 
+            Guid accreditationExternalId,
             Guid materialExternalId)
         {
             var accreditationMaterial = await _httpAccreditationService.GetAccreditationMaterial(
@@ -141,6 +140,44 @@
                 siteId,
                 materialId,
                 material);
+        }
+
+        public async Task<bool?> GetHasNpwdAccreditationNumber(
+            Guid accreditationExternalId,
+            Guid materialExternalId)
+        {
+            var accreditationMaterial = await _httpAccreditationService.GetAccreditationMaterial(
+                SiteType.Site,
+                accreditationExternalId,
+                null,
+                materialExternalId);
+
+            if (accreditationMaterial != null)
+            {
+                return accreditationMaterial.HasNpwdAccreditationNumber;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public async Task UpdateHasNpwdAccreditationNumber(
+            Guid accreditationExternalId,
+            Guid materialExternalId,
+            bool hasNpwdAccreditationNumber)
+        {
+            var accreditationMaterial = new Common.Dtos.AccreditationMaterial
+            {
+                HasNpwdAccreditationNumber = hasNpwdAccreditationNumber
+            };
+
+            await _httpAccreditationService.UpdateAccreditationMaterial(
+                SiteType.Site,
+                accreditationExternalId,
+                null,
+                materialExternalId,
+                accreditationMaterial);
         }
     }
 }

@@ -162,25 +162,5 @@ namespace EPR.Accreditation.Facade.Controllers
 
             return Ok();
         }
-
-        [HttpGet("HasNpwdAccreditationNumber")]
-        public async Task<IActionResult> GetHasNpwdAccreditationNumber(Guid accreditationExternalId)
-        {
-            var hasNpwdAccreditationNumber = await _accreditationService.GetHasNpwdAccreditationNumber(accreditationExternalId);
-
-            return Ok(hasNpwdAccreditationNumber);
-        }
-
-        [HttpPut("HasNpwdAccreditationNumber")]
-        public async Task<IActionResult> UpdateHasNpwdAccreditationNumber(
-            Guid accreditationExternalId,
-            [FromBody] bool hasNpwdAccreditationNumber)
-        {
-            await _accreditationService.UpdateHasNpwdAccreditationNumber(
-                accreditationExternalId,
-                hasNpwdAccreditationNumber);
-
-            return Ok();
-        }
     }
 }

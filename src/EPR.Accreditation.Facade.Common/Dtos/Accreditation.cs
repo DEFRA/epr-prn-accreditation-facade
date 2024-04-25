@@ -34,7 +34,5 @@ namespace EPR.Accreditation.Facade.Common.Dtos
         public WastePermit WastePermit { get; set; }
 
         public bool? HasOverseasAgent { get; set; }
-
-        public bool? HasNpwdAccreditationNumber { get; set; }
     }
 }

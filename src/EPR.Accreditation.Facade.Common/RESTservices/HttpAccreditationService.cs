@@ -1,5 +1,4 @@
 ﻿using EPR.Accreditation.Facade.Common.Dtos;
-using EPR.Accreditation.Facade.Common.Dtos.Portal;
 using EPR.Accreditation.Facade.Common.Enums;
 using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -92,7 +91,7 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
         }
 
         public async Task<AccreditationMaterial> GetLastCalendarYearWaste(
-            Guid accreditationExternalId, 
+            Guid accreditationExternalId,
             Guid accreditationMaterialExternalId)
         {
             return await Get<AccreditationMaterial>($"{accreditationExternalId}/Site/Material/{accreditationMaterialExternalId}");
@@ -111,7 +110,7 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
         }
 
         public async Task<OverseasReprocessingSite> GetOverseasReprocessingSite(
-            Guid accreditationExternalId, 
+            Guid accreditationExternalId,
             Guid overseasSiteExternalId)
         {
             return await Get<OverseasReprocessingSite>($"{accreditationExternalId}/OverseasSite/{overseasSiteExternalId}");

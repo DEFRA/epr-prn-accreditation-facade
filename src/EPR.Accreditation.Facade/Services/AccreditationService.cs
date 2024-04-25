@@ -306,34 +306,5 @@ namespace EPR.Accreditation.Facade.Services
 
             await _httpAccreditationService.UpdateAccreditation(accreditationExternalId, accreditation);
         }
-
-        public async Task<bool?> GetHasNpwdAccreditationNumber(Guid accreditationExternalId)
-        {
-            var accreditation = await _httpAccreditationService.GetAccreditation(accreditationExternalId);
-
-            if (accreditation != null)
-            {
-                return accreditation.HasNpwdAccreditationNumber;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public async Task UpdateHasNpwdAccreditationNumber(
-            Guid accreditationExternalId,
-            bool hasNpwdAccreditationNumber)
-        {
-            var accreditation = new Common.Dtos.Accreditation
-            {
-                HasNpwdAccreditationNumber = hasNpwdAccreditationNumber
-            };
-
-            await _httpAccreditationService.UpdateAccreditation(
-                accreditationExternalId,
-                accreditation
-                );
-        }
     }
 }
