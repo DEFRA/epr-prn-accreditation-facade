@@ -3,10 +3,9 @@
     using EPR.Accreditation.Facade.Common.Dtos;
     using EPR.Accreditation.Facade.Common.Dtos.Portal;
     using EPR.Accreditation.Facade.Common.Enums;
-    using EPR.Accreditation.Facade.Common.RESTservices;
     using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
-    using EPR.Accreditation.Facade.Services.Interfaces;
 
+    using EPR.Accreditation.Facade.Services.Interfaces;
     public class AccreditationMaterialService : IAccreditationMaterialService
     {
         private readonly IHttpAccreditationService _httpAccreditationService;
@@ -21,13 +20,13 @@
         }
 
         public async Task<bool?> GetReprocessedWasteLastYear(
-            Guid accreditationExternalId,
-            Guid materialExternalId)
+            Guid id,
+            Guid materialId)
         {
             var accreditationMaterial = await _httpAccreditationService.GetAccreditationMaterial(
                 SiteType.Site,
-                accreditationExternalId,
-                materialExternalId);
+                id,
+                materialId);
 
             if (accreditationMaterial == null)
                 return null;
@@ -36,20 +35,20 @@
         }
 
         public async Task<MaterialReprocessorDetails> GetReprocessedWasteLastYearData(
-            Guid accreditationExternalId, 
-            Guid materialExternalId)
+            Guid id,
+            Guid materialId)
         {
             var accreditationMaterial = await _httpAccreditationService.GetAccreditationMaterial(
                 SiteType.Site,
-                accreditationExternalId,
-                materialExternalId);
+                id,
+                materialId);
 
             return accreditationMaterial.MaterialReprocessorDetails;
         }
 
         public async Task UpdateReprocessedWasteLastYear(
-            Guid accreditationExternalId,
-            Guid materialExternalId,
+            Guid id,
+            Guid materialId,
             ReprocessedWasteLastYear reprocessedWasteLastYear)
         {
             var accreditationMaterial = new Common.Dtos.AccreditationMaterial
@@ -59,8 +58,8 @@
 
             await _httpAccreditationService.UpdateAccreditationMaterial(
                 SiteType.Site,
-                accreditationExternalId,
-                materialExternalId,
+                id,
+                materialId,
                 accreditationMaterial);
         }
 
@@ -134,6 +133,40 @@
                 id,
                 materialId,
                 material);
+        }
+
+        public async Task<bool?> GetHasNpwdAccreditationNumber(
+            Guid id,
+            Guid materialId)
+        {
+            var accreditationMaterial = await _httpAccreditationService.GetAccreditationMaterial(
+                SiteType.Site,
+                id,
+                materialId);
+
+            if (accreditationMaterial == null)
+            {
+                return null;
+            }
+
+            return accreditationMaterial.HasNpwdAccreditationNumber;
+        }
+
+        public async Task UpdateHasNpwdAccreditationNumber(
+            Guid id,
+            Guid materialId,
+            NpwdAccreditationNumber npwdAccreditationNumber)
+        {
+            var accreditationMaterial = new Common.Dtos.AccreditationMaterial
+            {
+                HasNpwdAccreditationNumber = npwdAccreditationNumber.Has2024NPWDAccreditation
+            };
+
+            await _httpAccreditationService.UpdateAccreditationMaterial(
+                SiteType.Site,
+                id,
+                materialId,
+                accreditationMaterial);
         }
     }
 }

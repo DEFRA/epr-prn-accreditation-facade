@@ -202,7 +202,7 @@
             // Arrange
             var id = Guid.NewGuid();
             var materialId = Guid.NewGuid();
-            
+
             _mockHttpAccreditationService
                 .Setup(a =>
                     a.GetAccreditation(It.IsAny<Guid>()))
@@ -285,6 +285,106 @@
             Assert.IsTrue(listResult.Count == 2);
             Assert.IsTrue(listResult[0] == code1);
             Assert.IsTrue(listResult[1] == code2);
+        }
+
+        [TestMethod]
+        public async Task GetHasNpwdAccreditationNumber_ReturnsNull_WhenAccreditationMaterialIsNull()
+        {
+            // Arrange
+            var accreditationExternalId = Guid.NewGuid();
+            var materialExternalId = Guid.NewGuid();
+
+            _mockHttpAccreditationService.Setup(s =>
+                s.GetAccreditationMaterial(
+                    SiteType.Site,
+                    accreditationExternalId,
+                    materialExternalId))
+                .ReturnsAsync((AccreditationMaterial)null);
+
+            // Act
+            var result = await _accreditationMaterialService.GetHasNpwdAccreditationNumber(
+                accreditationExternalId,
+                materialExternalId);
+
+            // Assert
+            Assert.IsNull(result);
+
+            _mockHttpAccreditationService.Verify(s =>
+                s.GetAccreditationMaterial(
+                    SiteType.Site,
+                    accreditationExternalId,
+                    materialExternalId)
+                , Times.Once);
+        }
+
+        [TestMethod]
+        public async Task GetHasNpwdAccreditationNumber_ReturnsValueForTrue()
+        {
+            // Arrange
+            var accreditationExternalId = Guid.NewGuid();
+            var materialExternalId = Guid.NewGuid();
+            var hasNpwdAccreditationNumber = true;
+            var accreditationMaterial = new AccreditationMaterial
+            {
+                HasNpwdAccreditationNumber = hasNpwdAccreditationNumber
+            };
+
+            _mockHttpAccreditationService.Setup(s =>
+                s.GetAccreditationMaterial(
+                    SiteType.Site,
+                    accreditationExternalId,
+                    materialExternalId))
+                .ReturnsAsync(accreditationMaterial);
+
+            // Act
+            var result = await _accreditationMaterialService.GetHasNpwdAccreditationNumber(
+                accreditationExternalId,
+                materialExternalId);
+
+            // Assert
+            Assert.AreEqual(hasNpwdAccreditationNumber, result);
+
+            _mockHttpAccreditationService.Verify(s =>
+                s.GetAccreditationMaterial(
+                    SiteType.Site,
+                    accreditationExternalId,
+                    materialExternalId)
+                , Times.Once);
+        }
+
+        [TestMethod]
+        public async Task GetHasNpwdAccreditationNumber_ReturnsValueForFalse()
+        {
+            // Arrange
+            var accreditationExternalId = Guid.NewGuid();
+            var materialExternalId = Guid.NewGuid();
+            var hasNpwdAccreditationNumber = false;
+            var accreditationMaterial = new AccreditationMaterial
+            {
+                HasNpwdAccreditationNumber = hasNpwdAccreditationNumber
+            };
+
+            _mockHttpAccreditationService.Setup(s =>
+                s.GetAccreditationMaterial(
+                    SiteType.Site,
+                    accreditationExternalId,
+                    materialExternalId))
+                .ReturnsAsync(accreditationMaterial);
+
+            // Act
+            var result = await _accreditationMaterialService.GetHasNpwdAccreditationNumber(
+                accreditationExternalId,
+                materialExternalId);
+
+            // Assert
+            Assert.AreEqual(hasNpwdAccreditationNumber, result);
+
+            _mockHttpAccreditationService.Verify(s =>
+                s.GetAccreditationMaterial(
+                    SiteType.Site,
+                    accreditationExternalId,
+                    materialExternalId)
+                , Times.Once);
         }
     }
 }

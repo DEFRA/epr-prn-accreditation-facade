@@ -1,10 +1,10 @@
-﻿using EPR.Accreditation.Facade.Common.Dtos;
-using EPR.Accreditation.Facade.Common.Dtos.Portal;
-using EPR.Accreditation.Facade.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc;
-
-namespace EPR.Accreditation.Facade.Controllers
+﻿namespace EPR.Accreditation.Facade.Controllers
 {
+    using EPR.Accreditation.Facade.Common.Dtos;
+    using EPR.Accreditation.Facade.Common.Dtos.Portal;
+    using EPR.Accreditation.Facade.Services.Interfaces;
+    using Microsoft.AspNetCore.Mvc;
+
     [ApiController]
     [Route("/api/[controller]/{id}/")]
     public class AccreditationController : ControllerBase
@@ -116,7 +116,7 @@ namespace EPR.Accreditation.Facade.Controllers
             Guid accreditationMaterialExternalId)
         {
             MaterialReprocessorDetails materialReprocessorDetails = await _accreditationMaterialService.GetReprocessedWasteLastYearData(
-                id, 
+                id,
                 accreditationMaterialExternalId);
 
             return Ok(materialReprocessorDetails);
