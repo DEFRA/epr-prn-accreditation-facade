@@ -53,14 +53,14 @@ namespace EPR.Accreditation.Facade.Services.Interfaces
             Guid materialExternalId,
             MaterialOutputsDto materialOutputsDto);
 
-        Task<MaterialWasteOutputsDto> GetMaterialWasteOutputs(
+        Task<MaterialWasteInputsDto> GetMaterialWasteInputs(
             Guid accreditationExternalId,
             Guid materialExternalId);
 
-        Task UpdateMaterialWasteOutputs(
+        Task UpdateMaterialWasteInputs(
             Guid accreditationExternalId,
             Guid materialExternalId,
-            MaterialWasteOutputsDto materialWasteOutputsDto);
+            MaterialWasteInputsDto materialWasteInputsDto);
 
         Task<CheckYourAnswersDto> GetCheckYourAnswers(Guid accreditationExternalId);
 
