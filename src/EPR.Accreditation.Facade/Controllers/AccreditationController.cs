@@ -163,7 +163,7 @@ namespace EPR.Accreditation.Facade.Controllers
             return Ok();
         }
 
-        [HttpPost("PrnTonnesPlanned")]
+        [HttpGet("PrnTonnesPlanned")]
         [ProducesResponseType(typeof(Guid), 200)]
         public async Task<IActionResult> GetPrnTonnesPlanned(
             Guid accreditationExternalId)
