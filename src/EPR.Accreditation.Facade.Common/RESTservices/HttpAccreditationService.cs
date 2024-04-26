@@ -108,6 +108,18 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
             return address;
         }
 
+        public async Task<OverseasReprocessingSite> GetOverseasReprocessingSite(
+            Guid accreditationExternalId, 
+            Guid overseasSiteExternalId)
+        {
+            return await Get<OverseasReprocessingSite>($"{accreditationExternalId}/OverseasSite/{overseasSiteExternalId}");
+        }
+
+        public async Task UpdateOverseasReprocessingSite(Guid accreditationExternalId, OverseasReprocessingSite overseasSite)
+        {
+            await Put($"{accreditationExternalId}/OverseasSite", overseasSite);
+        }
+
         private string GetSiteName(
             SiteType siteType) => siteType == SiteType.Site ? "Material" : $"OverseasMaterial";
 

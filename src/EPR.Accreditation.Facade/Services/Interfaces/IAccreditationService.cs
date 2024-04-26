@@ -67,6 +67,14 @@ namespace EPR.Accreditation.Facade.Services.Interfaces
         Task<List<AccreditationTaskProgress>> GetTaskProgress(
             Guid accreditationExternalId);
 
+        Task<OverseasReprocessingSiteOutputs> GetOverseasReprocessingSiteOutputs(
+            Guid accreditationExternalId,
+            Guid overseasSiteExternalId);
+        Task UpdateOverseasReprocessingSiteOutputs(
+            Guid accreditationExternalId,
+            Guid overseasSiteExternalId,
+            OverseasReprocessingSiteOutputs overseasSiteOutputs);
+
         Task<HasOverseasAgentDto> GetHasOverseasAgent(Guid accreditationExternalId);
 
         Task SetHasOverseasAgent(Guid accreditationExternalId, bool? hasOverseasAgent);
