@@ -12,7 +12,7 @@
         protected Mock<IWastePermitService> _mockWastePermitService;
         protected Mock<IAccreditationMaterialService> _mockAccreditationMaterialService;
 
-        private AccreditationOverseasSiteMaterialController _controller;
+        private AccreditationOverseasMaterialController _controller;
 
         [TestInitialize]
         public void Init()
@@ -21,7 +21,7 @@
             _mockWastePermitService = new Mock<IWastePermitService>();
             _mockAccreditationMaterialService = new Mock<IAccreditationMaterialService>();
 
-        _controller = new AccreditationOverseasSiteMaterialController(
+        _controller = new AccreditationOverseasMaterialController(
                 _mockAccreditationService.Object,
                 _mockWastePermitService.Object,
                 _mockAccreditationMaterialService.Object);
@@ -32,26 +32,22 @@
         {
             // Arrange
             var id = Guid.NewGuid();
-            var siteId = Guid.NewGuid();
             var materialId = Guid.NewGuid();
             _mockAccreditationMaterialService.Setup(s =>
                 s.GetWasteDescriptionCodes(
                     id,
-                    siteId,
                     materialId))
                 .ReturnsAsync((List<string>)null);
 
             // Act
             var result = await _controller.GetWasteDescriptionCodes(
                 id,
-                siteId,
                 materialId) as NotFoundResult;
 
             // Assert
             _mockAccreditationMaterialService.Verify(s =>
                 s.GetWasteDescriptionCodes(
                     id,
-                    siteId,
                     materialId),
                 Times.Once);
             Assert.IsNotNull(result);
@@ -68,26 +64,22 @@
                 "Three"
             };
             var id = Guid.NewGuid();
-            var siteId = Guid.NewGuid();
             var materialId = Guid.NewGuid();
             _mockAccreditationMaterialService.Setup(s =>
                 s.GetWasteDescriptionCodes(
                     id,
-                    siteId,
                     materialId))
                 .ReturnsAsync(wasteCodes);
 
             // Act
             var result = await _controller.GetWasteDescriptionCodes(
                 id,
-                siteId,
                 materialId) as OkObjectResult;
 
             // Assert
             _mockAccreditationMaterialService.Verify(s =>
                 s.GetWasteDescriptionCodes(
                     id,
-                    siteId,
                     materialId),
                 Times.Once);
             Assert.IsNotNull(result);
@@ -107,14 +99,12 @@
             var result = await _controller.UpdateWasteDescriptionCodes(
                 Guid.NewGuid(),
                 Guid.NewGuid(),
-                Guid.NewGuid(),
                 wasteCodes) as OkResult;
 
             // Assert
             _mockAccreditationMaterialService
                 .Verify(s =>
                     s.UpdateWasteDescriptionCodes(
-                        It.IsAny<Guid>(),
                         It.IsAny<Guid>(),
                         It.IsAny<Guid>(),
                         wasteCodes),

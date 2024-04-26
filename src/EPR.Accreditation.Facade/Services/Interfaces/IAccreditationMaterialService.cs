@@ -13,7 +13,6 @@ namespace EPR.Accreditation.Facade.Services.Interfaces
         /// <returns>List of strings that represent the waste description codes</returns>
         Task<IEnumerable<string>> GetWasteDescriptionCodes(
             Guid id,
-            Guid siteId,
             Guid materialId);
 
         /// <summary>
@@ -27,7 +26,6 @@ namespace EPR.Accreditation.Facade.Services.Interfaces
         /// <returns>Async task</returns>
         Task UpdateWasteDescriptionCodes(
             Guid id,
-            Guid siteId,
             Guid materialId,
             IEnumerable<string> wasteDescriptionCodes);
 

@@ -42,13 +42,11 @@ namespace EPR.Accreditation.Facade.Services
         public async Task<string> GetWasteSource(
             SiteType siteType,
             Guid accreditationExternalId,
-            Guid? siteExternalId,
             Guid materialExternalId)
         {
             var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
                 siteType,
                 accreditationExternalId,
-                siteExternalId,
                 materialExternalId);
 
             return siteMaterial.WasteSource;
@@ -57,7 +55,6 @@ namespace EPR.Accreditation.Facade.Services
         public async Task UpdateWasteSource(
             SiteType siteType,
             Guid accreditationExternalId,
-            Guid? siteExternalId,
             Guid materialExternalId,
             string wasteSource)
         {
@@ -69,22 +66,19 @@ namespace EPR.Accreditation.Facade.Services
             await _httpAccreditationService.UpdateAccreditationMaterial(
                 siteType,
                 accreditationExternalId,
-                siteExternalId,
                 materialExternalId,
                 siteMaterial);
         }
 
         public async Task<string> GetWasteMaterialName(
             SiteType siteType,
-            Guid accreditationExternalId, 
-            Guid? siteExternalId, 
+            Guid accreditationExternalId,
             Guid materialExternalId, 
             Language language)
         {
             var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
                 siteType,
                 accreditationExternalId,
-                siteExternalId,
                 materialExternalId);
 
             return language == Language.English ? siteMaterial.Material.English : siteMaterial.Material.Welsh;
@@ -123,7 +117,6 @@ namespace EPR.Accreditation.Facade.Services
             var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
                 SiteType.Site,
                 accreditationExternalId,
-                null,
                 materialExternalId);
 
             if (siteMaterial == null)
@@ -170,7 +163,6 @@ namespace EPR.Accreditation.Facade.Services
                 await _httpAccreditationService.UpdateAccreditationMaterial(
                     SiteType.Site,
                     accreditationExternalId,
-                    null,
                     materialExternalId,
                     siteMaterial);
             }
@@ -183,7 +175,6 @@ namespace EPR.Accreditation.Facade.Services
             var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
                 SiteType.Site,
                 accreditationExternalId,
-                null,
                 materialExternalId);
 
             return siteMaterial == null ? new MaterialOutputsDto() : _mapper.Map<MaterialOutputsDto>(siteMaterial);
@@ -202,7 +193,6 @@ namespace EPR.Accreditation.Facade.Services
             await _httpAccreditationService.UpdateAccreditationMaterial(
                 SiteType.Site,
                 accreditationExternalId,
-                null,
                 materialExternalId,
                 siteMaterial);
         }
@@ -214,7 +204,6 @@ namespace EPR.Accreditation.Facade.Services
             var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
                 SiteType.Site,
                 accreditationExternalId,
-                null,
                 materialExternalId);
 
             if (siteMaterial == null) 
@@ -234,7 +223,6 @@ namespace EPR.Accreditation.Facade.Services
             var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
                 SiteType.Site,
                 accreditationExternalId,
-                null,
                 materialExternalId);
 
             if (siteMaterial == null)
@@ -247,7 +235,6 @@ namespace EPR.Accreditation.Facade.Services
             await _httpAccreditationService.UpdateAccreditationMaterial(
                 SiteType.Site,
                 accreditationExternalId,
-                null,
                 materialExternalId,
                 siteMaterial);
         }

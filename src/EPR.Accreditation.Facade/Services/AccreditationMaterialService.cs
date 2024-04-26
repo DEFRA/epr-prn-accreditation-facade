@@ -27,7 +27,6 @@
             var accreditationMaterial = await _httpAccreditationService.GetAccreditationMaterial(
                 SiteType.Site,
                 accreditationExternalId,
-                null,
                 materialExternalId);
 
             if (accreditationMaterial == null)
@@ -43,7 +42,6 @@
             var accreditationMaterial = await _httpAccreditationService.GetAccreditationMaterial(
                 SiteType.Site,
                 accreditationExternalId,
-                null,
                 materialExternalId);
 
             return accreditationMaterial.MaterialReprocessorDetails;
@@ -62,7 +60,6 @@
             await _httpAccreditationService.UpdateAccreditationMaterial(
                 SiteType.Site,
                 accreditationExternalId,
-                null,
                 materialExternalId,
                 accreditationMaterial);
         }
@@ -77,14 +74,12 @@
         /// <returns>List of strings that represent the waste description codes</returns>
         public async Task<IEnumerable<string>> GetWasteDescriptionCodes(
             Guid id,
-            Guid siteId,
             Guid materialId)
         {
             var accreditationTask = _httpAccreditationService.GetAccreditation(id);
             var accreditationMaterialTask = _httpAccreditationService.GetAccreditationMaterial(
                 SiteType.OverseasSite,
                 id,
-                siteId,
                 materialId);
 
             await Task.WhenAll(accreditationTask, accreditationMaterialTask);
@@ -121,7 +116,6 @@
         /// <returns>Async task</returns>
         public async Task UpdateWasteDescriptionCodes(
             Guid id,
-            Guid siteId,
             Guid materialId,
             IEnumerable<string> wasteDescriptionCodes)
         {
@@ -138,7 +132,6 @@
             await _httpAccreditationService.UpdateAccreditationMaterial(
                 SiteType.OverseasSite,
                 id,
-                siteId,
                 materialId,
                 material);
         }
