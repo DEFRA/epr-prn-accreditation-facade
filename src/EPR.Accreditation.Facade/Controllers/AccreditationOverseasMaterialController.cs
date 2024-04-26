@@ -5,14 +5,14 @@
     using Microsoft.AspNetCore.Mvc;
 
     [ApiController]
-    [Route("/api/Accreditation/{id}/OverseasSite/{siteId}/Material/{materialId}")]
-    public class AccreditationOverseasSiteMaterialController : ControllerBase
+    [Route("/api/Accreditation/{id}/OverseasMaterial/{materialId}")]
+    public class AccreditationOverseasMaterialController : ControllerBase
     {
         protected readonly IAccreditationService _accreditationService;
         protected readonly IWastePermitService _wastePermitService;
         protected readonly IAccreditationMaterialService _accreditationMaterialService;
 
-        public AccreditationOverseasSiteMaterialController(
+        public AccreditationOverseasMaterialController(
             IAccreditationService accreditationService,
             IWastePermitService wastePermitService,
             IAccreditationMaterialService accreditationMaterialService)
@@ -25,13 +25,11 @@
         [HttpGet("WasteSource")]
         public async Task<IActionResult> GetWasteSource(
             Guid id,
-            Guid siteId,
             Guid materialId)
         {
             var wasteSource = await _accreditationService.GetWasteSource(
                 SiteType.OverseasSite,
                 id,
-                siteId,
                 materialId);
 
             return Ok(wasteSource);
@@ -40,14 +38,12 @@
         [HttpPut("WasteSource")]
         public async Task<IActionResult> SaveWasteSource(
             Guid id,
-            Guid siteId,
             Guid materialId,
             [FromBody] string wasteSource)
         {
             await _accreditationService.UpdateWasteSource(
                 SiteType.OverseasSite,
                 id,
-                siteId,
                 materialId,
                 wasteSource);
 
@@ -57,7 +53,6 @@
         [HttpGet("Name")]
         public async Task<IActionResult> GetMaterialName(
             Guid id,
-            Guid siteId,
             Guid materialId,
             Language language)
         {
@@ -67,7 +62,6 @@
             var wasteSource = await _accreditationService.GetWasteMaterialName(
                 SiteType.OverseasSite,
                 id,
-                siteId,
                 materialId,
                 language);
 
@@ -85,12 +79,10 @@
         [HttpGet("WasteDescriptionCodes")]
         public async Task<IActionResult> GetWasteDescriptionCodes(
             Guid id,
-            Guid siteId,
             Guid materialId)
         {
             var wasteDescriptionCodes = await _accreditationMaterialService.GetWasteDescriptionCodes(
                 id,
-                siteId,
                 materialId);
 
             if (wasteDescriptionCodes == null)
@@ -112,13 +104,11 @@
         [HttpPost("WasteDescriptionCodes")]
         public async Task<IActionResult> UpdateWasteDescriptionCodes(
             Guid id,
-            Guid siteId,
             Guid materialId,
             IEnumerable<string> wasteDescriptionCodes)
         {
             await _accreditationMaterialService.UpdateWasteDescriptionCodes(
                 id,
-                siteId,
                 materialId,
                 wasteDescriptionCodes);
 

@@ -38,7 +38,6 @@
                 s.GetAccreditationMaterial(
                     SiteType.Site,
                     accreditationExternalId,
-                    null,
                     materialExternalId))
                 .ReturnsAsync(accreditationMaterial);
 
@@ -55,7 +54,6 @@
                 s.GetAccreditationMaterial(
                     SiteType.Site,
                     accreditationExternalId,
-                    null,
                     materialExternalId), Times.Once());
         }
 
@@ -70,7 +68,6 @@
                 s.GetAccreditationMaterial(
                     SiteType.Site,
                     accreditationExternalId,
-                    null,
                     materialExternalId))
                 .ReturnsAsync((AccreditationMaterial)null);
 
@@ -86,7 +83,6 @@
                 s.GetAccreditationMaterial(
                     SiteType.Site,
                     accreditationExternalId,
-                    null,
                     materialExternalId), Times.Once());
         }
 
@@ -110,7 +106,6 @@
                 s.UpdateAccreditationMaterial(
                     SiteType.Site,
                     It.IsAny<Guid>(),
-                    null,
                     It.IsAny<Guid>(),
                     It.IsAny<AccreditationMaterial>()), Times.Once);
         }
@@ -135,7 +130,6 @@
                 s.UpdateAccreditationMaterial(
                     SiteType.Site,
                     It.IsAny<Guid>(),
-                    null,
                     It.IsAny<Guid>(),
                     It.IsAny<AccreditationMaterial>()), Times.Once);
         }
@@ -145,13 +139,11 @@
         {
             // Arrange
             var id = Guid.NewGuid();
-            var siteId = Guid.NewGuid();
             var materialId = Guid.NewGuid();
 
             // Act
             var result = await _accreditationMaterialService.GetWasteDescriptionCodes(
                 id,
-                siteId,
                 materialId);
 
             // Assert
@@ -163,7 +155,6 @@
         {
             // Arrange
             var id = Guid.NewGuid();
-            var siteId = Guid.NewGuid();
             var materialId = Guid.NewGuid();
             _mockHttpAccreditationService
                 .Setup(a =>
@@ -176,7 +167,6 @@
             // Act
             var result = await _accreditationMaterialService.GetWasteDescriptionCodes(
                 id,
-                siteId,
                 materialId);
 
             // Assert
@@ -188,7 +178,6 @@
         {
             // Arrange
             var id = Guid.NewGuid();
-            var siteId = Guid.NewGuid();
             var materialId = Guid.NewGuid();
             _mockHttpAccreditationService
                 .Setup(a =>
@@ -201,7 +190,6 @@
             // Act
             var result = await _accreditationMaterialService.GetWasteDescriptionCodes(
                 id,
-                siteId,
                 materialId);
 
             // Assert
@@ -213,9 +201,8 @@
         {
             // Arrange
             var id = Guid.NewGuid();
-            var siteId = Guid.NewGuid();
             var materialId = Guid.NewGuid();
-            
+
             _mockHttpAccreditationService
                 .Setup(a =>
                     a.GetAccreditation(It.IsAny<Guid>()))
@@ -229,14 +216,12 @@
                     a.GetAccreditationMaterial(
                         SiteType.OverseasSite,
                         id,
-                        siteId,
                         materialId))
                 .ReturnsAsync(new AccreditationMaterial());
 
             // Act
             var result = await _accreditationMaterialService.GetWasteDescriptionCodes(
                 id,
-                siteId,
                 materialId);
 
             // Assert
@@ -249,7 +234,6 @@
         {
             // Arrange
             var id = Guid.NewGuid();
-            var siteId = Guid.NewGuid();
             var materialId = Guid.NewGuid();
 
             _mockHttpAccreditationService
@@ -267,7 +251,6 @@
                     a.GetAccreditationMaterial(
                         SiteType.OverseasSite,
                         id,
-                        siteId,
                         materialId))
                 .ReturnsAsync(new AccreditationMaterial
                 {
@@ -294,7 +277,6 @@
             // Act
             var result = await _accreditationMaterialService.GetWasteDescriptionCodes(
                 id,
-                siteId,
                 materialId);
 
             var listResult = result.ToList();
@@ -303,6 +285,106 @@
             Assert.IsTrue(listResult.Count == 2);
             Assert.IsTrue(listResult[0] == code1);
             Assert.IsTrue(listResult[1] == code2);
+        }
+
+        [TestMethod]
+        public async Task GetHasNpwdAccreditationNumber_ReturnsNull_WhenAccreditationMaterialIsNull()
+        {
+            // Arrange
+            var accreditationExternalId = Guid.NewGuid();
+            var materialExternalId = Guid.NewGuid();
+
+            _mockHttpAccreditationService.Setup(s =>
+                s.GetAccreditationMaterial(
+                    SiteType.Site,
+                    accreditationExternalId,
+                    materialExternalId))
+                .ReturnsAsync((AccreditationMaterial)null);
+
+            // Act
+            var result = await _accreditationMaterialService.GetHasNpwdAccreditationNumber(
+                accreditationExternalId,
+                materialExternalId);
+
+            // Assert
+            Assert.IsNull(result);
+
+            _mockHttpAccreditationService.Verify(s =>
+                s.GetAccreditationMaterial(
+                    SiteType.Site,
+                    accreditationExternalId,
+                    materialExternalId)
+                , Times.Once);
+        }
+
+        [TestMethod]
+        public async Task GetHasNpwdAccreditationNumber_ReturnsValueForTrue()
+        {
+            // Arrange
+            var accreditationExternalId = Guid.NewGuid();
+            var materialExternalId = Guid.NewGuid();
+            var hasNpwdAccreditationNumber = true;
+            var accreditationMaterial = new AccreditationMaterial
+            {
+                HasNpwdAccreditationNumber = hasNpwdAccreditationNumber
+            };
+
+            _mockHttpAccreditationService.Setup(s =>
+                s.GetAccreditationMaterial(
+                    SiteType.Site,
+                    accreditationExternalId,
+                    materialExternalId))
+                .ReturnsAsync(accreditationMaterial);
+
+            // Act
+            var result = await _accreditationMaterialService.GetHasNpwdAccreditationNumber(
+                accreditationExternalId,
+                materialExternalId);
+
+            // Assert
+            Assert.AreEqual(hasNpwdAccreditationNumber, result);
+
+            _mockHttpAccreditationService.Verify(s =>
+                s.GetAccreditationMaterial(
+                    SiteType.Site,
+                    accreditationExternalId,
+                    materialExternalId)
+                , Times.Once);
+        }
+
+        [TestMethod]
+        public async Task GetHasNpwdAccreditationNumber_ReturnsValueForFalse()
+        {
+            // Arrange
+            var accreditationExternalId = Guid.NewGuid();
+            var materialExternalId = Guid.NewGuid();
+            var hasNpwdAccreditationNumber = false;
+            var accreditationMaterial = new AccreditationMaterial
+            {
+                HasNpwdAccreditationNumber = hasNpwdAccreditationNumber
+            };
+
+            _mockHttpAccreditationService.Setup(s =>
+                s.GetAccreditationMaterial(
+                    SiteType.Site,
+                    accreditationExternalId,
+                    materialExternalId))
+                .ReturnsAsync(accreditationMaterial);
+
+            // Act
+            var result = await _accreditationMaterialService.GetHasNpwdAccreditationNumber(
+                accreditationExternalId,
+                materialExternalId);
+
+            // Assert
+            Assert.AreEqual(hasNpwdAccreditationNumber, result);
+
+            _mockHttpAccreditationService.Verify(s =>
+                s.GetAccreditationMaterial(
+                    SiteType.Site,
+                    accreditationExternalId,
+                    materialExternalId)
+                , Times.Once);
         }
     }
 }
