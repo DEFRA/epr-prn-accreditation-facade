@@ -2,8 +2,8 @@
 {
     using EPR.Accreditation.Facade.Common.Dtos;
     using EPR.Accreditation.Facade.Common.Dtos.Portal;
-
     using EPR.Accreditation.Facade.Common.Enums;
+
     public interface IAccreditationService
     {
         Task<OperatorType> GetOperatorType(Guid id);
@@ -53,14 +53,14 @@
             Guid materialId,
             MaterialOutputsDto materialOutputsDto);
 
-        Task<MaterialWasteOutputsDto> GetMaterialWasteOutputs(
+        Task<MaterialWasteInputsDto> GetMaterialWasteInputs(
             Guid id,
             Guid materialId);
 
-        Task UpdateMaterialWasteOutputs(
+        Task UpdateMaterialWasteInputs(
             Guid id,
             Guid materialId,
-            MaterialWasteOutputsDto materialWasteOutputsDto);
+            MaterialWasteInputsDto materialWasteInputsDto);
 
         Task<CheckYourAnswersDto> GetCheckYourAnswers(Guid id);
 

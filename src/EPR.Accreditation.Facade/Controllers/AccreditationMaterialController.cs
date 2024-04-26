@@ -151,28 +151,28 @@
             return Ok();
         }
 
-        [HttpGet("MaterialWasteOutputs")]
+        [HttpGet("MaterialWasteInputs")]
         public async Task<IActionResult> GetMaterialWasteOutputs(
             Guid id,
             Guid materialId)
         {
-            var materialOoutputs = await _accreditationService.GetMaterialWasteOutputs(
+            var materialInputs = await _accreditationService.GetMaterialWasteInputs(
                 id,
                 materialId);
 
-            return Ok(materialOoutputs);
+            return Ok(materialInputs);
         }
 
-        [HttpPut("MaterialWasteOutputs")]
+        [HttpPut("MaterialWasteInputs")]
         public async Task<IActionResult> UpdateMaterialWasteOutputs(
             Guid id,
             Guid materialId,
-            [FromBody] MaterialWasteOutputsDto materialWasteOutputsDto)
+            [FromBody] MaterialWasteInputsDto materialWasteInputsDto)
         {
-            await _accreditationService.UpdateMaterialWasteOutputs(
+            await _accreditationService.UpdateMaterialWasteInputs(
                 id,
                 materialId,
-                materialWasteOutputsDto);
+                materialWasteInputsDto);
 
             return Ok();
         }

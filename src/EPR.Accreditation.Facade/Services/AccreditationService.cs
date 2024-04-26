@@ -5,8 +5,8 @@
     using EPR.Accreditation.Facade.Common.Dtos.Portal;
     using EPR.Accreditation.Facade.Common.Enums;
     using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
-
     using EPR.Accreditation.Facade.Services.Interfaces;
+
     public class AccreditationService : IAccreditationService
     {
         protected readonly IMapper _mapper;
@@ -20,16 +20,16 @@
             _httpAccreditationService = httpAccreditationService ?? throw new ArgumentNullException(nameof(httpAccreditationService));
         }
 
-        public async Task<CheckYourAnswersDto> GetCheckYourAnswers(Guid accreditationExternalId)
+        public async Task<CheckYourAnswersDto> GetCheckYourAnswers(Guid id)
         {
-            var checkYourAnswersDto = await _httpAccreditationService.GetCheckYourAnswers(accreditationExternalId);
+            var checkYourAnswersDto = await _httpAccreditationService.GetCheckYourAnswers(id);
 
             return checkYourAnswersDto;
         }
 
-        public async Task<OperatorType> GetOperatorType(Guid accreditationExternalId)
+        public async Task<OperatorType> GetOperatorType(Guid id)
         {
-            var operatorTypeId = await _httpAccreditationService.GetOperatorType(accreditationExternalId);
+            var operatorTypeId = await _httpAccreditationService.GetOperatorType(id);
 
             return operatorTypeId;
         }
@@ -41,21 +41,21 @@
 
         public async Task<string> GetWasteSource(
             SiteType siteType,
-            Guid accreditationExternalId,
-            Guid materialExternalId)
+            Guid id,
+            Guid materialId)
         {
             var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
                 siteType,
-                accreditationExternalId,
-                materialExternalId);
+                id,
+                materialId);
 
             return siteMaterial.WasteSource;
         }
 
         public async Task UpdateWasteSource(
             SiteType siteType,
-            Guid accreditationExternalId,
-            Guid materialExternalId,
+            Guid id,
+            Guid materialId,
             string wasteSource)
         {
             var siteMaterial = new AccreditationMaterial
@@ -65,40 +65,40 @@
 
             await _httpAccreditationService.UpdateAccreditationMaterial(
                 siteType,
-                accreditationExternalId,
-                materialExternalId,
+                id,
+                materialId,
                 siteMaterial);
         }
 
         public async Task<string> GetWasteMaterialName(
             SiteType siteType,
-            Guid accreditationExternalId,
-            Guid materialExternalId,
+            Guid id,
+            Guid materialId,
             Language language)
         {
             var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
                 siteType,
-                accreditationExternalId,
-                materialExternalId);
+                id,
+                materialId);
 
             return language == Language.English ? siteMaterial.Material.English : siteMaterial.Material.Welsh;
         }
 
         public async Task<WastePermit> GetWastePermit(
-            Guid accreditationExternalId)
+            Guid id)
         {
-            var accreditation = await _httpAccreditationService.GetAccreditation(accreditationExternalId);
+            var accreditation = await _httpAccreditationService.GetAccreditation(id);
 
             return accreditation.WastePermit;
         }
 
         public async Task CreateWastePermit(
-            Guid accreditationExternalId,
+            Guid id,
             WastePermit wastePermit)
         {
-            var accreditation = await _httpAccreditationService.GetAccreditation(accreditationExternalId);
+            var accreditation = await _httpAccreditationService.GetAccreditation(id);
             accreditation.WastePermit = wastePermit;
-            await _httpAccreditationService.UpdateAccreditation(accreditationExternalId, accreditation);
+            await _httpAccreditationService.UpdateAccreditation(id, accreditation);
         }
 
         private Common.Dtos.Accreditation CreateNewAccreditationDto(OperatorType operatorTypeId)
@@ -110,14 +110,14 @@
         }
 
         public async Task<ReprocessingSupportingInformationDto> GetReprocessorSupportingInformation(
-            Guid accreditationExternalId,
-            Guid materialExternalId,
+            Guid id,
+            Guid materialId,
             ReprocessorSupportingInformationType reprocessorSupportingInformationType)
         {
             var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
                 SiteType.Site,
-                accreditationExternalId,
-                materialExternalId);
+                id,
+                materialId);
 
             if (siteMaterial == null)
                 return new ReprocessingSupportingInformationDto();
@@ -137,8 +137,8 @@
         }
 
         public async Task UpdateReprocessorSupportingInformation(
-            Guid accreditationExternalId,
-            Guid materialExternalId,
+            Guid id,
+            Guid materialId,
             ReprocessingSupportingInformationDto nonWasteInputsDto,
             ReprocessorSupportingInformationType reprocessorSupportingInformationType)
         {
@@ -162,27 +162,27 @@
 
                 await _httpAccreditationService.UpdateAccreditationMaterial(
                     SiteType.Site,
-                    accreditationExternalId,
-                    materialExternalId,
+                    id,
+                    materialId,
                     siteMaterial);
             }
         }
 
         public async Task<MaterialOutputsDto> GetMaterialOutputs(
-            Guid accreditationExternalId,
-            Guid materialExternalId)
+            Guid id,
+            Guid materialId)
         {
             var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
                 SiteType.Site,
-                accreditationExternalId,
-                materialExternalId);
+                id,
+                materialId);
 
             return siteMaterial == null ? new MaterialOutputsDto() : _mapper.Map<MaterialOutputsDto>(siteMaterial);
         }
 
         public async Task UpdateMaterialOutputs(
-            Guid accreditationExternalId,
-            Guid materialExternalId,
+            Guid id,
+            Guid materialId,
             MaterialOutputsDto materialOutputsDto)
         {
             var siteMaterial = new AccreditationMaterial
@@ -192,50 +192,44 @@
 
             await _httpAccreditationService.UpdateAccreditationMaterial(
                 SiteType.Site,
-                accreditationExternalId,
-                materialExternalId,
+                id,
+                materialId,
                 siteMaterial);
         }
 
-        public async Task<MaterialWasteOutputsDto> GetMaterialWasteOutputs(
-            Guid accreditationExternalId,
-            Guid materialExternalId)
+        public async Task<MaterialWasteInputsDto> GetMaterialWasteInputs(
+            Guid id,
+            Guid materialId)
         {
             var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
                 SiteType.Site,
-                accreditationExternalId,
-                materialExternalId);
+                id,
+                materialId);
 
             if (siteMaterial == null)
-                return new MaterialWasteOutputsDto();
-
-            return new MaterialWasteOutputsDto
             {
-                WasteLastYear = siteMaterial.WasteLastYear,
-            };
+                return new MaterialWasteInputsDto();
+            }
+
+            var materialWasteInputsDto = _mapper.Map<MaterialWasteInputsDto>(siteMaterial);
+
+            return materialWasteInputsDto;
         }
 
-        public async Task UpdateMaterialWasteOutputs(
-            Guid accreditationExternalId,
-            Guid materialExternalId,
-            MaterialWasteOutputsDto materialWasteOutputsDto)
+        public async Task UpdateMaterialWasteInputs(
+            Guid id,
+            Guid materialId,
+            MaterialWasteInputsDto materialWasteInputsDto)
         {
-            var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
-                SiteType.Site,
-                accreditationExternalId,
-                materialExternalId);
-
-            if (siteMaterial == null)
-                throw new Exception(); // should end up with a not found result as we should have a SiteMaterial and MaterialReprocessorDetails by now
-
-            siteMaterial.MaterialReprocessorDetails = _mapper.Map(
-                materialWasteOutputsDto,
-                siteMaterial.MaterialReprocessorDetails);
+            var siteMaterial = new AccreditationMaterial
+            {
+                MaterialReprocessorDetails = _mapper.Map<MaterialReprocessorDetails>(materialWasteInputsDto)
+            };
 
             await _httpAccreditationService.UpdateAccreditationMaterial(
                 SiteType.Site,
-                accreditationExternalId,
-                materialExternalId,
+                id,
+                materialId,
                 siteMaterial);
         }
 
@@ -249,30 +243,30 @@
         }
 
         public async Task<OverseasReprocessingSiteOutputs> GetOverseasReprocessingSiteOutputs(
-            Guid accreditationExternalId,
-            Guid overseasSiteExternalId)
+            Guid id,
+            Guid overseasSiteId)
         {
-            var overseasSite = await _httpAccreditationService.GetOverseasReprocessingSite(accreditationExternalId, overseasSiteExternalId);
+            var overseasSite = await _httpAccreditationService.GetOverseasReprocessingSite(id, overseasSiteId);
             var overseasSiteOutputs = _mapper.Map<OverseasReprocessingSiteOutputs>(overseasSite);
             return overseasSiteOutputs;
         }
 
         public async Task UpdateOverseasReprocessingSiteOutputs(
-            Guid accreditationExternalId,
-            Guid overseasSiteExternalId,
+            Guid id,
+            Guid overseasSiteId,
             OverseasReprocessingSiteOutputs overseasSiteOutputs)
         {
             var overseasSite = new OverseasReprocessingSite
             {
-                ExternalId = overseasSiteExternalId,
+                ExternalId = overseasSiteId,
                 Outputs = overseasSiteOutputs.Outputs
             };
-            await _httpAccreditationService.UpdateOverseasReprocessingSite(accreditationExternalId, overseasSite);
+            await _httpAccreditationService.UpdateOverseasReprocessingSite(id, overseasSite);
         }
 
-        public async Task<HasOverseasAgentDto> GetHasOverseasAgent(Guid accreditationExternalId)
+        public async Task<HasOverseasAgentDto> GetHasOverseasAgent(Guid id)
         {
-            var accreditation = await _httpAccreditationService.GetAccreditation(accreditationExternalId);
+            var accreditation = await _httpAccreditationService.GetAccreditation(id);
 
             return accreditation == null
                 ? new HasOverseasAgentDto()
@@ -283,7 +277,7 @@
         }
 
         public async Task SetHasOverseasAgent(
-            Guid accreditationExternalId,
+            Guid id,
             bool? hasOverseasAgent)
         {
             var accreditation = new Common.Dtos.Accreditation
@@ -291,7 +285,7 @@
                 HasOverseasAgent = hasOverseasAgent,
             };
 
-            await _httpAccreditationService.UpdateAccreditation(accreditationExternalId, accreditation);
+            await _httpAccreditationService.UpdateAccreditation(id, accreditation);
         }
     }
 }
