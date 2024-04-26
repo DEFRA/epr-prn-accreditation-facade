@@ -1,5 +1,4 @@
 ﻿using EPR.Accreditation.Facade.Common.Dtos;
-using EPR.Accreditation.Facade.Common.Dtos.Portal;
 using EPR.Accreditation.Facade.Common.Enums;
 using DTO = EPR.Accreditation.Facade.Common.Dtos;
 
@@ -7,45 +6,45 @@ namespace EPR.Accreditation.Facade.Common.RESTservices.Interfaces
 {
     public interface IHttpAccreditationService
     {
-        Task<OperatorType> GetOperatorType(Guid accreditationExternalId);
+        Task<OperatorType> GetOperatorType(Guid id);
 
         Task<Guid> CreateAccreditation(DTO.Accreditation accreditation);
 
         Task<DTO.AccreditationMaterial> GetAccreditationMaterial(
             SiteType siteType,
-            Guid accreditationExternalId,
-            Guid? siteExternalId,
-            Guid materialExternalId);
+            Guid id,
+            Guid? siteId,
+            Guid materialId);
 
         Task UpdateAccreditationMaterial(
             SiteType siteType,
-            Guid accreditationExternalId,
-            Guid? siteExternalId,
-            Guid materialExternalId,
+            Guid id,
+            Guid? siteId,
+            Guid materialId,
             DTO.AccreditationMaterial accreditationMaterial);
 
         Task<DTO.Accreditation> GetAccreditation(
-            Guid accreditationExternalId);
+            Guid id);
 
         Task UpdateAccreditation(
-            Guid accreditationExternalId,
+            Guid id,
             DTO.Accreditation accreditation);
 
-        Task<CheckYourAnswersDto> GetCheckYourAnswers(Guid accreditationExternalId);
+        Task<CheckYourAnswersDto> GetCheckYourAnswers(Guid id);
 
         Task<List<Dtos.AccreditationTaskProgress>> GetTaskProgress(
-            Guid accreditationExternalId);
+            Guid id);
 
-        Task<AccreditationMaterial> GetLastCalendarYearWaste(Guid accreditationExternalId, Guid accreditationMaterialExternalId);
+        Task<AccreditationMaterial> GetLastCalendarYearWaste(Guid id, Guid accreditationMaterialId);
 
         Task<OverseasReprocessingSite> GetOverseasReprocessingSite(
-            Guid accreditationExternalId,
-            Guid overseasSiteExternalId);
+            Guid id,
+            Guid overseasSiteId);
 
         Task UpdateOverseasReprocessingSite(
-            Guid accreditationExternalId,
+            Guid id,
             OverseasReprocessingSite overseasSite);
 
-        Task SetHasOverseasAgent(Guid accreditationExternalId, bool? hasOverseasAgent);
+        Task SetHasOverseasAgent(Guid id, bool? hasOverseasAgent);
     }
 }

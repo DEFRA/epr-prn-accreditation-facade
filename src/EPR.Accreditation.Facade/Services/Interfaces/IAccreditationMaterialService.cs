@@ -45,8 +45,8 @@ namespace EPR.Accreditation.Facade.Services.Interfaces
             Guid materialExternalId);
 
         Task<bool?> GetHasNpwdAccreditationNumber(
-            Guid accreditationExternalId,
-            Guid materialExternalId);
+            Guid id,
+            Guid materialId);
 
         Task UpdateHasNpwdAccreditationNumber(
             Guid accreditationExternalId,

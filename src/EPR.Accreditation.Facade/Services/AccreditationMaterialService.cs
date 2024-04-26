@@ -20,14 +20,14 @@
         }
 
         public async Task<bool?> GetReprocessedWasteLastYear(
-            Guid accreditationExternalId,
-            Guid materialExternalId)
+            Guid id,
+            Guid materialId)
         {
             var accreditationMaterial = await _httpAccreditationService.GetAccreditationMaterial(
                 SiteType.Site,
-                accreditationExternalId,
+                id,
                 null,
-                materialExternalId);
+                materialId);
 
             if (accreditationMaterial == null)
                 return null;
@@ -36,21 +36,21 @@
         }
 
         public async Task<MaterialReprocessorDetails> GetReprocessedWasteLastYearData(
-            Guid accreditationExternalId,
-            Guid materialExternalId)
+            Guid id,
+            Guid materialId)
         {
             var accreditationMaterial = await _httpAccreditationService.GetAccreditationMaterial(
                 SiteType.Site,
-                accreditationExternalId,
+                id,
                 null,
-                materialExternalId);
+                materialId);
 
             return accreditationMaterial.MaterialReprocessorDetails;
         }
 
         public async Task UpdateReprocessedWasteLastYear(
-            Guid accreditationExternalId,
-            Guid materialExternalId,
+            Guid id,
+            Guid materialId,
             ReprocessedWasteLastYear reprocessedWasteLastYear)
         {
             var accreditationMaterial = new Common.Dtos.AccreditationMaterial
@@ -60,9 +60,9 @@
 
             await _httpAccreditationService.UpdateAccreditationMaterial(
                 SiteType.Site,
-                accreditationExternalId,
+                id,
                 null,
-                materialExternalId,
+                materialId,
                 accreditationMaterial);
         }
 
@@ -143,14 +143,14 @@
         }
 
         public async Task<bool?> GetHasNpwdAccreditationNumber(
-            Guid accreditationExternalId,
-            Guid materialExternalId)
+            Guid id,
+            Guid materialId)
         {
             var accreditationMaterial = await _httpAccreditationService.GetAccreditationMaterial(
                 SiteType.Site,
-                accreditationExternalId,
+                id,
                 null,
-                materialExternalId);
+                materialId);
 
             if (accreditationMaterial == null)
             {
@@ -161,8 +161,8 @@
         }
 
         public async Task UpdateHasNpwdAccreditationNumber(
-            Guid accreditationExternalId,
-            Guid materialExternalId,
+            Guid id,
+            Guid materialId,
             NpwdAccreditationNumber npwdAccreditationNumber)
         {
             var accreditationMaterial = new Common.Dtos.AccreditationMaterial
@@ -172,9 +172,9 @@
 
             await _httpAccreditationService.UpdateAccreditationMaterial(
                 SiteType.Site,
-                accreditationExternalId,
+                id,
                 null,
-                materialExternalId,
+                materialId,
                 accreditationMaterial);
         }
     }

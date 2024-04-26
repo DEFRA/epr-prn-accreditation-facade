@@ -15,14 +15,14 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
         {
         }
 
-        public async Task<CheckYourAnswersDto> GetCheckYourAnswers(Guid accreditationExternalId)
+        public async Task<CheckYourAnswersDto> GetCheckYourAnswers(Guid id)
         {
-            var accreditationDto = await Get<Dtos.Accreditation>($"{accreditationExternalId}");
+            var accreditationDto = await Get<Dtos.Accreditation>($"{id}");
 
             // TODO: update [NOT MAPPED] entries later when they have been implemented. 
             // TODO: update vm.Completed later when it has been implemented.
             var vm = new CheckYourAnswersDto();
-            vm.Id = accreditationExternalId;
+            vm.Id = id;
             vm.Completed = false;
             vm.SiteAddress = GetAdressAsSingleLine(accreditationDto.Site);
             vm.WasteCarrierRegistrationNumber = "NOT MAPPED";
@@ -35,66 +35,66 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
             return vm;
         }
 
-        public async Task<OperatorType> GetOperatorType(Guid accreditationExternalId)
+        public async Task<OperatorType> GetOperatorType(Guid id)
         {
-            var accreditation = await Get<Dtos.Accreditation>($"{accreditationExternalId}");
+            var accreditation = await Get<Dtos.Accreditation>($"{id}");
             return accreditation.OperatorTypeId;
         }
 
         public async Task<Guid> CreateAccreditation(Dtos.Accreditation accreditation)
         {
-            var externalId = await Post<Guid>(accreditation);
-            return externalId;
+            var id = await Post<Guid>(accreditation);
+            return id;
         }
 
         public async Task<Dtos.AccreditationMaterial> GetAccreditationMaterial(
             SiteType siteType,
-            Guid accreditationExternalId,
-            Guid? siteExternalId,
-            Guid materialExternalId)
+            Guid id,
+            Guid? siteId,
+            Guid materialId)
         {
-            var site = GetSiteName(siteType, siteExternalId);
-            return await Get<Dtos.AccreditationMaterial>($"{accreditationExternalId}/{site}/Material/{materialExternalId}");
+            var site = GetSiteName(siteType, siteId);
+            return await Get<Dtos.AccreditationMaterial>($"{id}/{site}/Material/{materialId}");
         }
 
         public async Task UpdateAccreditationMaterial(
             SiteType siteType,
-            Guid accreditationExternalId,
-            Guid? siteExternalId,
-            Guid materialExternalId,
+            Guid id,
+            Guid? siteId,
+            Guid materialId,
             AccreditationMaterial accreditationMaterial)
         {
-            var site = GetSiteName(siteType, siteExternalId);
-            await Put($"{accreditationExternalId}/{site}/Material/{materialExternalId}", accreditationMaterial);
+            var site = GetSiteName(siteType, siteId);
+            await Put($"{id}/{site}/Material/{materialId}", accreditationMaterial);
         }
         public async Task<Dtos.Accreditation> GetAccreditation(
-            Guid accreditationExternalId)
+            Guid id)
         {
-            return await Get<Dtos.Accreditation>($"{accreditationExternalId}");
+            return await Get<Dtos.Accreditation>($"{id}");
         }
         public async Task UpdateAccreditation(
-            Guid accreditationExternalId,
+            Guid id,
             Dtos.Accreditation accreditation)
         {
-            await Put($"{accreditationExternalId}", accreditation);
+            await Put($"{id}", accreditation);
         }
 
         public async Task<List<AccreditationTaskProgress>> GetTaskProgress(
-            Guid accreditationExternalId)
+            Guid id)
         {
-            return await Get<List<AccreditationTaskProgress>>($"{accreditationExternalId}/TaskProgress");
+            return await Get<List<AccreditationTaskProgress>>($"{id}/TaskProgress");
         }
 
-        public async Task SetHasOverseasAgent(Guid accreditationExternalId, bool? hasOverseasAgent)
+        public async Task SetHasOverseasAgent(Guid id, bool? hasOverseasAgent)
         {
-            await Put($"{accreditationExternalId}/HasOverseasAgent", hasOverseasAgent);
+            await Put($"{id}/HasOverseasAgent", hasOverseasAgent);
         }
 
         public async Task<AccreditationMaterial> GetLastCalendarYearWaste(
-            Guid accreditationExternalId,
-            Guid accreditationMaterialExternalId)
+            Guid id,
+            Guid accreditationMaterialId)
         {
-            return await Get<AccreditationMaterial>($"{accreditationExternalId}/Site/Material/{accreditationMaterialExternalId}");
+            return await Get<AccreditationMaterial>($"{id}/Site/Material/{accreditationMaterialId}");
         }
 
         private string GetAdressAsSingleLine(Dtos.Site dto)
@@ -110,20 +110,20 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
         }
 
         public async Task<OverseasReprocessingSite> GetOverseasReprocessingSite(
-            Guid accreditationExternalId,
-            Guid overseasSiteExternalId)
+            Guid id,
+            Guid overseasSiteId)
         {
-            return await Get<OverseasReprocessingSite>($"{accreditationExternalId}/OverseasSite/{overseasSiteExternalId}");
+            return await Get<OverseasReprocessingSite>($"{id}/OverseasSite/{overseasSiteId}");
         }
 
-        public async Task UpdateOverseasReprocessingSite(Guid accreditationExternalId, OverseasReprocessingSite overseasSite)
+        public async Task UpdateOverseasReprocessingSite(Guid id, OverseasReprocessingSite overseasSite)
         {
-            await Put($"{accreditationExternalId}/OverseasSite", overseasSite);
+            await Put($"{id}/OverseasSite", overseasSite);
         }
 
         private string GetSiteName(
             SiteType siteType,
-            Guid? siteExternalId) => siteType == SiteType.Site ? "Site" : $"OverseasSite/{siteExternalId}";
+            Guid? siteId) => siteType == SiteType.Site ? "Site" : $"OverseasSite/{siteId}";
 
     }
 }
