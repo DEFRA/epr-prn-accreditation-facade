@@ -197,7 +197,7 @@ namespace EPR.Accreditation.Facade.Services
                 siteMaterial);
         }
 
-        public async Task<MaterialWasteOutputsDto> GetMaterialWasteOutputs(
+        public async Task<MaterialWasteInputsDto> GetMaterialWasteInputs(
             Guid accreditationExternalId,
             Guid materialExternalId)
         {
@@ -207,30 +207,22 @@ namespace EPR.Accreditation.Facade.Services
                 materialExternalId);
 
             if (siteMaterial == null) 
-                return new MaterialWasteOutputsDto();
+                return new MaterialWasteInputsDto();
 
-            return new MaterialWasteOutputsDto
-            {
-                WasteLastYear = siteMaterial.WasteLastYear,
-            };
+            var materialWasteInputsDto = _mapper.Map<MaterialWasteInputsDto>(siteMaterial);
+
+            return materialWasteInputsDto;
         }
 
-        public async Task UpdateMaterialWasteOutputs(
+        public async Task UpdateMaterialWasteInputs(
             Guid accreditationExternalId,
             Guid materialExternalId,
-            MaterialWasteOutputsDto materialWasteOutputsDto)
+            MaterialWasteInputsDto materialWasteInputsDto)
         {
-            var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
-                SiteType.Site,
-                accreditationExternalId,
-                materialExternalId);
-
-            if (siteMaterial == null)
-                throw new Exception(); // should end up with a not found result as we should have a SiteMaterial and MaterialReprocessorDetails by now
-
-            siteMaterial.MaterialReprocessorDetails = _mapper.Map(
-                materialWasteOutputsDto,
-                siteMaterial.MaterialReprocessorDetails);
+            var siteMaterial = new AccreditationMaterial
+            {
+                MaterialReprocessorDetails = _mapper.Map<MaterialReprocessorDetails>(materialWasteInputsDto)
+            };
 
             await _httpAccreditationService.UpdateAccreditationMaterial(
                 SiteType.Site,

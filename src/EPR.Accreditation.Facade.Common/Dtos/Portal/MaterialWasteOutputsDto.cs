@@ -1,6 +1,6 @@
 ﻿namespace EPR.Accreditation.Facade.Common.Dtos.Portal
 {
-    public class MaterialWasteOutputsDto
+    public class MaterialWasteInputsDto
     {
         public bool? WasteLastYear { get; set; }
 
