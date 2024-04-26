@@ -288,6 +288,11 @@
             await _httpAccreditationService.UpdateAccreditation(id, accreditation);
         }
 
+        /// <summary>
+        /// Gets PRN tonnage data for the given accreditation.
+        /// </summary>
+        /// <param name="accreditationExternalId">Accreditation Id.</param>
+        /// <returns>DTO containing PRN tonnage data.</returns>
         public async Task<PrnTonnesPlannedDto> GetPrnTonnesPlanned(Guid accreditationExternalId)
         {
             var accreditation = await _httpAccreditationService.GetAccreditation(accreditationExternalId);
@@ -296,6 +301,12 @@
             return dto;
         }
 
+        /// <summary>
+        /// Updates PRN tonnage data for the given accreditation.
+        /// </summary>
+        /// <param name="accreditationExternalId">Accreditation Id.</param>
+        /// <param name="prnTonnesPlannedDto">DTO containing PRN tonnage data.</param>
+        /// <returns>Completed Task.</returns>
         public async Task UpdatePrnTonnesPlanned(
             Guid accreditationExternalId, 
             PrnTonnesPlannedDto prnTonnesPlannedDto)

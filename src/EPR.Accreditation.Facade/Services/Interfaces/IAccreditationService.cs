@@ -79,9 +79,20 @@
 
         Task SetHasOverseasAgent(Guid id, bool? hasOverseasAgent);
 
+        /// <summary>
+        /// Gets PRN tonnage data for the given accreditation.
+        /// </summary>
+        /// <param name="accreditationExternalId">Accreditation Id.</param>
+        /// <returns>DTO containing PRN tonnage data.</returns>
         Task<PrnTonnesPlannedDto> GetPrnTonnesPlanned(
             Guid accreditationExternalId);
 
+        /// <summary>
+        /// Updates PRN tonnage data for the given accreditation.
+        /// </summary>
+        /// <param name="accreditationExternalId">Accreditation Id.</param>
+        /// <param name="prnTonnesPlannedDto">DTO containing PRN tonnage data.</param>
+        /// <returns>Completed Task.</returns>
         Task UpdatePrnTonnesPlanned(
             Guid accreditationExternalId,
             PrnTonnesPlannedDto prnTonnesPlannedDto);

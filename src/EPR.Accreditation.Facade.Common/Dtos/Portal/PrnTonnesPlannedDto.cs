@@ -3,9 +3,12 @@
     using EPR.Accreditation.Facade.Common.Enums;
     using System;
 
+    /// <summary>
+    /// A DTO containing PRN tonnage data
+    /// </summary>
     public class PrnTonnesPlannedDto
     {
-        public Guid ExternalId { get; set; }
+        public Guid Id { get; set; }
 
         public PrnPlannedTonnesType? PrnPlannedTonnesType { get; set; }
 
