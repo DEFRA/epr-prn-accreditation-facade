@@ -135,7 +135,6 @@ namespace EPR.Accreditation.UnitTests.RESTservices
             var result = await _httpAccreditationService.GetAccreditationMaterial(
                 siteType,
                 accreditationExternalId,
-                siteExternalId,
                 materialExternalId);
 
             // Assert
@@ -170,7 +169,6 @@ namespace EPR.Accreditation.UnitTests.RESTservices
             await _httpAccreditationService.UpdateAccreditationMaterial(
                 siteType,
                 accreditationExternalId,
-                siteExternalId,
                 materialExternalId,
                 accreditationMaterialDto);
 

@@ -1,5 +1,4 @@
 ﻿using EPR.Accreditation.Facade.Common.Dtos;
-using EPR.Accreditation.Facade.Common.Dtos.Portal;
 using EPR.Accreditation.Facade.Common.Enums;
 using DTO = EPR.Accreditation.Facade.Common.Dtos;
 
@@ -14,13 +13,11 @@ namespace EPR.Accreditation.Facade.Common.RESTservices.Interfaces
         Task<DTO.AccreditationMaterial> GetAccreditationMaterial(
             SiteType siteType,
             Guid accreditationExternalId,
-            Guid? siteExternalId,
             Guid materialExternalId);
 
         Task UpdateAccreditationMaterial(
             SiteType siteType,
             Guid accreditationExternalId,
-            Guid? siteExternalId,
             Guid materialExternalId,
             DTO.AccreditationMaterial accreditationMaterial);
 

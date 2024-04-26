@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace EPR.Accreditation.Facade.Controllers
 {
     [ApiController]
-    [Route("/api/Accreditation/{accreditationExternalId}/OverseasSite/{overseasSiteExternalId}")]
+    [Route("/api/Accreditation/{id}/OverseasSite/{overseasSiteId}")]
     public class OverseasSiteController : ControllerBase
     {
         protected readonly IOverseasSiteService _overseasSiteService;
@@ -18,25 +18,25 @@ namespace EPR.Accreditation.Facade.Controllers
 
         [HttpGet("ReprocessorDetails")]
         public async Task<IActionResult> GetReprocessorDetails(
-            Guid accreditationExternalId,
-            Guid overseasSiteExternalId)
+            Guid id,
+            Guid overseasSiteId)
         {
             var reprocessorDetails = await _overseasSiteService.GetReprocessorDetails(
-                accreditationExternalId,
-                overseasSiteExternalId);
+                id,
+                overseasSiteId);
 
             return Ok(reprocessorDetails);
         }
 
         [HttpPut("ReprocessorDetails")]
         public async Task<IActionResult> UpdateReprocessorDetails(
-            Guid accreditationExternalId,
-            Guid overseasSiteExternalId,
+            Guid id,
+            Guid overseasSiteId,
             [FromBody] ReprocessorDetailsDto reprocessorDetails)
         {
             await _overseasSiteService.UpdateReprocessorDetails(
-                accreditationExternalId,
-                overseasSiteExternalId,
+                id,
+                overseasSiteId,
                 reprocessorDetails);
 
             return Ok();
