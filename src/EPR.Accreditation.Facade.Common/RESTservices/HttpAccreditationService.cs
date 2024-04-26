@@ -93,7 +93,7 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
             Guid accreditationId, 
             Guid accreditationMaterialId)
         {
-            return await Get<AccreditationMaterial>($"{accreditationId}/Site/Material/{accreditationMaterialId}");
+            return await Get<AccreditationMaterial>($"{accreditationId}/Material/{accreditationMaterialId}");
         }
 
         private string GetAdressAsSingleLine(Dtos.Site dto)
