@@ -9,7 +9,7 @@ namespace EPR.Accreditation.UnitTests.Controllers
     [TestClass]
     public class AccreditationSiteMaterialControllerTests
     {
-        private AccreditationSiteMaterialController _accreditationSiteMaterialController;
+        private AccreditationMaterialController _accreditationSiteMaterialController;
         private Mock<IAccreditationService> _mockAccreditationService;
         private Mock<IWastePermitService> _mockWastePermitService;
         private Mock<IAccreditationMaterialService> _mockAccreditationMaterialService;
@@ -21,7 +21,7 @@ namespace EPR.Accreditation.UnitTests.Controllers
             _mockWastePermitService = new Mock<IWastePermitService>();
             _mockAccreditationMaterialService = new Mock<IAccreditationMaterialService>();
 
-            _accreditationSiteMaterialController = new AccreditationSiteMaterialController(
+            _accreditationSiteMaterialController = new AccreditationMaterialController(
                 _mockAccreditationService.Object,
                 _mockWastePermitService.Object,
                 _mockAccreditationMaterialService.Object);

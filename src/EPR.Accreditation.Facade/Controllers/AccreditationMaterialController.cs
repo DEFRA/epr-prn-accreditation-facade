@@ -1,19 +1,19 @@
-﻿using EPR.Accreditation.Facade.Common.Dtos.Portal;
-using EPR.Accreditation.Facade.Common.Enums;
-using EPR.Accreditation.Facade.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc;
-
-namespace EPR.Accreditation.Facade.Controllers
+﻿namespace EPR.Accreditation.Facade.Controllers
 {
+    using EPR.Accreditation.Facade.Common.Dtos.Portal;
+    using EPR.Accreditation.Facade.Common.Enums;
+    using EPR.Accreditation.Facade.Services.Interfaces;
+    using Microsoft.AspNetCore.Mvc;
+
     [ApiController]
-    [Route("/api/Accreditation/{id}/Site/Material/{materialId}")]
-    public class AccreditationSiteMaterialController : ControllerBase
+    [Route("/api/Accreditation/{id}/Material/{materialId}")]
+    public class AccreditationMaterialController : ControllerBase
     {
         protected readonly IAccreditationService _accreditationService;
         protected readonly IWastePermitService _wastePermitService;
         protected readonly IAccreditationMaterialService _accreditationMaterialService;
 
-        public AccreditationSiteMaterialController(
+        public AccreditationMaterialController(
             IAccreditationService accreditationService,
             IWastePermitService wastePermitService,
             IAccreditationMaterialService accreditationMaterialService)
@@ -31,7 +31,6 @@ namespace EPR.Accreditation.Facade.Controllers
             var wasteSource = await _accreditationService.GetWasteSource(
                 SiteType.Site,
                 id,
-                null,
                 materialId);
 
             return Ok(wasteSource);
@@ -46,7 +45,6 @@ namespace EPR.Accreditation.Facade.Controllers
             await _accreditationService.UpdateWasteSource(
                 SiteType.Site,
                 id,
-                null,
                 materialId,
                 wasteSource);
 
@@ -56,7 +54,6 @@ namespace EPR.Accreditation.Facade.Controllers
         [HttpGet("Name")]
         public async Task<IActionResult> GetMaterialName(
             Guid id,
-            Guid? siteId,
             Guid materialId,
             Language language)
         {
@@ -66,7 +63,6 @@ namespace EPR.Accreditation.Facade.Controllers
             var wasteSource = await _accreditationService.GetWasteMaterialName(
                 SiteType.Site,
                 id,
-                null,
                 materialId,
                 language);
 

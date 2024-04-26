@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace EPR.Accreditation.Facade.Controllers
 {
     [ApiController]
-    [Route("/api/Accreditation/{accreditationExternalId}/Site")]
+    [Route("/api/Accreditation/{id}/Site")]
     public class AccreditationSiteController : ControllerBase
     {
         protected readonly ISiteService _siteService;
@@ -16,20 +16,20 @@ namespace EPR.Accreditation.Facade.Controllers
 
         [HttpGet("ExemptionReferences")]
         public async Task<IActionResult> GetExemptionReferences(
-            Guid accreditationExternalId)
+            Guid id)
         {
-            var exemptionReferences = await _siteService.GetExemptionReferences(accreditationExternalId);
+            var exemptionReferences = await _siteService.GetExemptionReferences(id);
 
             return Ok(exemptionReferences);
         }
 
         [HttpPut("ExemptionReferences")]
         public async Task<IActionResult> UpdatePermitExemption(
-            Guid accreditationExternalId,
+            Guid id,
             [FromBody] IEnumerable<string> exemptionReferences)
         {
             await _siteService.UpdateExemptionReferences(
-                accreditationExternalId,
+                id,
                 exemptionReferences);
 
             return Ok();

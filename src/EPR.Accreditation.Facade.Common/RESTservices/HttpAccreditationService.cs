@@ -1,10 +1,10 @@
-﻿using EPR.Accreditation.Facade.Common.Dtos;
-using EPR.Accreditation.Facade.Common.Enums;
-using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
-using Microsoft.AspNetCore.Http;
-
-namespace EPR.Accreditation.Facade.Common.RESTservices
+﻿namespace EPR.Accreditation.Facade.Common.RESTservices
 {
+    using EPR.Accreditation.Facade.Common.Dtos;
+    using EPR.Accreditation.Facade.Common.Enums;
+    using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
+    using Microsoft.AspNetCore.Http;
+
     public class HttpAccreditationService : BaseHttpService, IHttpAccreditationService
     {
         public HttpAccreditationService(
@@ -50,22 +50,20 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
         public async Task<Dtos.AccreditationMaterial> GetAccreditationMaterial(
             SiteType siteType,
             Guid id,
-            Guid? siteId,
             Guid materialId)
         {
-            var site = GetSiteName(siteType, siteId);
-            return await Get<Dtos.AccreditationMaterial>($"{id}/{site}/Material/{materialId}");
+            var site = GetSiteName(siteType);
+            return await Get<Dtos.AccreditationMaterial>($"{id}/{site}/{materialId}");
         }
 
         public async Task UpdateAccreditationMaterial(
             SiteType siteType,
             Guid id,
-            Guid? siteId,
             Guid materialId,
             AccreditationMaterial accreditationMaterial)
         {
-            var site = GetSiteName(siteType, siteId);
-            await Put($"{id}/{site}/Material/{materialId}", accreditationMaterial);
+            var site = GetSiteName(siteType);
+            await Put($"{id}/{site}/{materialId}", accreditationMaterial);
         }
         public async Task<Dtos.Accreditation> GetAccreditation(
             Guid id)
@@ -94,7 +92,7 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
             Guid id,
             Guid accreditationMaterialId)
         {
-            return await Get<AccreditationMaterial>($"{id}/Site/Material/{accreditationMaterialId}");
+            return await Get<AccreditationMaterial>($"{id}/Material/{accreditationMaterialId}");
         }
 
         private string GetAdressAsSingleLine(Dtos.Site dto)
@@ -122,8 +120,7 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
         }
 
         private string GetSiteName(
-            SiteType siteType,
-            Guid? siteId) => siteType == SiteType.Site ? "Site" : $"OverseasSite/{siteId}";
+            SiteType siteType) => siteType == SiteType.Site ? "Material" : $"OverseasMaterial";
 
     }
 }

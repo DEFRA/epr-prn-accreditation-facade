@@ -123,19 +123,16 @@ namespace EPR.Accreditation.UnitTests.RESTservices
             // Arrange
             var siteType = SiteType.Site;
             var accreditationExternalId = Guid.NewGuid();
-            var siteExternalId = Guid.NewGuid();
             var materialExternalId = Guid.NewGuid();
-            var siteName = "Site";
             var expectedOutput = new Facade.Common.Dtos.AccreditationMaterial();
             SetClientResponse(HttpStatusCode.OK, expectedOutput);
 
-            var expectedUrl = $"{_baseUrl}/{_endpointName}/{accreditationExternalId}/{siteName}/Material/{materialExternalId}";
+            var expectedUrl = $"{_baseUrl}/{_endpointName}/{accreditationExternalId}/Material/{materialExternalId}";
 
             // Act
             var result = await _httpAccreditationService.GetAccreditationMaterial(
                 siteType,
                 accreditationExternalId,
-                siteExternalId,
                 materialExternalId);
 
             // Assert
@@ -149,9 +146,7 @@ namespace EPR.Accreditation.UnitTests.RESTservices
             // Arrange
             var siteType = SiteType.Site;
             var accreditationExternalId = Guid.NewGuid();
-            var siteExternalId = Guid.NewGuid();
             var materialExternalId = Guid.NewGuid();
-            var siteName = "Site";
             var accreditationMaterialDto = new AccreditationMaterial
             {
                 ExternalId = accreditationExternalId,
@@ -164,13 +159,12 @@ namespace EPR.Accreditation.UnitTests.RESTservices
                 Material = new Material()
             };
 
-            var expectedUrl = $"{_baseUrl}/{_endpointName}/{accreditationExternalId}/{siteName}/Material/{materialExternalId}";
+            var expectedUrl = $"{_baseUrl}/{_endpointName}/{accreditationExternalId}/Material/{materialExternalId}";
 
             // Act
             await _httpAccreditationService.UpdateAccreditationMaterial(
                 siteType,
                 accreditationExternalId,
-                siteExternalId,
                 materialExternalId,
                 accreditationMaterialDto);
 

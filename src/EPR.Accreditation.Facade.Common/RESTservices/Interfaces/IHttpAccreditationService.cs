@@ -1,9 +1,9 @@
-﻿using EPR.Accreditation.Facade.Common.Dtos;
-using EPR.Accreditation.Facade.Common.Enums;
-using DTO = EPR.Accreditation.Facade.Common.Dtos;
-
-namespace EPR.Accreditation.Facade.Common.RESTservices.Interfaces
+﻿namespace EPR.Accreditation.Facade.Common.RESTservices.Interfaces
 {
+    using EPR.Accreditation.Facade.Common.Dtos;
+    using EPR.Accreditation.Facade.Common.Enums;
+    using DTO = EPR.Accreditation.Facade.Common.Dtos;
+
     public interface IHttpAccreditationService
     {
         Task<OperatorType> GetOperatorType(Guid id);
@@ -13,13 +13,11 @@ namespace EPR.Accreditation.Facade.Common.RESTservices.Interfaces
         Task<DTO.AccreditationMaterial> GetAccreditationMaterial(
             SiteType siteType,
             Guid id,
-            Guid? siteId,
             Guid materialId);
 
         Task UpdateAccreditationMaterial(
             SiteType siteType,
             Guid id,
-            Guid? siteId,
             Guid materialId,
             DTO.AccreditationMaterial accreditationMaterial);
 

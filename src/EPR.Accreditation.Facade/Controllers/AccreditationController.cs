@@ -1,12 +1,12 @@
-﻿using EPR.Accreditation.Facade.Common.Dtos;
-using EPR.Accreditation.Facade.Common.Dtos.Portal;
-using EPR.Accreditation.Facade.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc;
-
-namespace EPR.Accreditation.Facade.Controllers
+﻿namespace EPR.Accreditation.Facade.Controllers
 {
+    using EPR.Accreditation.Facade.Common.Dtos;
+    using EPR.Accreditation.Facade.Common.Dtos.Portal;
+    using EPR.Accreditation.Facade.Services.Interfaces;
+    using Microsoft.AspNetCore.Mvc;
+
     [ApiController]
-    [Route("/api/[controller]/{accreditationExternalId}/")]
+    [Route("/api/[controller]/{id}/")]
     public class AccreditationController : ControllerBase
     {
         protected readonly IAccreditationService _accreditationService;
@@ -28,18 +28,18 @@ namespace EPR.Accreditation.Facade.Controllers
 
         [HttpGet("CheckYourAnswers")]
         public async Task<IActionResult> GetCheckYourAnswers(
-            Guid accreditationExternalId)
+            Guid id)
         {
-            var checkYourAnswersDto = await _accreditationService.GetCheckYourAnswers(accreditationExternalId);
+            var checkYourAnswersDto = await _accreditationService.GetCheckYourAnswers(id);
 
             return Ok(checkYourAnswersDto);
         }
 
         [HttpGet("OperatorType")]
         public async Task<IActionResult> GetOperatorType(
-            Guid accreditationExternalId)
+            Guid id)
         {
-            var operatorTypeId = await _accreditationService.GetOperatorType(accreditationExternalId);
+            var operatorTypeId = await _accreditationService.GetOperatorType(id);
 
             return Ok(operatorTypeId);
         }
@@ -56,37 +56,37 @@ namespace EPR.Accreditation.Facade.Controllers
 
         [HttpPost("WastePermit")]
         public async Task<IActionResult> CreateWastePermit(
-            Guid accreditationExternalId,
+            Guid id,
             Common.Dtos.WastePermit wastePermit)
         {
-            await _accreditationService.CreateWastePermit(accreditationExternalId, wastePermit);
+            await _accreditationService.CreateWastePermit(id, wastePermit);
 
             return Ok();
         }
 
         [HttpGet("WastePermit")]
-        public async Task<IActionResult> GetWastePermit(Guid accreditationExternalId)
+        public async Task<IActionResult> GetWastePermit(Guid id)
         {
-            var wastePermit = await _accreditationService.GetWastePermit(accreditationExternalId);
+            var wastePermit = await _accreditationService.GetWastePermit(id);
 
             return Ok(wastePermit);
         }
 
         [HttpGet("WastePermitExemption")]
-        public async Task<IActionResult> GetHasPermitExemption(Guid accreditationExternalId)
+        public async Task<IActionResult> GetHasPermitExemption(Guid id)
         {
-            var hasPermitExemption = await _wastePermitService.GetHasPermitExemption(accreditationExternalId);
+            var hasPermitExemption = await _wastePermitService.GetHasPermitExemption(id);
 
             return Ok(hasPermitExemption);
         }
 
         [HttpPut("WastePermitExemption")]
         public async Task<IActionResult> UpdatePermitExemption(
-            Guid accreditationExternalId,
+            Guid id,
             [FromBody] PermitExemption permitExemption)
         {
             await _wastePermitService.UpdatePermitExemption(
-                accreditationExternalId,
+                id,
                 permitExemption);
 
             return Ok();
@@ -94,29 +94,29 @@ namespace EPR.Accreditation.Facade.Controllers
 
         [HttpGet("Site")]
         public async Task<IActionResult> GetSite(
-            Guid accreditationExternalId)
+            Guid id)
         {
-            var site = await _siteService.GetSite(accreditationExternalId);
+            var site = await _siteService.GetSite(id);
 
             return Ok(site);
         }
 
         [HttpGet("TaskProgress")]
         public async Task<IActionResult> GetTaskProgress(
-            Guid accreditationExternalId)
+            Guid id)
         {
-            var taskProgress = await _accreditationService.GetTaskProgress(accreditationExternalId);
+            var taskProgress = await _accreditationService.GetTaskProgress(id);
 
             return Ok(taskProgress);
         }
 
         [HttpGet("LastCalendarYearWaste")]
         public async Task<IActionResult> LastCalendarYearWaste(
-            Guid accreditationExternalId,
+            Guid id,
             Guid accreditationMaterialExternalId)
         {
             MaterialReprocessorDetails materialReprocessorDetails = await _accreditationMaterialService.GetReprocessedWasteLastYearData(
-                accreditationExternalId,
+                id,
                 accreditationMaterialExternalId);
 
             return Ok(materialReprocessorDetails);
@@ -124,19 +124,19 @@ namespace EPR.Accreditation.Facade.Controllers
 
         [HttpGet("HasOverseasAgent")]
         public async Task<IActionResult> GetHasOverseasAgent(
-            Guid accreditationExternalId)
+            Guid id)
         {
-            var hasOverseasAgent = await _accreditationService.GetHasOverseasAgent(accreditationExternalId);
+            var hasOverseasAgent = await _accreditationService.GetHasOverseasAgent(id);
 
             return Ok(hasOverseasAgent);
         }
 
         [HttpPut("HasOverseasAgent")]
         public async Task<IActionResult> SetHasOverseasAgent(
-            Guid accreditationExternalId,
+            Guid id,
             [FromBody] bool? hasOverseasAgent)
         {
-            await _accreditationService.SetHasOverseasAgent(accreditationExternalId, hasOverseasAgent);
+            await _accreditationService.SetHasOverseasAgent(id, hasOverseasAgent);
 
             return Ok();
         }
@@ -144,21 +144,21 @@ namespace EPR.Accreditation.Facade.Controllers
         [HttpPost("Site")]
         [ProducesResponseType(typeof(Guid), 200)]
         public async Task<IActionResult> CreateSite(
-            Guid accreditationExternalId,
+            Guid id,
             [FromBody]
             Common.Dtos.Site site)
         {
-            var externalId = await _siteService.CreateSite(accreditationExternalId, site);
+            var externalId = await _siteService.CreateSite(id, site);
 
             return Ok(externalId);
         }
 
         [HttpPut("Site")]
         public async Task<IActionResult> UpdateSite(
-            Guid accreditationExternalId,
+            Guid id,
             [FromBody] Common.Dtos.Site site)
         {
-            await _siteService.UpdateSite(accreditationExternalId, site);
+            await _siteService.UpdateSite(id, site);
 
             return Ok();
         }

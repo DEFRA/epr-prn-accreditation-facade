@@ -1,9 +1,9 @@
-﻿using EPR.Accreditation.Facade.Common.Dtos;
-using EPR.Accreditation.Facade.Common.Dtos.Portal;
-using EPR.Accreditation.Facade.Common.Enums;
-
-namespace EPR.Accreditation.Facade.Services.Interfaces
+﻿namespace EPR.Accreditation.Facade.Services.Interfaces
 {
+    using EPR.Accreditation.Facade.Common.Dtos;
+    using EPR.Accreditation.Facade.Common.Dtos.Portal;
+
+    using EPR.Accreditation.Facade.Common.Enums;
     public interface IAccreditationService
     {
         Task<OperatorType> GetOperatorType(Guid id);
@@ -12,20 +12,17 @@ namespace EPR.Accreditation.Facade.Services.Interfaces
         Task<string> GetWasteSource(
             SiteType siteType,
             Guid id,
-            Guid? siteId,
             Guid materialId);
 
         Task UpdateWasteSource(
             SiteType siteType,
             Guid id,
-            Guid? siteId,
             Guid materialId,
             string wasteSource);
 
         Task<string> GetWasteMaterialName(
             SiteType siteType,
             Guid id,
-            Guid? siteId,
             Guid materialId,
             Language language);
 
