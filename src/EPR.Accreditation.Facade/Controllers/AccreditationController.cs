@@ -193,5 +193,63 @@
 
             return Ok();
         }
+        
+        /// <summary>
+        /// Gets a list of uploaded-file details for the given Accreditation.
+        /// </summary>
+        /// <param name="id">Accreditation Id.</param>
+        /// <returns>A list of file records.</returns>
+        [HttpGet("Files")]
+        public async Task<IActionResult> GetFileRecords(Guid id)
+        {
+            var fileUploadRecords = await _accreditationService.GetFileRecords(id);
+
+            if (fileUploadRecords == null ||
+                !fileUploadRecords.Any())
+                return NotFound();
+
+            return Ok(fileUploadRecords);
+        }
+
+        /// <summary>
+        /// Add an uploaded-file record for the given Accreditation.
+        /// </summary>
+        /// <param name="id">Accreditation Id.</param>
+        /// <param name="fileUpload">Uploaded file details.</param>
+        /// <returns>Completed Task.</returns>
+        [HttpPost("Files")]
+        public async Task<IActionResult> AddFile(
+            Guid id,
+            [FromBody] FileUpload fileUpload)
+        {
+            if (fileUpload == null)
+                return BadRequest("No file upload record supplied");
+
+            await _accreditationService.AddFile(
+                id,
+                fileUpload);
+
+            return Ok();
+        }
+
+        /// <summary>
+        /// Deletes an uploaded-file record.
+        /// </summary>
+        /// <param name="uploadedFileId">Uploaded file Id.</param>
+        /// <returns>Completed Task.</returns>
+        [HttpDelete("Files")]
+        public async Task<IActionResult> DeleteFile(
+            Guid id,
+            Guid? uploadedFileId)
+        {
+            if (!uploadedFileId.HasValue)
+            {
+                return NotFound();
+            }
+
+            await _accreditationService.DeleteFile(id, uploadedFileId.Value);
+
+            return Ok();
+        }
     }
 }

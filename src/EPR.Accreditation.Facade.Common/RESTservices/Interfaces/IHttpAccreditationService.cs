@@ -44,5 +44,28 @@
             OverseasReprocessingSite overseasSite);
 
         Task SetHasOverseasAgent(Guid id, bool? hasOverseasAgent);
+
+        /// <summary>
+        /// Gets a list of uploaded-file details for the given Accreditation, using an HTTP client.
+        /// </summary>
+        /// <param name="id">Accreditation Id.</param>
+        /// <returns>A list of file records.</returns>
+        Task<List<FileUpload>> GetFileRecords(Guid id);
+
+        /// <summary>
+        /// Add an uploaded-file record for the given Accreditation, using an HTTP client.
+        /// </summary>
+        /// <param name="id">Accreditation Id.</param>
+        /// <param name="fileRecord">Uploaded file record.</param>
+        /// <returns>Completed Task.</returns>
+        Task AddFile(Guid id, FileUpload fileRecord);
+
+        /// <summary>
+        /// Deletes an uploaded-file record, using an HTTP client.
+        /// </summary>
+        /// <param name="accreditationExternalId">Accreditation Id.</param>
+        /// <param name="uploadedFileId">Uploaded file Id.</param>
+        /// <returns>Completed Task.</returns>
+        Task DeleteFile(Guid id, Guid uploadedFileId);
     }
 }

@@ -119,8 +119,39 @@
             await Put($"{id}/OverseasSite", overseasSite);
         }
 
+        /// <summary>
+        /// Gets a list of uploaded-file details for the given Accreditation, using an HTTP client.
+        /// </summary>
+        /// <param name="id">Accreditation Id.</param>
+        /// <returns>A list of file records view models.</returns>
+        public async Task<List<FileUpload>> GetFileRecords(Guid id)
+        {
+            return await Get<List<FileUpload>>($"{id}/Files");
+        }
+
+        /// <summary>
+        /// Add an uploaded-file record for the given Accreditation, using an HTTP client.
+        /// </summary>
+        /// <param name="id">Accreditation Id.</param>
+        /// <param name="fileRecord">Uploaded file record.</param>
+        /// <returns>Completed Task.</returns>
+        public async Task AddFile(Guid id, FileUpload fileRecord)
+        {
+            await Post($"{id}/Files", fileRecord);
+        }
+
+        /// <summary>
+        /// Deletes an uploaded-file record, using an HTTP client.
+        /// </summary>
+        /// <param name="accreditationExternalId">Accreditation Id.</param>
+        /// <param name="uploadedFileId">Uploaded file Id.</param>
+        /// <returns>Completed Task.</returns>
+        public async Task DeleteFile(Guid id, Guid uploadedFileId)
+        {
+            await Delete($"{id}/Files/{uploadedFileId}");
+        }
+
         private string GetSiteName(
             SiteType siteType) => siteType == SiteType.Site ? "Material" : $"OverseasMaterial";
-
     }
 }

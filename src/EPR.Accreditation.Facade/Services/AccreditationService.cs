@@ -318,5 +318,38 @@
             accreditation.Large = prnTonnesPlannedDto.PrnPlannedTonnesType == PrnPlannedTonnesType.Upto ? false : true;
             await _httpAccreditationService.UpdateAccreditation(accreditationExternalId, accreditation);
         }
+
+        /// <summary>
+        /// Gets a list of uploaded-file details for the given Accreditation.
+        /// </summary>
+        /// <param name="id">Accreditation Id.</param>
+        /// <returns>A list of file records view models.</returns>
+        public async Task<List<FileUpload>> GetFileRecords(Guid id)
+        {
+            var fileRecords = await _httpAccreditationService.GetFileRecords(id);
+            return fileRecords;
+        }
+
+        /// <summary>
+        /// Add an uploaded-file record for the given Accreditation.
+        /// </summary>
+        /// <param name="id">Accreditation Id.</param>
+        /// <param name="fileRecord">Uploaded file record.</param>
+        /// <returns>Completed Task.</returns>
+        public async Task AddFile(Guid id, FileUpload fileRecord)
+        {
+            await _httpAccreditationService.AddFile(id, fileRecord);
+        }
+
+        /// <summary>
+        /// Deletes an uploaded-file record.
+        /// </summary>
+        /// <param name="accreditationExternalId">Accreditation Id.</param>
+        /// <param name="uploadedFileId">Uploaded file Id.</param>
+        /// <returns>Completed Task.</returns>
+        public async Task DeleteFile(Guid id, Guid uploadedFileId)
+        {
+            await _httpAccreditationService.DeleteFile(id, uploadedFileId);
+        }
     }
 }
