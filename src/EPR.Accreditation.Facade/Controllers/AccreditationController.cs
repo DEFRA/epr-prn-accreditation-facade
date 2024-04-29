@@ -162,5 +162,36 @@
 
             return Ok();
         }
+
+        /// <summary>
+        /// Returns PRN tonnage data for given accreditation.
+        /// </summary>
+        /// <param name="id">Accreditation id.</param>
+        /// <returns>PRN data dto.</returns>
+        [HttpGet("PrnTonnesPlanned")]
+        [ProducesResponseType(typeof(Guid), 200)]
+        public async Task<IActionResult> GetPrnTonnesPlanned(
+            Guid id)
+        {
+            var externalId = await _accreditationService.GetPrnTonnesPlanned(id);
+
+            return Ok(externalId);
+        }
+
+        /// <summary>
+        /// Updates PRN tonnage data for given accreditation.
+        /// </summary>
+        /// <param name="id">Accreditation id.</param>
+        /// <param name="prnTonnesPlannedDto">PRN data dto.</param>
+        /// <returns>Task.</returns>
+        [HttpPut("PrnTonnesPlanned")]
+        public async Task<IActionResult> UpdatePrnTonnesPlanned(
+            Guid id,
+            [FromBody] PrnTonnesPlannedDto prnTonnesPlannedDto)
+        {
+            await _accreditationService.UpdatePrnTonnesPlanned(id, prnTonnesPlannedDto);
+
+            return Ok();
+        }
     }
 }
