@@ -311,7 +311,10 @@
             Guid accreditationExternalId, 
             PrnTonnesPlannedDto prnTonnesPlannedDto)
         {
-            var accreditation = new Common.Dtos.Accreditation { LargeFee = prnTonnesPlannedDto.PrnPlannedTonnesFee };
+            var accreditation = new Common.Dtos.Accreditation 
+            { 
+                LargeFee = prnTonnesPlannedDto.PrnPlannedTonnesFee 
+            };
             accreditation.Large = prnTonnesPlannedDto.PrnPlannedTonnesType == PrnPlannedTonnesType.Upto ? false : true;
             await _httpAccreditationService.UpdateAccreditation(accreditationExternalId, accreditation);
         }
