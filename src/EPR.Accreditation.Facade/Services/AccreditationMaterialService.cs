@@ -168,5 +168,39 @@
                 materialId,
                 accreditationMaterial);
         }
+
+        public async Task<string> GetNpwdAccreditationNumber(
+            Guid id,
+            Guid materialId)
+        {
+            var accreditationMaterial = await _httpAccreditationService.GetAccreditationMaterial(
+                SiteType.Site,
+                id,
+                materialId);
+
+            if (accreditationMaterial == null)
+            {
+                return null;
+            }
+
+            return accreditationMaterial.NpwdAccreditationNumber;
+        }
+
+        public async Task UpdateNpwdAccreditationNumber(
+            Guid id,
+            Guid materialId,
+            string npwdAccreditationNumber)
+        {
+            var accreditationMaterial = new Common.Dtos.AccreditationMaterial
+            {
+                NpwdAccreditationNumber = npwdAccreditationNumber
+            };
+
+            await _httpAccreditationService.UpdateAccreditationMaterial(
+                SiteType.Site,
+                id,
+                materialId,
+                accreditationMaterial);
+        }
     }
 }
