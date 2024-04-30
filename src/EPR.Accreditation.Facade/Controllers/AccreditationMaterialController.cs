@@ -1,10 +1,10 @@
-﻿using EPR.Accreditation.Facade.Common.Dtos.Portal;
-using EPR.Accreditation.Facade.Common.Enums;
-using EPR.Accreditation.Facade.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc;
-
-namespace EPR.Accreditation.Facade.Controllers
+﻿namespace EPR.Accreditation.Facade.Controllers
 {
+    using EPR.Accreditation.Facade.Common.Dtos.Portal;
+    using EPR.Accreditation.Facade.Common.Enums;
+    using EPR.Accreditation.Facade.Services.Interfaces;
+    using Microsoft.AspNetCore.Mvc;
+
     [ApiController]
     [Route("/api/Accreditation/{id}/Material/{materialId}")]
     public class AccreditationMaterialController : ControllerBase
@@ -199,6 +199,32 @@ namespace EPR.Accreditation.Facade.Controllers
                 id,
                 materialId,
                 reprocessedWasteLastYear);
+
+            return Ok();
+        }
+
+        [HttpGet("HasNpwdAccreditationNumber")]
+        public async Task<IActionResult> GetHasNpwdAccreditationNumber(
+            Guid id,
+            Guid materialId)
+        {
+            var hasNpwdAccreditationNumber = await _accreditationMaterialService.GetHasNpwdAccreditationNumber(
+                id,
+                materialId);
+
+            return Ok(hasNpwdAccreditationNumber);
+        }
+
+        [HttpPut("HasNpwdAccreditationNumber")]
+        public async Task<IActionResult> UpdateHasNpwdAccreditationNumber(
+            Guid id,
+            Guid materialId,
+            [FromBody] NpwdAccreditationNumber npwdAccreditationNumber)
+        {
+            await _accreditationMaterialService.UpdateHasNpwdAccreditationNumber(
+                id,
+                materialId,
+                npwdAccreditationNumber);
 
             return Ok();
         }
