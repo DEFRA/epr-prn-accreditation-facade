@@ -38,6 +38,13 @@
             CreateMap<OverseasReprocessingSite, OverseasReprocessingSiteOutputs>();
 
             CreateMap<ReprocessorDetailsDto, OverseasAddress>();
+
+            CreateMap<AddressDto, Site>()
+                .ForMember(d => d.Address, o => o.MapFrom(s => s))
+                .ReverseMap();
+
+            CreateMap<AddressDto, Address>()
+                .ReverseMap();
         }
     }
 }

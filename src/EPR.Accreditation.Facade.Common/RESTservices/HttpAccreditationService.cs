@@ -103,7 +103,7 @@ namespace EPR.Accreditation.Facade.Common.RESTservices
                 return string.Empty;
             }
 
-            var address = $"{dto.Address1}, {dto.Address2}, {dto.Town}, {dto.County}, {dto.Postcode}";
+            var address = $"{dto.Address.Address1}, {dto.Address.Address2}, {dto.Address.Town}, {dto.Address.County}, {dto.Address.Postcode}";
 
             return address;
         }

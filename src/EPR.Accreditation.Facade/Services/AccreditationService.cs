@@ -283,5 +283,26 @@ namespace EPR.Accreditation.Facade.Services
 
             await _httpAccreditationService.UpdateAccreditation(accreditationExternalId, accreditation);
         }
+
+        public async Task<AddressDto> GetLegalDocumentsAddress(Guid id)
+        {
+            var accreditation = await _httpAccreditationService.GetAccreditation(id);
+
+            return _mapper.Map<AddressDto>(accreditation.LegalAddress);
+        }
+
+        public async Task UpdateLegalDocumentsAddress(
+            Guid id,
+            AddressDto address)
+        {
+            var accreditation = new Common.Dtos.Accreditation
+            {
+                LegalAddress = _mapper.Map<Address>(address)
+            };
+
+            await _httpAccreditationService.UpdateAccreditation(
+                id,
+                accreditation);
+        }
     }
 }

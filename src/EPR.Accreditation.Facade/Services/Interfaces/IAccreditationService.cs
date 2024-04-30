@@ -78,5 +78,11 @@ namespace EPR.Accreditation.Facade.Services.Interfaces
         Task<HasOverseasAgentDto> GetHasOverseasAgent(Guid accreditationExternalId);
 
         Task SetHasOverseasAgent(Guid accreditationExternalId, bool? hasOverseasAgent);
+
+        Task<AddressDto> GetLegalDocumentsAddress(Guid id);
+
+        Task UpdateLegalDocumentsAddress(
+            Guid id,
+            AddressDto address);
     }
 }

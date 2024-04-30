@@ -92,15 +92,6 @@ namespace EPR.Accreditation.Facade.Controllers
             return Ok();
         }
 
-        [HttpGet("Site")]
-        public async Task<IActionResult> GetSite(
-            Guid id)
-        {
-            var site = await _siteService.GetSite(id);
-
-            return Ok(site);
-        }
-
         [HttpGet("TaskProgress")]
         public async Task<IActionResult> GetTaskProgress(
             Guid id)
@@ -141,14 +132,22 @@ namespace EPR.Accreditation.Facade.Controllers
             return Ok();
         }
 
+        [HttpGet("Site")]
+        public async Task<IActionResult> GetSite(
+            Guid id)
+        {
+            var site = await _siteService.GetSite(id);
+
+            return Ok(site);
+        }
+
         [HttpPost("Site")]
         [ProducesResponseType(typeof(Guid), 200)]
         public async Task<IActionResult> CreateSite(
             Guid id,
-            [FromBody]
-            Common.Dtos.Site site)
+            [FromBody]AddressDto siteAddress)
         {
-            var externalId = await _siteService.CreateSite(id, site);
+            var externalId = await _siteService.CreateSite(id, siteAddress);
 
             return Ok(externalId);
         }
@@ -156,9 +155,27 @@ namespace EPR.Accreditation.Facade.Controllers
         [HttpPut("Site")]
         public async Task<IActionResult> UpdateSite(
             Guid id,
-            [FromBody] Common.Dtos.Site site)
+            [FromBody]AddressDto siteAddress)
         {
-            await _siteService.UpdateSite(id, site);
+            await _siteService.UpdateSite(id, siteAddress);
+
+            return Ok();
+        }
+
+        [HttpGet("LegalDocumentAddress")]
+        public async Task<IActionResult> GetLegalDocumentsAddress(Guid id)
+        {
+            var addressDto = await _accreditationService.GetLegalDocumentsAddress(id);
+
+            return Ok(addressDto);
+        }
+
+        [HttpPut("LegalDocumentAddress")]
+        public async Task<IActionResult> SaveLegalDocumentsAddress(
+            Guid id,
+            AddressDto addressDto)
+        {
+            await _accreditationService.UpdateLegalDocumentsAddress(id, addressDto);
 
             return Ok();
         }
