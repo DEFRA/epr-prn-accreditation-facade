@@ -178,7 +178,8 @@
                 id,
                 materialId);
 
-            if (accreditationMaterial == null)
+            if (accreditationMaterial == null ||
+                !accreditationMaterial.WasteLastYear.Value)
             {
                 return null;
             }
