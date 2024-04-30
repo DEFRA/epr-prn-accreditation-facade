@@ -219,12 +219,12 @@
         public async Task<IActionResult> UpdateHasNpwdAccreditationNumber(
             Guid id,
             Guid materialId,
-            [FromBody] NpwdAccreditationNumber npwdAccreditationNumber)
+            [FromBody] HasNpwdAccreditationNumber hasNpwdAccreditationNumber)
         {
             await _accreditationMaterialService.UpdateHasNpwdAccreditationNumber(
                 id,
                 materialId,
-                npwdAccreditationNumber);
+                hasNpwdAccreditationNumber);
 
             return Ok();
         }
@@ -245,7 +245,7 @@
         public async Task<IActionResult> UpdateNpwdAccreditationNumber(
             Guid id,
             Guid materialId,
-            [FromBody] string npwdAccreditationNumber)
+            [FromBody] NpwdAccreditationNumber npwdAccreditationNumber)
         {
             await _accreditationMaterialService.UpdateNpwdAccreditationNumber(
                 id,

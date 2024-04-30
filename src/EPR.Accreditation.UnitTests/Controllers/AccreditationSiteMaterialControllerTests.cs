@@ -157,7 +157,7 @@ namespace EPR.Accreditation.UnitTests.Controllers
             // Arrange
             var accreditationExternalId = Guid.NewGuid();
             var materialExternalId = Guid.NewGuid();
-            var npwdAccreditationNumber = new NpwdAccreditationNumber();
+            var npwdAccreditationNumber = new HasNpwdAccreditationNumber();
 
             _mockAccreditationMaterialService.Setup(s =>
                 s.UpdateHasNpwdAccreditationNumber(

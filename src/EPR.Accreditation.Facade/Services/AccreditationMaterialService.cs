@@ -155,11 +155,11 @@
         public async Task UpdateHasNpwdAccreditationNumber(
             Guid id,
             Guid materialId,
-            NpwdAccreditationNumber npwdAccreditationNumber)
+            HasNpwdAccreditationNumber npwdAccreditationNumber)
         {
             var accreditationMaterial = new Common.Dtos.AccreditationMaterial
             {
-                HasNpwdAccreditationNumber = npwdAccreditationNumber.Has2024NPWDAccreditation
+                HasNpwdAccreditationNumber = npwdAccreditationNumber.Has2024NPWDAccreditationNumber
             };
 
             await _httpAccreditationService.UpdateAccreditationMaterial(
@@ -190,11 +190,11 @@
         public async Task UpdateNpwdAccreditationNumber(
             Guid id,
             Guid materialId,
-            string npwdAccreditationNumber)
+            NpwdAccreditationNumber npwdAccreditationNumber)
         {
             var accreditationMaterial = new Common.Dtos.AccreditationMaterial
             {
-                NpwdAccreditationNumber = npwdAccreditationNumber
+                NpwdAccreditationNumber = npwdAccreditationNumber.AccreditationNumber
             };
 
             await _httpAccreditationService.UpdateAccreditationMaterial(
