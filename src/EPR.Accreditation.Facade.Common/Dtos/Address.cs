@@ -11,7 +11,5 @@
         public string County { get; set; }
 
         public string Postcode { get; set; }
-
-        public Guid OrganisationId { get; set; }
     }
 }
