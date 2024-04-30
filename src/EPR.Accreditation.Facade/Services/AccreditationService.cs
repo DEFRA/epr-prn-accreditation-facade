@@ -287,5 +287,36 @@
 
             await _httpAccreditationService.UpdateAccreditation(id, accreditation);
         }
+
+        /// <summary>
+        /// Gets PRN tonnage data for the given accreditation.
+        /// </summary>
+        /// <param name="accreditationExternalId">Accreditation Id.</param>
+        /// <returns>DTO containing PRN tonnage data.</returns>
+        public async Task<PrnTonnesPlannedDto> GetPrnTonnesPlanned(Guid accreditationExternalId)
+        {
+            var accreditation = await _httpAccreditationService.GetAccreditation(accreditationExternalId);
+            var dto = _mapper.Map<PrnTonnesPlannedDto>(accreditation);
+            dto.PrnPlannedTonnesType = accreditation.Large == null ? null : accreditation.Large.Value ? PrnPlannedTonnesType.Over : PrnPlannedTonnesType.Upto;
+            return dto;
+        }
+
+        /// <summary>
+        /// Updates PRN tonnage data for the given accreditation.
+        /// </summary>
+        /// <param name="accreditationExternalId">Accreditation Id.</param>
+        /// <param name="prnTonnesPlannedDto">DTO containing PRN tonnage data.</param>
+        /// <returns>Completed Task.</returns>
+        public async Task UpdatePrnTonnesPlanned(
+            Guid accreditationExternalId, 
+            PrnTonnesPlannedDto prnTonnesPlannedDto)
+        {
+            var accreditation = new Common.Dtos.Accreditation 
+            { 
+                LargeFee = prnTonnesPlannedDto.PrnPlannedTonnesFee 
+            };
+            accreditation.Large = prnTonnesPlannedDto.PrnPlannedTonnesType == PrnPlannedTonnesType.Upto ? false : true;
+            await _httpAccreditationService.UpdateAccreditation(accreditationExternalId, accreditation);
+        }
     }
 }
