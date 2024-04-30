@@ -183,5 +183,68 @@ namespace EPR.Accreditation.UnitTests.Controllers
                 materialExternalId,
                 npwdAccreditationNumber), Times.Once());
         }
+
+        [TestMethod]
+        public async Task GetNpwdAccreditationNumber_ReturnsOk_WithCorrectValue()
+        {
+            // Arrange
+            var accreditationExternalId = Guid.NewGuid();
+            var materialExternalId = Guid.NewGuid();
+            var expectedValue = "EX12345678";
+
+            _mockAccreditationMaterialService.Setup(s =>
+                s.GetNpwdAccreditationNumber(
+                    accreditationExternalId,
+                    materialExternalId))
+                .ReturnsAsync(expectedValue);
+
+            // Act
+            var result = await _accreditationSiteMaterialController.GetNpwdAccreditationNumber(
+                accreditationExternalId,
+                materialExternalId) as OkObjectResult;
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(200, result.StatusCode);
+            Assert.AreEqual(expectedValue, result.Value);
+
+            _mockAccreditationMaterialService.Verify(s =>
+            s.GetNpwdAccreditationNumber(
+                accreditationExternalId,
+                materialExternalId), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task UpdateNpwdAccreditationNumber_ReturnsOk()
+        {
+            // Arrange
+            var accreditationExternalId = Guid.NewGuid();
+            var materialExternalId = Guid.NewGuid();
+            var npwdAccreditationNumber = new NpwdAccreditationNumber();
+
+            _mockAccreditationMaterialService.Setup(s =>
+                s.UpdateNpwdAccreditationNumber(
+                    accreditationExternalId,
+                    materialExternalId,
+                    npwdAccreditationNumber))
+                .Returns(Task.CompletedTask);
+
+            // Act
+            var result = await _accreditationSiteMaterialController
+                .UpdateNpwdAccreditationNumber(
+                accreditationExternalId,
+                materialExternalId,
+                npwdAccreditationNumber) as OkResult;
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(200, result.StatusCode);
+
+            _mockAccreditationMaterialService.Verify(s =>
+            s.UpdateNpwdAccreditationNumber(
+                accreditationExternalId,
+                materialExternalId,
+                npwdAccreditationNumber), Times.Once());
+        }
     }
 }
