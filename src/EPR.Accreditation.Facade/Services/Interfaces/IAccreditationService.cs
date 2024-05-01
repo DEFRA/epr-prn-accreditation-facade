@@ -96,5 +96,22 @@
         Task UpdatePrnTonnesPlanned(
             Guid accreditationExternalId,
             PrnTonnesPlannedDto prnTonnesPlannedDto);
+
+        /// <summary>
+        /// Gets the legal documents address from the database
+        /// </summary>
+        /// <param name="id">The accreditation id</param>
+        /// <returns>An address dto object of the address for legal documents</returns>
+        Task<AddressDto> GetLegalDocumentsAddress(Guid id);
+
+        /// <summary>
+        /// Sends the legal address data to the API to save
+        /// </summary>
+        /// <param name="id">The accreditation id</param>
+        /// <param name="address">The address DTO object</param>
+        /// <returns></returns>
+        Task UpdateLegalDocumentsAddress(
+            Guid id,
+            AddressDto address);
     }
 }
