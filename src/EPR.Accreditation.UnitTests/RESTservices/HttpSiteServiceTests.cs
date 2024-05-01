@@ -96,8 +96,7 @@ namespace EPR.Accreditation.UnitTests.RESTservices
                     Address2 = "Apt 2",
                     Town = "Springfield",
                     County = "Shelby",
-                    Postcode = "12345",
-                    OrganisationId = Guid.NewGuid(),
+                    Postcode = "12345"
                 }
             };
 
