@@ -42,6 +42,13 @@
 
             CreateMap<Accreditation, PrnTonnesPlannedDto>()
                 .ForMember(d => d.PrnPlannedTonnesFee, o => o.MapFrom(s => s.LargeFee));
+
+            CreateMap<AddressDto, Site>()
+                .ForMember(d => d.Address, o => o.MapFrom(s => s))
+                .ReverseMap();
+
+            CreateMap<AddressDto, Address>()
+                .ReverseMap();
         }
     }
 }
