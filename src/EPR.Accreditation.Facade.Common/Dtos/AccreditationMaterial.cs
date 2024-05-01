@@ -17,6 +17,10 @@ namespace EPR.Accreditation.Facade.Common.Dtos
 
         public bool? WasteLastYear { get; set; }
 
+        public bool? HasNpwdAccreditationNumber { get; set; }
+
+        public string NpwdAccreditationNumber { get; set; }
+
         public MaterialReprocessorDetails MaterialReprocessorDetails { get; set; }
 
         public IEnumerable<WasteCode> WasteCodes { get; set; }

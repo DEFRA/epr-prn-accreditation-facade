@@ -89,20 +89,15 @@ namespace EPR.Accreditation.UnitTests.RESTservices
             var id = Guid.NewGuid();
             var siteDto = new Site
             {
-                Id = 1,
                 ExternalId = Guid.NewGuid(),
-                Address1 = "123 Main St",
-                Address2 = "Apt 2",
-                Town = "Springfield",
-                County = "Shelby",
-                Postcode = "12345",
-                OrganisationId = Guid.NewGuid(),
-                ExemptionReferences = new List<string> { "Ref1", "Ref2" },
-                SiteAuthorties = new List<SiteAuthority>()
-            {
-                new SiteAuthority(),
-                new SiteAuthority()
-            }
+                Address = new Address 
+                {
+                    Address1 = "123 Main St",
+                    Address2 = "Apt 2",
+                    Town = "Springfield",
+                    County = "Shelby",
+                    Postcode = "12345"
+                }
             };
 
             var expectedUrl = $"{_baseUrl}/{_endpointName}/{id}/Site";

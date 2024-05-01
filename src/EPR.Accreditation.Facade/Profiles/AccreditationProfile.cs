@@ -3,6 +3,7 @@
     using AutoMapper;
     using EPR.Accreditation.Facade.Common.Dtos;
     using EPR.Accreditation.Facade.Common.Dtos.Portal;
+    using EPR.Accreditation.Facade.Common.Enums;
 
     public class AccreditationProfile : Profile
     {
@@ -13,7 +14,7 @@
                 .ForMember(d => d.Contaminents, o => o.MapFrom(s => s.TonnesContaminents))
                 .ForMember(d => d.ProcessLoss, o => o.MapFrom(s => s.TonnesProcessLoss));
 
-            CreateMap<MaterialWasteOutputsDto, MaterialReprocessorDetails>()
+            CreateMap<MaterialWasteInputsDto, MaterialReprocessorDetails>()
                 .ForMember(d => d.UkPackagingWaste, o => o.MapFrom(s => s.UkPackagingWaste))
                 .ForMember(d => d.NonUkPackagingWaste, o => o.MapFrom(s => s.NonUkPackagingWaste))
                 .ForMember(d => d.NonPackagingWaste, o => o.MapFrom(s => s.NonPackagingWaste));
@@ -24,7 +25,7 @@
                 .ForMember(d => d.TonnesNotProcessedOnSite, o => o.MapFrom(s => s.MaterialReprocessorDetails == null ? null : s.MaterialReprocessorDetails.MaterialsNotProcessedOnSite))
                 .ForMember(d => d.TonnesProcessLoss, o => o.MapFrom(s => s.MaterialReprocessorDetails == null ? null : s.MaterialReprocessorDetails.ProcessLoss));
 
-            CreateMap<AccreditationMaterial, MaterialWasteOutputsDto>()
+            CreateMap<AccreditationMaterial, MaterialWasteInputsDto>()
                 .ForMember(d => d.WasteLastYear, o => o.MapFrom(s => s.WasteLastYear))
                 .ForMember(d => d.UkPackagingWaste, o => o.MapFrom(s => s.MaterialReprocessorDetails == null ? null : s.MaterialReprocessorDetails.UkPackagingWaste))
                 .ForMember(d => d.NonUkPackagingWaste, o => o.MapFrom(s => s.MaterialReprocessorDetails == null ? null : s.MaterialReprocessorDetails.NonUkPackagingWaste))
@@ -35,7 +36,19 @@
                     d => d.ReprocessorSupportingInformationTypeId, 
                     opt => opt.MapFrom((src, dest, destMember, context) => context.Items["ReprocessorSupportingInformationType"]));
 
+            CreateMap<OverseasReprocessingSite, OverseasReprocessingSiteOutputs>();
+
             CreateMap<ReprocessorDetailsDto, OverseasAddress>();
+
+            CreateMap<Accreditation, PrnTonnesPlannedDto>()
+                .ForMember(d => d.PrnPlannedTonnesFee, o => o.MapFrom(s => s.LargeFee));
+
+            CreateMap<AddressDto, Site>()
+                .ForMember(d => d.Address, o => o.MapFrom(s => s))
+                .ReverseMap();
+
+            CreateMap<AddressDto, Address>()
+                .ReverseMap();
         }
     }
 }
