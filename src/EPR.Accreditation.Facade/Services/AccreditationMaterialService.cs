@@ -155,11 +155,46 @@
         public async Task UpdateHasNpwdAccreditationNumber(
             Guid id,
             Guid materialId,
+            HasNpwdAccreditationNumber npwdAccreditationNumber)
+        {
+            var accreditationMaterial = new Common.Dtos.AccreditationMaterial
+            {
+                HasNpwdAccreditationNumber = npwdAccreditationNumber.Has2024NPWDAccreditationNumber
+            };
+
+            await _httpAccreditationService.UpdateAccreditationMaterial(
+                SiteType.Site,
+                id,
+                materialId,
+                accreditationMaterial);
+        }
+
+        public async Task<string> GetNpwdAccreditationNumber(
+            Guid id,
+            Guid materialId)
+        {
+            var accreditationMaterial = await _httpAccreditationService.GetAccreditationMaterial(
+                SiteType.Site,
+                id,
+                materialId);
+
+            if (accreditationMaterial == null ||
+                !accreditationMaterial.WasteLastYear.Value)
+            {
+                return null;
+            }
+
+            return accreditationMaterial.NpwdAccreditationNumber;
+        }
+
+        public async Task UpdateNpwdAccreditationNumber(
+            Guid id,
+            Guid materialId,
             NpwdAccreditationNumber npwdAccreditationNumber)
         {
             var accreditationMaterial = new Common.Dtos.AccreditationMaterial
             {
-                HasNpwdAccreditationNumber = npwdAccreditationNumber.Has2024NPWDAccreditation
+                NpwdAccreditationNumber = npwdAccreditationNumber.AccreditationNumber
             };
 
             await _httpAccreditationService.UpdateAccreditationMaterial(

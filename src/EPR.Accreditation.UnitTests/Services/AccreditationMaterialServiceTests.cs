@@ -386,5 +386,163 @@
                     materialExternalId)
                 , Times.Once);
         }
+
+        [TestMethod]
+        public async Task UpdateHasNpwdAccreditationNumber_CallsHttpServiceWithCorrectParameters()
+        {
+            // Arrange
+            var id = Guid.NewGuid();
+            var materialId = Guid.NewGuid();
+            var hasNpwdAccreditationNumber = new HasNpwdAccreditationNumber
+            {
+                Has2024NPWDAccreditationNumber = true
+            };
+
+            // Act
+            await _accreditationMaterialService.UpdateHasNpwdAccreditationNumber(
+                id,
+                materialId,
+                hasNpwdAccreditationNumber);
+
+            // Assert
+            _mockHttpAccreditationService.Verify(s =>
+                s.UpdateAccreditationMaterial(
+                    SiteType.Site,
+                    id,
+                    materialId,
+                    It.IsAny<AccreditationMaterial>()),
+                    Times.Once);
+        }
+
+        #region NpwdAccreditationNumber
+
+        [TestMethod]
+        public async Task GetNpwdAccreditationNumber_ReturnsNull_WhenAccreditationMaterialIsNull()
+        {
+            // Arrange
+            var accreditationExternalId = Guid.NewGuid();
+            var materialExternalId = Guid.NewGuid();
+
+            _mockHttpAccreditationService.Setup(s =>
+                s.GetAccreditationMaterial(
+                    SiteType.Site,
+                    accreditationExternalId,
+                    materialExternalId))
+                .ReturnsAsync((AccreditationMaterial)null);
+
+            // Act
+            var result = await _accreditationMaterialService.GetNpwdAccreditationNumber(
+                accreditationExternalId,
+                materialExternalId);
+
+            // Assert
+            Assert.IsNull(result);
+
+            _mockHttpAccreditationService.Verify(s =>
+                s.GetAccreditationMaterial(
+                    SiteType.Site,
+                    accreditationExternalId,
+                    materialExternalId)
+                , Times.Once);
+        }
+
+        [TestMethod]
+        public async Task GetNpwdAccreditationNumber_ReturnsNull_WhenWasteLastYearIsFalse()
+        {
+            // Arrange
+            var accreditationExternalId = Guid.NewGuid();
+            var materialExternalId = Guid.NewGuid();
+            var accreditationMaterial = new AccreditationMaterial
+            {
+                WasteLastYear = false
+            };
+
+            _mockHttpAccreditationService.Setup(s =>
+                s.GetAccreditationMaterial(
+                    SiteType.Site,
+                    accreditationExternalId,
+                    materialExternalId))
+                .ReturnsAsync(accreditationMaterial);
+
+            // Act
+            var result = await _accreditationMaterialService.GetNpwdAccreditationNumber(
+                accreditationExternalId,
+                materialExternalId);
+
+            // Assert
+            Assert.IsNull(result);
+
+            _mockHttpAccreditationService.Verify(s =>
+                s.GetAccreditationMaterial(
+                    SiteType.Site,
+                    accreditationExternalId,
+                    materialExternalId)
+                , Times.Once);
+        }
+
+        [TestMethod]
+        public async Task GetNpwdAccreditationNumber_ReturnsCorrectValue()
+        {
+            // Arrange
+            var accreditationExternalId = Guid.NewGuid();
+            var materialExternalId = Guid.NewGuid();
+            var expectedValue = "EX123456789";
+            var accreditationMaterial = new AccreditationMaterial
+            {
+                WasteLastYear = true,
+                NpwdAccreditationNumber = expectedValue
+            };
+
+            _mockHttpAccreditationService.Setup(s =>
+                s.GetAccreditationMaterial(
+                    SiteType.Site,
+                    accreditationExternalId,
+                    materialExternalId))
+                .ReturnsAsync(accreditationMaterial);
+
+            // Act
+            var result = await _accreditationMaterialService.GetNpwdAccreditationNumber(
+                accreditationExternalId,
+                materialExternalId);
+
+            // Assert
+            Assert.AreEqual(expectedValue, result);
+
+            _mockHttpAccreditationService.Verify(s =>
+                s.GetAccreditationMaterial(
+                    SiteType.Site,
+                    accreditationExternalId,
+                    materialExternalId)
+                , Times.Once);
+        }
+
+        [TestMethod]
+        public async Task UpdateNpwdAccreditationNumber_CallsHttpServiceWithCorrectParameters()
+        {
+            // Arrange
+            var id = Guid.NewGuid();
+            var materialId = Guid.NewGuid();
+            var npwdAccreditationNumber = new NpwdAccreditationNumber
+            {
+                AccreditationNumber = "EX123456789"
+            };
+
+            // Act
+            await _accreditationMaterialService.UpdateNpwdAccreditationNumber(
+                id,
+                materialId,
+                npwdAccreditationNumber);
+
+            // Assert
+            _mockHttpAccreditationService.Verify(s =>
+                s.UpdateAccreditationMaterial(
+                    SiteType.Site,
+                    id,
+                    materialId,
+                    It.IsAny<AccreditationMaterial>()),
+                    Times.Once);
+        }
+
+        #endregion
     }
 }

@@ -219,9 +219,35 @@
         public async Task<IActionResult> UpdateHasNpwdAccreditationNumber(
             Guid id,
             Guid materialId,
-            [FromBody] NpwdAccreditationNumber npwdAccreditationNumber)
+            [FromBody] HasNpwdAccreditationNumber hasNpwdAccreditationNumber)
         {
             await _accreditationMaterialService.UpdateHasNpwdAccreditationNumber(
+                id,
+                materialId,
+                hasNpwdAccreditationNumber);
+
+            return Ok();
+        }
+
+        [HttpGet("NpwdAccreditationNumber")]
+        public async Task<IActionResult> GetNpwdAccreditationNumber(
+            Guid id,
+            Guid materialId)
+        {
+            var NpwdAccreditationNumber = await _accreditationMaterialService.GetNpwdAccreditationNumber(
+                id,
+                materialId);
+
+            return Ok(NpwdAccreditationNumber);
+        }
+
+        [HttpPut("NpwdAccreditationNumber")]
+        public async Task<IActionResult> UpdateNpwdAccreditationNumber(
+            Guid id,
+            Guid materialId,
+            [FromBody] NpwdAccreditationNumber npwdAccreditationNumber)
+        {
+            await _accreditationMaterialService.UpdateNpwdAccreditationNumber(
                 id,
                 materialId,
                 npwdAccreditationNumber);
