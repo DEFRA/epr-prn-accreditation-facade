@@ -210,5 +210,39 @@
 
             return Ok();
         }
+
+        /// <summary>
+        /// Updates the the reference number for the accrediation.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="referenceNumber"></param>
+        /// <returns></returns>
+        [HttpPut("ReferenceNumber")]
+        public async Task<IActionResult> UpdateReferenceNumber(
+            Guid id,
+            [FromBody] string referenceNumber)
+        {
+            await _accreditationService.UpdateReferenceNumber(id, referenceNumber);
+
+            return Ok();
+        }
+
+        [HttpGet("ReferenceNumber")]
+        public async Task<IActionResult> GetReferenceNumber(
+            Guid id)
+        {
+            var accreditation = await _accreditationService.GetAccrediation(id);
+
+            return Ok(accreditation.ReferenceNumber);
+        }
+
+        [HttpGet("Accreditation")]
+        public async Task<IActionResult> GetAccredition(
+            Guid id)
+        {
+            var accreditation = await _accreditationService.GetAccrediation(id);
+
+            return Ok(accreditation);
+        }
     }
 }

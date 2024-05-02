@@ -113,5 +113,22 @@
         Task UpdateLegalDocumentsAddress(
             Guid id,
             AddressDto address);
+
+        /// <summary>
+        /// Updates the reference number.
+        /// </summary>
+        /// <param name="id">The accrediation id</param>
+        /// <param name="referenceNumber">The ref number we want to store</param>
+        /// <returns></returns>
+        Task UpdateReferenceNumber(
+            Guid id,
+            string referenceNumber);
+
+        /// <summary>
+        /// Gets the accreditation object
+        /// </summary>
+        /// <param name="id">The accrediation id.</param>
+        /// <returns>Accredition object</returns>
+        Task<Accreditation> GetAccrediation(Guid id);
     }
 }
