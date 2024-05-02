@@ -6,6 +6,7 @@
     using EPR.Accreditation.Facade.Common.Enums;
     using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
     using EPR.Accreditation.Facade.Services.Interfaces;
+    using System.Net;
 
     public class AccreditationService : IAccreditationService
     {
@@ -338,6 +339,23 @@
             await _httpAccreditationService.UpdateAccreditation(
                 id,
                 accreditation);
+        }
+
+        public async Task UpdateReferenceNumber(
+            Guid id,
+            string referenceNumber)
+        {
+            var accreditation = new Common.Dtos.Accreditation
+            {
+                ReferenceNumber = referenceNumber
+            };
+            
+            await _httpAccreditationService.UpdateAccreditation(id, accreditation);
+        }
+
+        public async Task <Accreditation> GetAccrediation(Guid id)
+        {
+            return await _httpAccreditationService.GetAccreditation(id);
         }
     }
 }

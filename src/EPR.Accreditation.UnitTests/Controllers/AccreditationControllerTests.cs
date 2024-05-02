@@ -137,5 +137,38 @@ namespace EPR.Accreditation.UnitTests.Controllers
             // Assert
             _mockWastePermitService.Verify(service => service.UpdatePermitExemption(accreditationExternalId, permitExemption), Times.Once());
         }
+
+        [TestMethod]
+        public async Task UpdateReferenceNumber_ReturnsOk_WhenUpdateSuccessful()
+        {
+            // Arrange
+            Guid accreditationExternalId = Guid.NewGuid();
+            string referenceNumber = "123456";
+
+            // Act
+            var result = await _accreditationController.UpdateReferenceNumber(accreditationExternalId, referenceNumber);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(OkResult));
+
+            _mockAccreditationService.Verify(service => service.UpdateReferenceNumber(accreditationExternalId, referenceNumber), Times.Once());
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public async Task UpdateReferenceNumber_ReturnsBadRequest_WhenServiceThrowsException()
+        {
+            // Arrange
+            Guid accreditationExternalId = Guid.NewGuid();
+            string referenceNumber = "123456";
+            _mockAccreditationService.Setup(s =>
+                s.UpdateReferenceNumber(accreditationExternalId, referenceNumber)).ThrowsAsync(new Exception("Test exception"));
+
+            // Act
+            var result = await _accreditationController.UpdateReferenceNumber(accreditationExternalId, referenceNumber);
+
+            // Assert
+            _mockAccreditationService.Verify(service => service.UpdateReferenceNumber(accreditationExternalId, referenceNumber), Times.Once());
+        }
     }
 }
