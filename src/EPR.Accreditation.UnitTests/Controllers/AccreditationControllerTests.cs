@@ -173,7 +173,7 @@ namespace EPR.Accreditation.UnitTests.Controllers
         }
 
         [TestMethod]
-        public async Task GetAccreditation_ReturnsOk_WhenServiceReturnsFalse()
+        public async Task GetAccreditation_ReturnsOk_WhenServiceReturnsPositive()
         {
             // Arrange
             var accreditationExternalId = Guid.NewGuid();
@@ -194,7 +194,7 @@ namespace EPR.Accreditation.UnitTests.Controllers
             var accreditaionResult = (EPR.Accreditation.Facade.Common.Dtos.Accreditation)okResult.Value;
             Assert.AreEqual(accreditation.ExternalId, accreditaionResult.ExternalId);
 
-            _mockWastePermitService.Verify(service => service.GetHasPermitExemption(accreditationExternalId), Times.Once());
+            _mockAccreditationService.Verify(service => service.GetAccrediation(accreditationExternalId), Times.Once());
         }
 
         [TestMethod]
