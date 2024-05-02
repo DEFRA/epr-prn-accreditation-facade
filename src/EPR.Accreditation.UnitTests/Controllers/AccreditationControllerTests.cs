@@ -1,4 +1,5 @@
-﻿using EPR.Accreditation.Facade.Common.Dtos.Portal;
+﻿using EPR.Accreditation.Facade.Common.Dtos;
+using EPR.Accreditation.Facade.Common.Dtos.Portal;
 using EPR.Accreditation.Facade.Controllers;
 using EPR.Accreditation.Facade.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -169,6 +170,46 @@ namespace EPR.Accreditation.UnitTests.Controllers
 
             // Assert
             _mockAccreditationService.Verify(service => service.UpdateReferenceNumber(accreditationExternalId, referenceNumber), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task GetAccreditation_ReturnsOk_WhenServiceReturnsFalse()
+        {
+            // Arrange
+            var accreditationExternalId = Guid.NewGuid();
+            var accreditation = new EPR.Accreditation.Facade.Common.Dtos.Accreditation() 
+            {
+                ExternalId = accreditationExternalId,
+                ReferenceNumber = "1234"
+            };
+            
+            _mockAccreditationService.Setup(s => s.GetAccrediation(accreditationExternalId)).ReturnsAsync(accreditation);
+
+            // Act
+            var result = await _accreditationController.GetAccredition(accreditationExternalId);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+            var okResult = (OkObjectResult)result;
+            var accreditaionResult = (EPR.Accreditation.Facade.Common.Dtos.Accreditation)okResult.Value;
+            Assert.AreEqual(accreditation.ExternalId, accreditaionResult.ExternalId);
+
+            _mockWastePermitService.Verify(service => service.GetHasPermitExemption(accreditationExternalId), Times.Once());
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public async Task GetAccreditation_ThrowsException_WhenServiceThrowsException()
+        {
+            // Arrange
+            var accreditationExternalId = Guid.NewGuid();
+            _mockAccreditationService.Setup(s => s.GetAccrediation(accreditationExternalId)).ThrowsAsync(new Exception("Test exception"));
+
+            // Act
+            await _accreditationController.GetAccredition(accreditationExternalId);
+
+            // Assert
+            _mockAccreditationService.Verify(service => service.GetAccrediation(accreditationExternalId), Times.Once());
         }
     }
 }
