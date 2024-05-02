@@ -36,11 +36,16 @@
             return Ok(checkYourAnswersDto);
         }
 
-        [HttpGet("CheckAnswers")]
+        [HttpGet("Material/{materialId}/CheckAnswers/{section}")]
         public async Task<IActionResult> GetCheckAnswers(
-            Guid id, CheckAnswersSection section)
+            Guid id,
+            Guid materialId,
+            CheckAnswersSection section)
         {
-            var checkYourAnswersDto = await _accreditationService.GetCheckAnswers(id, section);
+            var checkYourAnswersDto = await _accreditationService.GetCheckAnswers(
+                id,
+                materialId,
+                section);
 
             return Ok(checkYourAnswersDto);
         }

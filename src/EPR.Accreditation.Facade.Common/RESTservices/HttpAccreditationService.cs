@@ -122,9 +122,12 @@
         private string GetSiteName(
             SiteType siteType) => siteType == SiteType.Site ? "Material" : $"OverseasMaterial";
 
-        public async Task<CheckAnswersDto> GetCheckAnswers(Guid id, CheckAnswersSection section)
+        public async Task<CheckAnswersDto> GetCheckAnswers(
+            Guid id,
+            Guid materialId,
+            CheckAnswersSection section)
         {
-            return await Get<CheckAnswersDto>($"{id}/CheckAnswers/{section}");
+            return await Get<CheckAnswersDto>($"{id}/Material/{materialId}/CheckAnswers/{section}");
         }
     }
 }

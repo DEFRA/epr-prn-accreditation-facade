@@ -66,6 +66,7 @@
 
         Task<CheckAnswersDto> GetCheckAnswers(
             Guid id,
+            Guid materialId,
             CheckAnswersSection section);
 
         Task<List<AccreditationTaskProgress>> GetTaskProgress(

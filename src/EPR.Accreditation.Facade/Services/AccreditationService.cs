@@ -29,9 +29,13 @@
 
         public async Task<CheckAnswersDto> GetCheckAnswers(
             Guid id,
+            Guid materialId,
             CheckAnswersSection section)
         {
-            return await _httpAccreditationService.GetCheckAnswers(id, section);
+            return await _httpAccreditationService.GetCheckAnswers(
+                id,
+                materialId,
+                section);
         }
 
         public async Task<OperatorType> GetOperatorType(Guid id)

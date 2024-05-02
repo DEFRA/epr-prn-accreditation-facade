@@ -2,9 +2,9 @@
 
 public enum CheckAnswersSection
 {
-	Section1,
-	Section2,
-	Section3,
-	Section4,
-	Section5
+    AboutMaterialReprocessorActuals,
+    AboutMaterialReprocessorEstimates,
+    Section3,
+    Section4,
+    AboutMaterialExporter
 }
