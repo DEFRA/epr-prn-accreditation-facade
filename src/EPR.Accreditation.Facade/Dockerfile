@@ -18,7 +18,7 @@ COPY --chown=dotnet:dotnet . .
 WORKDIR /home/dotnet/EPR.Accreditation.Facade
 RUN dotnet publish -c Release -o out
 
-FROM defradigital/dotnetcore:dotnet6.0
+FROM defradigital/dotnetcore-development:dotnet6.0
 COPY --from=build-env --chown=dotnet /home/dotnet/EPR.Accreditation.Facade/out .
 
 USER root
