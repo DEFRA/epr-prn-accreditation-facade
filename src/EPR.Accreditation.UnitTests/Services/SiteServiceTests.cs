@@ -1,4 +1,5 @@
-﻿using EPR.Accreditation.Facade.Common.Dtos;
+﻿using AutoMapper;
+using EPR.Accreditation.Facade.Common.Dtos;
 using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
 using EPR.Accreditation.Facade.Services;
 using Moq;
@@ -10,12 +11,16 @@ namespace EPR.Accreditation.UnitTests.Services
     {
         private SiteService _siteService;
         private Mock<IHttpSiteService> _mockHttpSiteService;
+        private Mock<IMapper> _mockMapper;
 
         [TestInitialize]
         public void Init()
         {
+            _mockMapper = new Mock<IMapper>();
             _mockHttpSiteService = new Mock<IHttpSiteService>();
-            _siteService = new SiteService(_mockHttpSiteService.Object);
+            _siteService = new SiteService(
+                _mockMapper.Object,
+                _mockHttpSiteService.Object);
         }
 
         [TestMethod]
