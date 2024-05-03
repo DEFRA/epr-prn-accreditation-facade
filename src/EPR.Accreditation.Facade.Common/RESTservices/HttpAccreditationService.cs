@@ -116,7 +116,7 @@
 
         public async Task UpdateOverseasReprocessingSite(Guid id, OverseasReprocessingSite overseasSite)
         {
-            await Put($"{id}/OverseasSite", overseasSite);
+            await Put($"{id}/OverseasSite/{overseasSite.ExternalId}", overseasSite);
         }
 
         private string GetSiteName(
