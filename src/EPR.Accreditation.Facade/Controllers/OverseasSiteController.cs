@@ -48,9 +48,9 @@ namespace EPR.Accreditation.Facade.Controllers
 
         [HttpGet("Outputs")]
         [ProducesResponseType(typeof(OverseasReprocessingSiteOutputs), 200)]
-        public async Task<IActionResult> GetOverseasSiteOutputs(Guid accreditationExternalId, Guid overseasSiteExternalId)
+        public async Task<IActionResult> GetOverseasSiteOutputs(Guid id, Guid overseasSiteId)
         {
-            var dto = await _accreditationService.GetOverseasReprocessingSiteOutputs(accreditationExternalId, overseasSiteExternalId);
+            var dto = await _accreditationService.GetOverseasReprocessingSiteOutputs(id, overseasSiteId);
 
             if (dto == null)
             {
@@ -62,18 +62,18 @@ namespace EPR.Accreditation.Facade.Controllers
 
         [HttpPut("Outputs")]
         public async Task<IActionResult> UpdateSite(
-            Guid? accreditationExternalId,
-            Guid? overseasSiteExternalId,
+            Guid? id,
+            Guid? overseasSiteId,
             [FromBody] OverseasReprocessingSiteOutputs overseasReprocessingSiteOutputs)
         {
-            if(accreditationExternalId == null || overseasSiteExternalId == null)
+            if(id == null || overseasSiteId == null)
             {
                 return NotFound();
             }
 
             await _accreditationService.UpdateOverseasReprocessingSiteOutputs(
-                accreditationExternalId.Value,
-                overseasSiteExternalId.Value,
+                id.Value,
+                overseasSiteId.Value,
                 overseasReprocessingSiteOutputs);
 
             return Ok();
