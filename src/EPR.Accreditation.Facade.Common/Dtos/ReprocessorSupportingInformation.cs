@@ -11,6 +11,6 @@ namespace EPR.Accreditation.Facade.Common.Dtos
         [MaxLength(20)]
         public string Type { get; set; }
 
-        public decimal Tonnes { get; set; }
+        public decimal? Tonnes { get; set; }
     }
 }
