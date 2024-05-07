@@ -122,5 +122,10 @@
         private string GetSiteName(
             SiteType siteType) => siteType == SiteType.Site ? "Material" : $"OverseasMaterial";
 
+        public async Task<string> GetRandomNumber(
+    int length)
+        {
+            return await Get<string>($"RandomString");
+        }
     }
 }

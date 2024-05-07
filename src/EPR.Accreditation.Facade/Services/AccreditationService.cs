@@ -351,9 +351,10 @@
         public async Task UpdateReferenceNumber(
             Guid id)
         {
+            var randomNumber = await _httpAccreditationService.GetRandomNumber(12);
             var accreditation = new Common.Dtos.Accreditation
             {
-                ReferenceNumber = RandomString(12)
+                ReferenceNumber = randomNumber
             };
             
             await _httpAccreditationService.UpdateAccreditation(id, accreditation);

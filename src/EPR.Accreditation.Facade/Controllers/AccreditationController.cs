@@ -242,8 +242,8 @@
         /// <summary>
         /// Returns the fee.
         /// </summary>
-        /// <param name="id">The Accredistion id.</param>
-        /// <returns>The fee.</returns>
+        /// <param name="id">The Accredistion oid</param>
+        /// <returns></returns>
         [HttpGet("AccreditationFee")]
         public async Task<IActionResult> GetAccreditationFee(
     Guid id)
