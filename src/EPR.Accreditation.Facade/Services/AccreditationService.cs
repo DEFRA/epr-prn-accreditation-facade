@@ -6,10 +6,12 @@
     using EPR.Accreditation.Facade.Common.Enums;
     using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
     using EPR.Accreditation.Facade.Services.Interfaces;
+    using System;
     using System.Net;
 
     public class AccreditationService : IAccreditationService
     {
+        private static Random random = new Random();
         protected readonly IMapper _mapper;
         protected readonly IHttpAccreditationService _httpAccreditationService;
 
@@ -341,21 +343,43 @@
                 accreditation);
         }
 
+        /// <summary>
+        /// Update the referernce number.
+        /// </summary>
+        /// <param name="id">The accrediation id.</param>
+        /// <returns></returns>
         public async Task UpdateReferenceNumber(
-            Guid id,
-            string referenceNumber)
+            Guid id)
         {
             var accreditation = new Common.Dtos.Accreditation
             {
-                ReferenceNumber = referenceNumber
+                ReferenceNumber = RandomString(12)
             };
             
             await _httpAccreditationService.UpdateAccreditation(id, accreditation);
         }
 
+        /// <summary>
+        /// Returns the accrediation object.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task <Accreditation> GetAccrediation(Guid id)
         {
             return await _httpAccreditationService.GetAccreditation(id);
+        }
+
+
+        /// <summary>
+        /// Builds a random string.
+        /// </summary>
+        /// <param name="length">Lenght of desired string.</param>
+        /// <returns>The random string.</returns>
+        private string RandomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
         }
     }
 }
