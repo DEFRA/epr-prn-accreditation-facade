@@ -236,14 +236,13 @@
             return Ok(accreditation.ReferenceNumber);
         }
 
-
-        [HttpGet("Accreditation")]
-        public async Task<IActionResult> GetAccredition(
-            Guid id)
+        [HttpGet("AccreditationFee")]
+        public async Task<IActionResult> GetAccreditationFee(
+    Guid id)
         {
             var accreditation = await _accreditationService.GetAccrediation(id);
 
-            return Ok(accreditation);
+            return Ok(accreditation.AccreditationFee);
         }
     }
 }
