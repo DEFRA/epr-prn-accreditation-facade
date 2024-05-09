@@ -3,6 +3,7 @@ using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
 using EPR.Accreditation.Facade.Services;
 using Moq;
 using AutoMapper;
+using EPR.Accreditation.Facade.Common.Enums;
 
 namespace EPR.Accreditation.UnitTests.Services
 {
@@ -19,7 +20,7 @@ namespace EPR.Accreditation.UnitTests.Services
             _mockHttpAccreditationService = new Mock<IHttpAccreditationService>();
             SetupAutomapper();
             accreditationService = new AccreditationService(
-                _mapper, 
+                _mapper,
                 _mockHttpAccreditationService.Object);
         }
 
@@ -38,7 +39,7 @@ namespace EPR.Accreditation.UnitTests.Services
             var siteExternalId = Guid.NewGuid();
             var expectedOutputs = "Test output";
             var overseasReprocessingSite = new OverseasReprocessingSite { Outputs = expectedOutputs };
-             
+
             _mockHttpAccreditationService.Setup(s =>
                 s.GetOverseasReprocessingSite(
                     accreditationExternalId,
@@ -69,8 +70,10 @@ namespace EPR.Accreditation.UnitTests.Services
             var siteExternalId = Guid.NewGuid();
             var expectedOutputs = "Test output";
             var overseasReprocessingSite = new OverseasReprocessingSite { Outputs = expectedOutputs };
-            var overseasReprocessingSiteOutputs = new OverseasReprocessingSiteOutputs { 
-                Outputs = expectedOutputs };
+            var overseasReprocessingSiteOutputs = new OverseasReprocessingSiteOutputs
+            {
+                Outputs = expectedOutputs
+            };
 
             _mockHttpAccreditationService.Setup(s =>
                 s.GetOverseasReprocessingSite(
@@ -95,6 +98,26 @@ namespace EPR.Accreditation.UnitTests.Services
                 s.UpdateOverseasReprocessingSite(
                     It.IsAny<Guid>(),
                     It.IsAny<OverseasReprocessingSite>()), Times.Once);
+        }
+
+        [TestMethod]
+        public async Task GetCheckAnswers_ReturnsCorrectData()
+        {
+            // Arrange
+            var id = Guid.NewGuid();
+            var materialId = Guid.NewGuid();
+            var section = CheckAnswersSection.AboutMaterialExporter;
+            var expectedDto = new CheckAnswersDto();
+
+            _mockHttpAccreditationService.Setup(s => s.GetCheckAnswers(id, materialId, section)).ReturnsAsync(expectedDto);
+
+            // Act
+            var result = await accreditationService.GetCheckAnswers(id, materialId, section);
+
+            // Assert
+            Assert.AreEqual(expectedDto, result);
+
+            _mockHttpAccreditationService.Verify(s => s.GetCheckAnswers(id, materialId, section), Times.Once);
         }
     }
 }

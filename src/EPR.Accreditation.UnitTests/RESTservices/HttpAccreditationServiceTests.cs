@@ -174,6 +174,26 @@ namespace EPR.Accreditation.UnitTests.RESTservices
             Assert.IsTrue(AreObjectsEqual(accreditationMaterialDto, capturedPayload));
         }
 
+        [TestMethod]
+        public async Task GetCheckAnswers_CallsEndPointSuccesfully_WithExpectedOutput()
+        {
+            // Arrange
+            var id = Guid.NewGuid();
+            var materialId = Guid.NewGuid();
+            var section = CheckAnswersSection.AboutMaterialExporter;
+            var expectedOutput = new CheckAnswersDto();
+            SetClientResponse(HttpStatusCode.OK, expectedOutput);
+
+            var expectedUrl = $"{_baseUrl}/{_endpointName}/{id}/Material/{materialId}/CheckAnswers/{section}";
+
+            // Act
+            var result = await _httpAccreditationService.GetCheckAnswers(id, materialId, section);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expectedUrl.ToLower(), _capturedUrl.ToLower());
+        }
+
         private bool AreObjectsEqual<T>(T obj1, T obj2)
         {
             var obj1Json = JsonConvert.SerializeObject(obj1);

@@ -1,4 +1,6 @@
-﻿using EPR.Accreditation.Facade.Common.Dtos.Portal;
+﻿using EPR.Accreditation.Facade.Common.Dtos;
+using EPR.Accreditation.Facade.Common.Dtos.Portal;
+using EPR.Accreditation.Facade.Common.Enums;
 using EPR.Accreditation.Facade.Controllers;
 using EPR.Accreditation.Facade.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -136,6 +138,28 @@ namespace EPR.Accreditation.UnitTests.Controllers
 
             // Assert
             _mockWastePermitService.Verify(service => service.UpdatePermitExemption(accreditationExternalId, permitExemption), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task GetCheckAnswers_ReturnsOkObjectResultWithCorrectData()
+        {
+            // Arrange
+            var id = Guid.NewGuid();
+            var materialId = Guid.NewGuid();
+            var section = CheckAnswersSection.AboutMaterialReprocessorActuals;
+            var expectedDto = new CheckAnswersDto();
+
+            _mockAccreditationService.Setup(s => s.GetCheckAnswers(id, materialId, section)).ReturnsAsync(expectedDto);
+
+            // Act
+            var result = await _accreditationController.GetCheckAnswers(id, materialId, section) as OkObjectResult;
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(200, result.StatusCode);
+            Assert.AreEqual(expectedDto, result.Value);
+
+            _mockAccreditationService.Verify(s => s.GetCheckAnswers(id, materialId, section), Times.Once());
         }
     }
 }
