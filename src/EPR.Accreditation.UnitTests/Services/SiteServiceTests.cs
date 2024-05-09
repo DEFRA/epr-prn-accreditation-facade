@@ -24,7 +24,7 @@ namespace EPR.Accreditation.UnitTests.Services
         }
 
         [TestMethod]
-        public async Task GetExemptionReferences_ReturnsExemptionReferences_ForValidAccreditationId()
+        public async Task GetExemptionReferences_ReturnsExemptionReferences_ForValidAccreditationIdAndSite()
         {
             // Arrange
             Guid accreditationExternalId = Guid.NewGuid();
@@ -54,6 +54,18 @@ namespace EPR.Accreditation.UnitTests.Services
                         accreditationExternalId,
                         null),
                 Times.Once);
+        }
+
+        [TestMethod]
+        public async Task GetExemptionReferences_ShouldThrowException_WhenSiteNotFound()
+        {
+            // Arrange
+            Guid id = Guid.NewGuid();
+
+            _mockHttpSiteService.Setup(s => s.GetSite(id, null)).ReturnsAsync((Site)null);
+
+            // Act & Assert
+            await Assert.ThrowsExceptionAsync<Exception>(() => _siteService.GetExemptionReferences(id));
         }
 
         [TestMethod]

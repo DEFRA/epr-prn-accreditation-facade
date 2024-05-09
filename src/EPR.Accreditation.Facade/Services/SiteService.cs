@@ -19,10 +19,18 @@
             _httpSiteService = httpSiteService ?? throw new ArgumentNullException(nameof(httpSiteService));
         }
 
-        public async Task<IEnumerable<string>> GetExemptionReferences(Guid accreditationExternalId)
+        public async Task<IEnumerable<string>> GetExemptionReferences(Guid id)
         {
-            var site = await _httpSiteService.GetSite(accreditationExternalId);
-            return site.ExemptionReferences;
+            var site = await _httpSiteService.GetSite(id);
+
+            if (site != null)
+            {
+                return site.ExemptionReferences;
+            }
+            else
+            {
+                throw new Exception("Site not found for the given accreditation ID.");
+            }
         }
 
         public async Task UpdateExemptionReferences(
