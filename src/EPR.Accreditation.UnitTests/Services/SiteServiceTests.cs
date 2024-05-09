@@ -24,7 +24,7 @@ namespace EPR.Accreditation.UnitTests.Services
         }
 
         [TestMethod]
-        public async Task GetExemptionReferences_ReturnsExemptionReferences_ForValidAccreditationId()
+        public async Task GetExemptionReferences_ReturnsExemptionReferences_ForValidAccreditationIdAndSite()
         {
             // Arrange
             Guid accreditationExternalId = Guid.NewGuid();
@@ -34,7 +34,7 @@ namespace EPR.Accreditation.UnitTests.Services
                 {
                     "Reference1",
                     "Reference2"
-                } 
+                }
             };
             _mockHttpSiteService
                 .Setup(s =>
@@ -49,11 +49,23 @@ namespace EPR.Accreditation.UnitTests.Services
             // Assert
             CollectionAssert.AreEqual((System.Collections.ICollection)site.ExemptionReferences, (System.Collections.ICollection)result);
             _mockHttpSiteService
-                .Verify(s => 
+                .Verify(s =>
                     s.GetSite(
                         accreditationExternalId,
-                        null), 
+                        null),
                 Times.Once);
+        }
+
+        [TestMethod]
+        public async Task GetExemptionReferences_ShouldThrowException_WhenSiteNotFound()
+        {
+            // Arrange
+            Guid id = Guid.NewGuid();
+
+            _mockHttpSiteService.Setup(s => s.GetSite(id, null)).ReturnsAsync((Site)null);
+
+            // Act & Assert
+            await Assert.ThrowsExceptionAsync<Exception>(() => _siteService.GetExemptionReferences(id));
         }
 
         [TestMethod]
@@ -63,7 +75,7 @@ namespace EPR.Accreditation.UnitTests.Services
             Guid accreditationExternalId = Guid.NewGuid();
             var site = new Site { ExemptionReferences = null };
             _mockHttpSiteService
-                .Setup(x => 
+                .Setup(x =>
                     x.GetSite(
                         accreditationExternalId,
                         null))
@@ -86,44 +98,59 @@ namespace EPR.Accreditation.UnitTests.Services
         public async Task UpdateExemptionReferences_CallsUpdateSiteWithCorrectArguments_ForValidData()
         {
             // Arrange
-            Guid accreditationExternalId = Guid.NewGuid();
+            Guid id = Guid.NewGuid();
             var references = new List<string> { "Reference1", "Reference2" };
+            var site = new Site
+            {
+                ExemptionReferences = references,
+            };
+
+            _mockHttpSiteService.Setup(s => s.GetSite(id, null)).ReturnsAsync(site);
 
             // Act
-            await _siteService.UpdateExemptionReferences(accreditationExternalId, references);
+            await _siteService.UpdateExemptionReferences(id, references);
 
             // Assert
             _mockHttpSiteService.Verify(s =>
-                s.UpdateSite(accreditationExternalId, It.Is<Site>(s => s.ExemptionReferences == references)), Times.Once);
+                s.UpdateSite(id, It.Is<Site>(s => s.ExemptionReferences == references)), Times.Once);
         }
 
         [TestMethod]
         public async Task UpdateExemptionReferences_CallsUpdateSiteWithNullReferencesForNullReferences()
         {
             // Arrange
-            Guid accreditationExternalId = Guid.NewGuid();
+            Guid id = Guid.NewGuid();
+            var site = new Site();
+
+            _mockHttpSiteService.Setup(s => s.GetSite(id, null)).ReturnsAsync(site);
 
             // Act
-            await _siteService.UpdateExemptionReferences(accreditationExternalId, null);
+            await _siteService.UpdateExemptionReferences(id, null);
 
             // Assert
             _mockHttpSiteService.Verify(s =>
-                s.UpdateSite(accreditationExternalId, It.Is<Site>(s => s.ExemptionReferences == null)), Times.Once);
+                s.UpdateSite(id, It.Is<Site>(s => s.ExemptionReferences == null)), Times.Once);
         }
 
         [TestMethod]
         public async Task UpdateExemptionReferences_CallsUpdateSiteWithEmptyReferences_ForEmptyReferences()
         {
             // Arrange
-            Guid accreditationExternalId = Guid.NewGuid();
+            Guid id = Guid.NewGuid();
             var references = new List<string>();
+            var site = new Site
+            {
+                ExemptionReferences = references
+            };
+
+            _mockHttpSiteService.Setup(s => s.GetSite(id, null)).ReturnsAsync(site);
 
             // Act
-            await _siteService.UpdateExemptionReferences(accreditationExternalId, references);
+            await _siteService.UpdateExemptionReferences(id, references);
 
             // Assert
             _mockHttpSiteService.Verify(s =>
-                s.UpdateSite(accreditationExternalId, It.Is<Site>(s => s.ExemptionReferences != null && !s.ExemptionReferences.Any())), Times.Once);
+                s.UpdateSite(id, It.Is<Site>(s => s.ExemptionReferences != null && !s.ExemptionReferences.Any())), Times.Once);
         }
     }
 }

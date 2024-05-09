@@ -19,29 +19,31 @@
             _httpSiteService = httpSiteService ?? throw new ArgumentNullException(nameof(httpSiteService));
         }
 
-        public async Task<IEnumerable<string>> GetExemptionReferences(Guid accreditationExternalId)
+        public async Task<IEnumerable<string>> GetExemptionReferences(Guid id)
         {
-            var site = await _httpSiteService.GetSite(accreditationExternalId);
+            var site = await _httpSiteService.GetSite(id);
 
-            if (site.ExemptionReferences == null)
-                return null;
-
-            return site.ExemptionReferences;
+            if (site != null)
+            {
+                return site.ExemptionReferences;
+            }
+            else
+            {
+                throw new Exception("Site not found for the given accreditation ID.");
+            }
         }
 
         public async Task UpdateExemptionReferences(
-            Guid accreditationExternalId,
+            Guid id,
             IEnumerable<string> references)
         {
-            var site = new Site
-            {
-                ExemptionReferences = references
-            };
+            var site = await _httpSiteService.GetSite(id);
+
+            _mapper.Map(references, site.ExemptionReferences);
 
             await _httpSiteService.UpdateSite(
-                accreditationExternalId,
-                site
-                );
+                id,
+                site);
         }
 
         public async Task<AddressDto> GetSite(
@@ -59,7 +61,7 @@
             var site = _mapper.Map<Site>(siteAddress);
 
             return await _httpSiteService.CreateSite(
-                accreditationExternalId, 
+                accreditationExternalId,
                 site);
         }
 
