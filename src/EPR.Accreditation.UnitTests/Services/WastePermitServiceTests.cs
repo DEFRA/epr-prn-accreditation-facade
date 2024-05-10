@@ -102,7 +102,7 @@ namespace EPR.Accreditation.UnitTests.Services
         public async Task UpdatePermitExemption_CallsUpdateAccreditationWithCorrectArguments_ForValidData()
         {
             // Arrange
-            Guid accreditationExternalId = Guid.NewGuid();
+            Guid id = Guid.NewGuid();
             var permitExemption = new PermitExemption
             {
                 HasPermitExemption = true
@@ -115,12 +115,19 @@ namespace EPR.Accreditation.UnitTests.Services
                 }
             };
 
+            _mockHttpAccreditationService
+                .Setup(s =>
+                    s.GetAccreditation(id))
+                .ReturnsAsync(new Facade.Common.Dtos.Accreditation());
+
             // Act
-            await _wastePermitService.UpdatePermitExemption(accreditationExternalId, permitExemption);
+            await _wastePermitService.UpdatePermitExemption(
+                id,
+                permitExemption);
 
             // Assert
             _mockHttpAccreditationService.Verify(a => a.UpdateAccreditation(
-                accreditationExternalId,
+                id,
                 It.Is<Facade.Common.Dtos.Accreditation>(a => AreEqual(a, expectedAccreditation))), Times.Once);
         }
 
