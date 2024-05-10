@@ -210,5 +210,47 @@
 
             return Ok();
         }
+
+        /// <summary>
+        /// Updates the the reference number for the accrediation.
+        /// </summary>
+        /// <param name="id">The accrediation id.</param>
+        /// <returns></returns>
+        [HttpPost("ReferenceNumber")]
+        public async Task<IActionResult> UpdateReferenceNumber(
+            Guid id)
+        {
+            await _accreditationService.UpdateReferenceNumber(id);
+
+            return Ok();
+        }
+
+        /// <summary>
+        /// Gets the reference number.
+        /// </summary>
+        /// <param name="id">Accrediation Id.</param>
+        /// <returns>The accrediation ref number.</returns>
+        [HttpGet("ReferenceNumber")]
+        public async Task<IActionResult> GetReferenceNumber(
+            Guid id)
+        {
+            var accreditation = await _accreditationService.GetAccrediation(id);
+
+            return Ok(accreditation.ReferenceNumber);
+        }
+
+        /// <summary>
+        /// Returns the fee.
+        /// </summary>
+        /// <param name="id">The Accredistion oid</param>
+        /// <returns></returns>
+        [HttpGet("AccreditationFee")]
+        public async Task<IActionResult> GetAccreditationFee(
+    Guid id)
+        {
+            var accreditation = await _accreditationService.GetAccrediation(id);
+
+            return Ok(accreditation.AccreditationFee);
+        }
     }
 }

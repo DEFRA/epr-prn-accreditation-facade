@@ -6,9 +6,12 @@
     using EPR.Accreditation.Facade.Common.Enums;
     using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
     using EPR.Accreditation.Facade.Services.Interfaces;
+    using System;
+    using System.Net;
 
     public class AccreditationService : IAccreditationService
     {
+        private static Random random = new Random();
         protected readonly IMapper _mapper;
         protected readonly IHttpAccreditationService _httpAccreditationService;
 
@@ -334,12 +337,16 @@
         /// <param name="prnTonnesPlannedDto">DTO containing PRN tonnage data.</param>
         /// <returns>Completed Task.</returns>
         public async Task UpdatePrnTonnesPlanned(
-            Guid accreditationExternalId, 
+            Guid accreditationExternalId,
             PrnTonnesPlannedDto prnTonnesPlannedDto)
         {
             var accreditation = await _httpAccreditationService.GetAccreditation(accreditationExternalId);
             accreditation.LargeFee = prnTonnesPlannedDto.PrnPlannedTonnesFee;
-            accreditation.Large = prnTonnesPlannedDto.PrnPlannedTonnesType == PrnPlannedTonnesType.Upto ? false : true;
+
+            if (prnTonnesPlannedDto.PrnPlannedTonnesType.HasValue)
+            {
+                accreditation.Large = prnTonnesPlannedDto.PrnPlannedTonnesType != PrnPlannedTonnesType.Upto;
+            }
 
             await _httpAccreditationService.UpdateAccreditation(accreditationExternalId, accreditation);
         }
@@ -361,6 +368,33 @@
             await _httpAccreditationService.UpdateAccreditation(
                 id,
                 accreditation);
+        }
+
+        /// <summary>
+        /// Update the referernce number.
+        /// </summary>
+        /// <param name="id">The accrediation id.</param>
+        /// <returns></returns>
+        public async Task UpdateReferenceNumber(
+            Guid id)
+        {
+            var randomNumber = await _httpAccreditationService.GetRandomNumber(12);
+            var accreditation = new Common.Dtos.Accreditation
+            {
+                ReferenceNumber = randomNumber
+            };
+            
+            await _httpAccreditationService.UpdateAccreditation(id, accreditation);
+        }
+
+        /// <summary>
+        /// Returns the accrediation object.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task <Accreditation> GetAccrediation(Guid id)
+        {
+            return await _httpAccreditationService.GetAccreditation(id);
         }
     }
 }

@@ -23,10 +23,14 @@
         {
             var site = await _httpSiteService.GetSite(id);
 
-            if (site.ExemptionReferences == null)
-                return null;
-
-            return site.ExemptionReferences;
+            if (site != null)
+            {
+                return site.ExemptionReferences;
+            }
+            else
+            {
+                throw new Exception("Site not found for the given accreditation ID.");
+            }
         }
 
         public async Task UpdateExemptionReferences(
@@ -34,7 +38,8 @@
             IEnumerable<string> references)
         {
             var site = await _httpSiteService.GetSite(id);
-            site.ExemptionReferences = references;
+
+            _mapper.Map(references, site.ExemptionReferences);
 
             await _httpSiteService.UpdateSite(
                 id,

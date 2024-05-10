@@ -40,5 +40,8 @@ namespace EPR.Accreditation.Facade.Common.Dtos
         public bool? HasOverseasAgent { get; set; }
 
         public Address LegalAddress { get; set; }
+
+        public decimal? AccreditationFee { get; set; }
+
     }
 }

@@ -116,11 +116,16 @@
 
         public async Task UpdateOverseasReprocessingSite(Guid id, OverseasReprocessingSite overseasSite)
         {
-            await Put($"{id}/OverseasSite", overseasSite);
+            await Put($"{id}/OverseasSite/{overseasSite.ExternalId}", overseasSite);
         }
 
         private string GetSiteName(
             SiteType siteType) => siteType == SiteType.Site ? "Material" : $"OverseasMaterial";
 
+        public async Task<string> GetRandomNumber(
+    int length)
+        {
+            return await Get<string>($"RandomString");
+        }
     }
 }
