@@ -144,15 +144,14 @@ namespace EPR.Accreditation.UnitTests.Controllers
         {
             // Arrange
             Guid accreditationExternalId = Guid.NewGuid();
-            string referenceNumber = "123456";
-
+            
             // Act
-            var result = await _accreditationController.UpdateReferenceNumber(accreditationExternalId, referenceNumber);
+            var result = await _accreditationController.UpdateReferenceNumber(accreditationExternalId);
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(OkResult));
 
-            _mockAccreditationService.Verify(service => service.UpdateReferenceNumber(accreditationExternalId, referenceNumber), Times.Once());
+            _mockAccreditationService.Verify(service => service.UpdateReferenceNumber(accreditationExternalId), Times.Once());
         }
 
         [TestMethod]
@@ -161,15 +160,14 @@ namespace EPR.Accreditation.UnitTests.Controllers
         {
             // Arrange
             Guid accreditationExternalId = Guid.NewGuid();
-            string referenceNumber = "123456";
             _mockAccreditationService.Setup(s =>
-                s.UpdateReferenceNumber(accreditationExternalId, referenceNumber)).ThrowsAsync(new Exception("Test exception"));
+                s.UpdateReferenceNumber(accreditationExternalId)).ThrowsAsync(new Exception("Test exception"));
 
             // Act
-            var result = await _accreditationController.UpdateReferenceNumber(accreditationExternalId, referenceNumber);
+            var result = await _accreditationController.UpdateReferenceNumber(accreditationExternalId);
 
             // Assert
-            _mockAccreditationService.Verify(service => service.UpdateReferenceNumber(accreditationExternalId, referenceNumber), Times.Once());
+            _mockAccreditationService.Verify(service => service.UpdateReferenceNumber(accreditationExternalId), Times.Once());
         }
     }
 }

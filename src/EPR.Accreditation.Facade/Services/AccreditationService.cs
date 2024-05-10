@@ -4,6 +4,7 @@
     using EPR.Accreditation.Facade.Common.Dtos;
     using EPR.Accreditation.Facade.Common.Dtos.Portal;
     using EPR.Accreditation.Facade.Common.Enums;
+    using EPR.Accreditation.Facade.Common.RESTservices;
     using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
     using EPR.Accreditation.Facade.Services.Interfaces;
     using System;
@@ -349,9 +350,9 @@
         }
 
         public async Task UpdateReferenceNumber(
-            Guid id,
-            string referenceNumber)
+            Guid id)
         {
+            var referenceNumber = await _httpAccreditationService.GetRandomNumber(12);
             var accreditation = new Common.Dtos.Accreditation
             {
                 ReferenceNumber = referenceNumber

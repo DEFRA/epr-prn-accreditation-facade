@@ -219,10 +219,9 @@
         /// <returns></returns>
         [HttpPut("ReferenceNumber")]
         public async Task<IActionResult> UpdateReferenceNumber(
-            Guid id,
-            [FromBody] string referenceNumber)
+            Guid id)
         {
-            await _accreditationService.UpdateReferenceNumber(id, referenceNumber);
+            await _accreditationService.UpdateReferenceNumber(id);
 
             return Ok();
         }

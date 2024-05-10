@@ -118,11 +118,9 @@
         /// Updates the reference number.
         /// </summary>
         /// <param name="id">The accrediation id</param>
-        /// <param name="referenceNumber">The ref number we want to store</param>
         /// <returns></returns>
         Task UpdateReferenceNumber(
-            Guid id,
-            string referenceNumber);
+            Guid id);
 
         /// <summary>
         /// Gets the accreditation object
