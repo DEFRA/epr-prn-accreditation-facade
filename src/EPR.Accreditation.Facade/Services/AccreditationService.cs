@@ -369,18 +369,5 @@
         {
             return await _httpAccreditationService.GetAccreditation(id);
         }
-
-
-        /// <summary>
-        /// Builds a random string.
-        /// </summary>
-        /// <param name="length">Lenght of desired string.</param>
-        /// <returns>The random string.</returns>
-        private string RandomString(int length)
-        {
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            return new string(Enumerable.Repeat(chars, length)
-                .Select(s => s[random.Next(s.Length)]).ToArray());
-        }
     }
 }
