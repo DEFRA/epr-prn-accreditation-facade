@@ -10,19 +10,19 @@ namespace EPR.Accreditation.Facade.Common.Dtos
 
         public int? OverseasReprocessingSiteId { get; set; }
 
-        [MaxLength(100)]
+        [MaxLength(20)]
         public string DealerRegistrationNumber { get; set; }
 
-        [MaxLength(100)]
+        [MaxLength(20)]
         public string EnvironmentalPermitNumber { get; set; }
 
-        [MaxLength(10)]
+        [MaxLength(20)]
         public string PartAActivityReferenceNumber { get; set; }
 
-        [MaxLength(10)]
+        [MaxLength(20)]
         public string PartBActivityReferenceNumber { get; set; }
 
-        [MaxLength(50)]
+        [MaxLength(20)]
         public string DischargeConsentNumber { get; set; }
 
         public bool? WastePermitExemption { get; set; }
