@@ -14,32 +14,34 @@ namespace EPR.Accreditation.Facade.Services
             _httpAccreditationService = httpAccreditationService ?? throw new ArgumentNullException(nameof(httpAccreditationService));
         }
 
-        public async Task<bool?> GetHasPermitExemption(Guid accreditationExternalId)
+        public async Task<bool?> GetHasPermitExemption(Guid id)
         {
-            var accreditation = await _httpAccreditationService.GetAccreditation(accreditationExternalId);
+            var accreditation = await _httpAccreditationService.GetAccreditation(id);
 
             if (accreditation.WastePermit == null)
+            {
                 return null;
+            }
 
             return accreditation.WastePermit.WastePermitExemption;
         }
 
         public async Task UpdatePermitExemption(
-            Guid accreditationExternalId,
+            Guid id,
             PermitExemption permitExemption)
         {
-            var accreditation = new Common.Dtos.Accreditation
+            var accreditation = await _httpAccreditationService.GetAccreditation(id);
+
+            if (accreditation.WastePermit == null)
             {
-                WastePermit = new WastePermit
-                {
-                    WastePermitExemption = permitExemption.HasPermitExemption
-                }
-            };
+                accreditation.WastePermit = new WastePermit();
+            }
+
+            accreditation.WastePermit.WastePermitExemption = permitExemption.HasPermitExemption;
 
             await _httpAccreditationService.UpdateAccreditation(
-                accreditationExternalId,
-                accreditation
-                );
+                id,
+                accreditation);
         }
     }
 }

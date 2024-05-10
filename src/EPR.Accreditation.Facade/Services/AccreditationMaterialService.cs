@@ -51,10 +51,11 @@
             Guid materialId,
             ReprocessedWasteLastYear reprocessedWasteLastYear)
         {
-            var accreditationMaterial = new Common.Dtos.AccreditationMaterial
-            {
-                WasteLastYear = reprocessedWasteLastYear.HasReprocessedWasteLastYear
-            };
+            var accreditationMaterial = await _httpAccreditationService.GetAccreditationMaterial(
+                SiteType.Site,
+                id,
+                materialId);
+            accreditationMaterial.WasteLastYear = reprocessedWasteLastYear.HasReprocessedWasteLastYear;
 
             await _httpAccreditationService.UpdateAccreditationMaterial(
                 SiteType.Site,
@@ -118,21 +119,22 @@
             Guid materialId,
             IEnumerable<string> wasteDescriptionCodes)
         {
-            var material = new AccreditationMaterial
-            {
-                WasteCodes = wasteDescriptionCodes
+            var overseasMaterial = await _httpAccreditationService.GetAccreditationMaterial(
+                SiteType.OverseasSite,
+                id,
+                materialId);
+            overseasMaterial.WasteCodes = wasteDescriptionCodes
                     .Select(c => new WasteCode
                     {
                         Code = c,
                         WasteCodeTypeId = WasteCodeType.WasteDescriptionCode
-                    })
-            };
+                    });
 
             await _httpAccreditationService.UpdateAccreditationMaterial(
                 SiteType.OverseasSite,
                 id,
                 materialId,
-                material);
+                overseasMaterial);
         }
 
         public async Task<bool?> GetHasNpwdAccreditationNumber(
@@ -157,10 +159,11 @@
             Guid materialId,
             HasNpwdAccreditationNumber npwdAccreditationNumber)
         {
-            var accreditationMaterial = new Common.Dtos.AccreditationMaterial
-            {
-                HasNpwdAccreditationNumber = npwdAccreditationNumber.Has2024NPWDAccreditationNumber
-            };
+            var accreditationMaterial = await _httpAccreditationService.GetAccreditationMaterial(
+                SiteType.Site,
+                id,
+                materialId);
+            accreditationMaterial.HasNpwdAccreditationNumber = npwdAccreditationNumber.Has2024NPWDAccreditationNumber;
 
             await _httpAccreditationService.UpdateAccreditationMaterial(
                 SiteType.Site,
@@ -192,10 +195,11 @@
             Guid materialId,
             NpwdAccreditationNumber npwdAccreditationNumber)
         {
-            var accreditationMaterial = new Common.Dtos.AccreditationMaterial
-            {
-                NpwdAccreditationNumber = npwdAccreditationNumber.AccreditationNumber
-            };
+            var accreditationMaterial = await _httpAccreditationService.GetAccreditationMaterial(
+                SiteType.Site,
+                id,
+                materialId);
+            accreditationMaterial.NpwdAccreditationNumber = npwdAccreditationNumber.AccreditationNumber;
 
             await _httpAccreditationService.UpdateAccreditationMaterial(
                 SiteType.Site,

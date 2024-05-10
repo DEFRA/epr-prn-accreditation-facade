@@ -19,9 +19,9 @@
             _httpSiteService = httpSiteService ?? throw new ArgumentNullException(nameof(httpSiteService));
         }
 
-        public async Task<IEnumerable<string>> GetExemptionReferences(Guid accreditationExternalId)
+        public async Task<IEnumerable<string>> GetExemptionReferences(Guid id)
         {
-            var site = await _httpSiteService.GetSite(accreditationExternalId);
+            var site = await _httpSiteService.GetSite(id);
 
             if (site.ExemptionReferences == null)
                 return null;
@@ -30,18 +30,15 @@
         }
 
         public async Task UpdateExemptionReferences(
-            Guid accreditationExternalId,
+            Guid id,
             IEnumerable<string> references)
         {
-            var site = new Site
-            {
-                ExemptionReferences = references
-            };
+            var site = await _httpSiteService.GetSite(id);
+            site.ExemptionReferences = references;
 
             await _httpSiteService.UpdateSite(
-                accreditationExternalId,
-                site
-                );
+                id,
+                site);
         }
 
         public async Task<AddressDto> GetSite(
@@ -53,24 +50,25 @@
         }
 
         public async Task<Guid> CreateSite(
-            Guid accreditationExternalId,
+            Guid id,
             AddressDto siteAddress)
         {
             var site = _mapper.Map<Site>(siteAddress);
 
             return await _httpSiteService.CreateSite(
-                accreditationExternalId, 
+                id, 
                 site);
         }
 
         public async Task UpdateSite(
-            Guid siteExternalId,
+            Guid siteId,
             AddressDto siteAddress)
         {
-            var site = _mapper.Map<Site>(siteAddress);
+            var site = await _httpSiteService.GetSite(siteId);
+            _mapper.Map(siteAddress, site);
 
             await _httpSiteService.UpdateSite(
-                siteExternalId,
+                siteId,
                 site);
         }
     }
