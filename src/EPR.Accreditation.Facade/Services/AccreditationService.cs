@@ -311,14 +311,19 @@
         /// <param name="prnTonnesPlannedDto">DTO containing PRN tonnage data.</param>
         /// <returns>Completed Task.</returns>
         public async Task UpdatePrnTonnesPlanned(
-            Guid accreditationExternalId, 
+            Guid accreditationExternalId,
             PrnTonnesPlannedDto prnTonnesPlannedDto)
         {
-            var accreditation = new Common.Dtos.Accreditation 
-            { 
-                LargeFee = prnTonnesPlannedDto.PrnPlannedTonnesFee 
+            var accreditation = new Common.Dtos.Accreditation
+            {
+                LargeFee = prnTonnesPlannedDto.PrnPlannedTonnesFee
             };
-            accreditation.Large = prnTonnesPlannedDto.PrnPlannedTonnesType == PrnPlannedTonnesType.Upto ? false : true;
+
+            if (prnTonnesPlannedDto.PrnPlannedTonnesType.HasValue)
+            {
+                accreditation.Large = prnTonnesPlannedDto.PrnPlannedTonnesType != PrnPlannedTonnesType.Upto;
+            }
+
             await _httpAccreditationService.UpdateAccreditation(accreditationExternalId, accreditation);
         }
 
