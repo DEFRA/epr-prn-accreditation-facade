@@ -240,14 +240,5 @@
 
             return Ok(accreditation.ReferenceNumber);
         }
-
-        [HttpGet("Accreditation")]
-        public async Task<IActionResult> GetAccredition(
-            Guid id)
-        {
-            var accreditation = await _accreditationService.GetAccrediation(id);
-
-            return Ok(accreditation);
-        }
     }
 }
