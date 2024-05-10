@@ -44,5 +44,8 @@
             OverseasReprocessingSite overseasSite);
 
         Task SetHasOverseasAgent(Guid id, bool? hasOverseasAgent);
+
+        Task<string> GetRandomNumber(
+            int length);
     }
 }
