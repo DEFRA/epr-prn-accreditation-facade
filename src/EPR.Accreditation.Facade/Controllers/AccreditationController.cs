@@ -227,8 +227,13 @@
             return Ok();
         }
 
-        [HttpGet("ReferenceNumber")]
-        public async Task<IActionResult> GetReferenceNumber(
+        /// <summary>
+        /// Returns the completion record.
+        /// </summary>
+        /// <param name="id">The accrediation id</param>
+        /// <returns>The completion object.</returns>
+        [HttpGet("Accreditation")]
+        public async Task<IActionResult> GetAccrediation(
             Guid id)
         {
             var accreditation = await _accreditationService.GetAccrediation(id);
