@@ -58,10 +58,10 @@ namespace EPR.Accreditation.Facade.Services
             Guid overseasSiteId,
             ReprocessorDetailsDto reprocessorDetails)
         {
-            var overseasSite = new OverseasReprocessingSite
-            {
-                OverseasAddress = _mapper.Map<OverseasAddress>(reprocessorDetails)
-            };
+            var overseasSite = await _httpOverseasSiteService.GetOverseasReprocessingSite(
+                id,
+                overseasSiteId);
+            overseasSite.OverseasAddress = _mapper.Map<OverseasAddress>(reprocessorDetails);
 
             await _httpOverseasSiteService.UpdateOverseasReprocessingSite(
                 id,

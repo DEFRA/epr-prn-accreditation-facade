@@ -55,24 +55,25 @@
         }
 
         public async Task<Guid> CreateSite(
-            Guid accreditationExternalId,
+            Guid id,
             AddressDto siteAddress)
         {
             var site = _mapper.Map<Site>(siteAddress);
 
             return await _httpSiteService.CreateSite(
-                accreditationExternalId,
+                id, 
                 site);
         }
 
         public async Task UpdateSite(
-            Guid siteExternalId,
+            Guid siteId,
             AddressDto siteAddress)
         {
-            var site = _mapper.Map<Site>(siteAddress);
+            var site = await _httpSiteService.GetSite(siteId);
+            _mapper.Map(siteAddress, site);
 
             await _httpSiteService.UpdateSite(
-                siteExternalId,
+                siteId,
                 site);
         }
     }

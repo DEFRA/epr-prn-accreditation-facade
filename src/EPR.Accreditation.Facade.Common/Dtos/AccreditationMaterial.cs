@@ -4,8 +4,6 @@ namespace EPR.Accreditation.Facade.Common.Dtos
 {
     public class AccreditationMaterial
     {
-        public int Id { get; set; }
-
         public Guid ExternalId { get; set; }
 
         public decimal AnnualCapacity { get; set; }

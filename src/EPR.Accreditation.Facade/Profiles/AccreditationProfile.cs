@@ -3,7 +3,6 @@
     using AutoMapper;
     using EPR.Accreditation.Facade.Common.Dtos;
     using EPR.Accreditation.Facade.Common.Dtos.Portal;
-    using EPR.Accreditation.Facade.Common.Enums;
 
     public class AccreditationProfile : Profile
     {

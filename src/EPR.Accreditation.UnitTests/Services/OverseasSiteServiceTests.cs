@@ -3,6 +3,7 @@
     using AutoMapper;
     using EPR.Accreditation.Facade.Common.Dtos;
     using EPR.Accreditation.Facade.Common.Dtos.Portal;
+    using EPR.Accreditation.Facade.Common.RESTservices;
     using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
     using EPR.Accreditation.Facade.Services;
     using Moq;
@@ -118,21 +119,28 @@
         public async Task UpdateReprocessorDetails_WithValidData_CallsUpdateOverseasReprocessingSite()
         {
             // Arrange
-            var accreditationExternalId = Guid.NewGuid();
-            var overseasSiteExternalId = Guid.NewGuid();
+            var id = Guid.NewGuid();
+            var overseasSiteId = Guid.NewGuid();
             var reprocessorDetails = new ReprocessorDetailsDto();
+
+            _mockHttpOverseasSiteService
+                .Setup(o =>
+                    o.GetOverseasReprocessingSite(
+                        id,
+                        overseasSiteId))
+                .ReturnsAsync(new OverseasReprocessingSite());
 
             // Act
             await _overseasSiteService.UpdateReprocessorDetails(
-                accreditationExternalId,
-                overseasSiteExternalId,
+                id,
+                overseasSiteId,
                 reprocessorDetails);
 
             // Assert
             _mockHttpOverseasSiteService.Verify(s =>
                 s.UpdateOverseasReprocessingSite(
-                    accreditationExternalId,
-                    overseasSiteExternalId,
+                    id,
+                    overseasSiteId,
                     It.IsAny<OverseasReprocessingSite>()),
                     Times.Once);
         }

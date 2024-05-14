@@ -7,6 +7,7 @@
     using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
     using EPR.Accreditation.Facade.Services;
     using Moq;
+    using EPR.Accreditation.Facade.Common.RESTservices;
 
     [TestClass]
     public class AccreditationMaterialServiceTests
@@ -90,23 +91,31 @@
         public async Task UpdateReprocessedWasteLastYear_CallsUpdateAccreditationMaterialWithCorrectParameters()
         {
             // Arrange
-            var accreditationExternalId = Guid.NewGuid();
-            var materialExternalId = Guid.NewGuid();
+            var id = Guid.NewGuid();
+            var materialId = Guid.NewGuid();
             var reprocessedWasteLastYear = new ReprocessedWasteLastYear { HasReprocessedWasteLastYear = true };
             var expectedAccreditationMaterial = new AccreditationMaterial { WasteLastYear = true };
 
+            _mockHttpAccreditationService
+                .Setup(s =>
+                    s.GetAccreditationMaterial(
+                        SiteType.Site,
+                        id,
+                        materialId))
+                .ReturnsAsync(new AccreditationMaterial());
+
             // Act
             await _accreditationMaterialService.UpdateReprocessedWasteLastYear(
-                accreditationExternalId,
-                materialExternalId,
+                id,
+                materialId,
                 reprocessedWasteLastYear);
 
             // Assert
             _mockHttpAccreditationService.Verify(s =>
                 s.UpdateAccreditationMaterial(
                     SiteType.Site,
-                    It.IsAny<Guid>(),
-                    It.IsAny<Guid>(),
+                    id,
+                    materialId,
                     It.IsAny<AccreditationMaterial>()), Times.Once);
         }
 
@@ -114,23 +123,30 @@
         public async Task UpdateReprocessedWasteLastYear_WithFalseValue_CallsUpdateAccreditationMaterialWithCorrectParameters()
         {
             // Arrange
-            var accreditationExternalId = Guid.NewGuid();
-            var materialExternalId = Guid.NewGuid();
+            var id = Guid.NewGuid();
+            var materialId = Guid.NewGuid();
             var reprocessedWasteLastYear = new ReprocessedWasteLastYear { HasReprocessedWasteLastYear = false };
             var expectedAccreditationMaterial = new AccreditationMaterial { WasteLastYear = false };
 
+            _mockHttpAccreditationService
+                .Setup(s =>
+                    s.GetAccreditationMaterial(
+                        SiteType.Site,
+                        id,
+                        materialId))
+                .ReturnsAsync(new AccreditationMaterial());
             // Act
             await _accreditationMaterialService.UpdateReprocessedWasteLastYear(
-                accreditationExternalId,
-                materialExternalId,
+                id,
+                materialId,
                 reprocessedWasteLastYear);
 
             // Assert
             _mockHttpAccreditationService.Verify(s =>
                 s.UpdateAccreditationMaterial(
                     SiteType.Site,
-                    It.IsAny<Guid>(),
-                    It.IsAny<Guid>(),
+                    id,
+                    materialId,
                     It.IsAny<AccreditationMaterial>()), Times.Once);
         }
 
@@ -398,6 +414,14 @@
                 Has2024NPWDAccreditationNumber = true
             };
 
+            _mockHttpAccreditationService
+                .Setup(s =>
+                    s.GetAccreditationMaterial(
+                        SiteType.Site,
+                        id,
+                        materialId))
+                .ReturnsAsync(new AccreditationMaterial());
+
             // Act
             await _accreditationMaterialService.UpdateHasNpwdAccreditationNumber(
                 id,
@@ -526,6 +550,14 @@
             {
                 AccreditationNumber = "EX123456789"
             };
+
+            _mockHttpAccreditationService
+                .Setup(s =>
+                    s.GetAccreditationMaterial(
+                        SiteType.Site,
+                        id,
+                        materialId))
+                .ReturnsAsync(new AccreditationMaterial());
 
             // Act
             await _accreditationMaterialService.UpdateNpwdAccreditationNumber(

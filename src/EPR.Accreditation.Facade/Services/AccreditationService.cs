@@ -61,10 +61,11 @@
             Guid materialId,
             string wasteSource)
         {
-            var siteMaterial = new AccreditationMaterial
-            {
-                WasteSource = wasteSource
-            };
+            var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
+                siteType,
+                id,
+                materialId);
+            siteMaterial.WasteSource = wasteSource;
 
             await _httpAccreditationService.UpdateAccreditationMaterial(
                 siteType,
@@ -149,19 +150,38 @@
                 nonWasteInputsDto.Records != null &&
                 nonWasteInputsDto.Records.Any())
             {
-                // we're only updating reprocessor supporting information, so
-                // create an empy AccreditationMaterial and empty MaterialReprocessorDetails
-                // except with a populated ReprocessorSupportingInformation property containing
-                // only the changes supplied
-                var siteMaterial = new AccreditationMaterial
+                var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(
+                    SiteType.Site,
+                    id,
+                    materialId);
+
+                if (siteMaterial.MaterialReprocessorDetails == null)
                 {
-                    MaterialReprocessorDetails = new MaterialReprocessorDetails
-                    {
-                        ReprocessorSupportingInformation = _mapper.Map<List<ReprocessorSupportingInformation>>(
-                            nonWasteInputsDto.Records,
-                            context => context.Items["ReprocessorSupportingInformationType"] = reprocessorSupportingInformationType)
-                    }
-                };
+                    siteMaterial.MaterialReprocessorDetails = new MaterialReprocessorDetails();
+                }
+
+                if (siteMaterial.MaterialReprocessorDetails.ReprocessorSupportingInformation == null)
+                {
+                    siteMaterial.MaterialReprocessorDetails.ReprocessorSupportingInformation = new List<ReprocessorSupportingInformation>();
+                }
+
+                // remove the items that represent the update we are currently making
+                siteMaterial.MaterialReprocessorDetails.ReprocessorSupportingInformation = 
+                    siteMaterial.
+                    MaterialReprocessorDetails.
+                    ReprocessorSupportingInformation.
+                    Where(
+                        rsi =>
+                            rsi.ReprocessorSupportingInformationTypeId != reprocessorSupportingInformationType);
+
+                // map the incoming items to dto variant
+                var dtoMapperList = _mapper.Map<IEnumerable<ReprocessorSupportingInformation>>(
+                    nonWasteInputsDto.Records,
+                    opt => opt.Items["ReprocessorSupportingInformationType"] = reprocessorSupportingInformationType);
+
+                // union the two lists together
+                siteMaterial.MaterialReprocessorDetails.ReprocessorSupportingInformation =
+                    siteMaterial.MaterialReprocessorDetails.ReprocessorSupportingInformation.Union(dtoMapperList);
 
                 await _httpAccreditationService.UpdateAccreditationMaterial(
                     SiteType.Site,
@@ -188,10 +208,14 @@
             Guid materialId,
             MaterialOutputsDto materialOutputsDto)
         {
-            var siteMaterial = new AccreditationMaterial
+            var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(SiteType.Site, id, materialId);
+            
+            if (siteMaterial.MaterialReprocessorDetails == null)
             {
-                MaterialReprocessorDetails = _mapper.Map<MaterialReprocessorDetails>(materialOutputsDto)
-            };
+                siteMaterial.MaterialReprocessorDetails = new MaterialReprocessorDetails();
+            }
+
+            _mapper.Map(materialOutputsDto, siteMaterial.MaterialReprocessorDetails);
 
             await _httpAccreditationService.UpdateAccreditationMaterial(
                 SiteType.Site,
@@ -224,10 +248,14 @@
             Guid materialId,
             MaterialWasteInputsDto materialWasteInputsDto)
         {
-            var siteMaterial = new AccreditationMaterial
+            var siteMaterial = await _httpAccreditationService.GetAccreditationMaterial(SiteType.Site, id, materialId);
+
+            if (siteMaterial.MaterialReprocessorDetails == null)
             {
-                MaterialReprocessorDetails = _mapper.Map<MaterialReprocessorDetails>(materialWasteInputsDto)
-            };
+                siteMaterial.MaterialReprocessorDetails = new MaterialReprocessorDetails();
+            }
+
+            _mapper.Map(materialWasteInputsDto, siteMaterial.MaterialReprocessorDetails);
 
             await _httpAccreditationService.UpdateAccreditationMaterial(
                 SiteType.Site,
@@ -259,11 +287,11 @@
             Guid overseasSiteId,
             OverseasReprocessingSiteOutputs overseasSiteOutputs)
         {
-            var overseasSite = new OverseasReprocessingSite
-            {
-                ExternalId = overseasSiteId,
-                Outputs = overseasSiteOutputs.Outputs
-            };
+            var overseasSite = await _httpAccreditationService.GetOverseasReprocessingSite(
+                id,
+                overseasSiteId);
+
+            overseasSite.Outputs = overseasSiteOutputs.Outputs;
             await _httpAccreditationService.UpdateOverseasReprocessingSite(id, overseasSite);
         }
 
@@ -283,10 +311,8 @@
             Guid id,
             bool? hasOverseasAgent)
         {
-            var accreditation = new Common.Dtos.Accreditation
-            {
-                HasOverseasAgent = hasOverseasAgent,
-            };
+            var accreditation = await _httpAccreditationService.GetAccreditation(id);
+            accreditation.HasOverseasAgent = hasOverseasAgent;
 
             await _httpAccreditationService.UpdateAccreditation(id, accreditation);
         }
@@ -314,10 +340,8 @@
             Guid accreditationExternalId,
             PrnTonnesPlannedDto prnTonnesPlannedDto)
         {
-            var accreditation = new Common.Dtos.Accreditation
-            {
-                LargeFee = prnTonnesPlannedDto.PrnPlannedTonnesFee
-            };
+            var accreditation = await _httpAccreditationService.GetAccreditation(accreditationExternalId);
+            accreditation.LargeFee = prnTonnesPlannedDto.PrnPlannedTonnesFee;
 
             if (prnTonnesPlannedDto.PrnPlannedTonnesType.HasValue)
             {
@@ -338,10 +362,8 @@
             Guid id,
             AddressDto address)
         {
-            var accreditation = new Common.Dtos.Accreditation
-            {
-                LegalAddress = _mapper.Map<Address>(address)
-            };
+            var accreditation = await _httpAccreditationService.GetAccreditation(id);
+            accreditation.LegalAddress = _mapper.Map<Address>(address);
 
             await _httpAccreditationService.UpdateAccreditation(
                 id,
