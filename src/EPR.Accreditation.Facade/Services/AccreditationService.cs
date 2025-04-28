@@ -4,6 +4,7 @@
     using EPR.Accreditation.Facade.Common.Dtos;
     using EPR.Accreditation.Facade.Common.Dtos.Portal;
     using EPR.Accreditation.Facade.Common.Enums;
+    using EPR.Accreditation.Facade.Common.RESTservices;
     using EPR.Accreditation.Facade.Common.RESTservices.Interfaces;
     using EPR.Accreditation.Facade.Services.Interfaces;
     using System;
@@ -370,28 +371,18 @@
                 accreditation);
         }
 
-        /// <summary>
-        /// Update the referernce number.
-        /// </summary>
-        /// <param name="id">The accrediation id.</param>
-        /// <returns></returns>
         public async Task UpdateReferenceNumber(
             Guid id)
         {
-            var randomNumber = await _httpAccreditationService.GetRandomNumber(12);
+            var referenceNumber = await _httpAccreditationService.GetRandomNumber(12);
             var accreditation = new Common.Dtos.Accreditation
             {
-                ReferenceNumber = randomNumber
+                ReferenceNumber = referenceNumber
             };
             
             await _httpAccreditationService.UpdateAccreditation(id, accreditation);
         }
 
-        /// <summary>
-        /// Returns the accrediation object.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         public async Task <Accreditation> GetAccrediation(Guid id)
         {
             return await _httpAccreditationService.GetAccreditation(id);

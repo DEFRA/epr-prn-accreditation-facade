@@ -214,9 +214,10 @@
         /// <summary>
         /// Updates the the reference number for the accrediation.
         /// </summary>
-        /// <param name="id">The accrediation id.</param>
+        /// <param name="id"></param>
+        /// <param name="referenceNumber"></param>
         /// <returns></returns>
-        [HttpPost("ReferenceNumber")]
+        [HttpPut("ReferenceNumber")]
         public async Task<IActionResult> UpdateReferenceNumber(
             Guid id)
         {
@@ -226,31 +227,17 @@
         }
 
         /// <summary>
-        /// Gets the reference number.
+        /// Returns the completion record.
         /// </summary>
-        /// <param name="id">Accrediation Id.</param>
-        /// <returns>The accrediation ref number.</returns>
-        [HttpGet("ReferenceNumber")]
-        public async Task<IActionResult> GetReferenceNumber(
+        /// <param name="id">The accrediation id</param>
+        /// <returns>The completion object.</returns>
+        [HttpGet("Accreditation")]
+        public async Task<IActionResult> GetAccrediation(
             Guid id)
         {
             var accreditation = await _accreditationService.GetAccrediation(id);
 
             return Ok(accreditation.ReferenceNumber);
-        }
-
-        /// <summary>
-        /// Returns the fee.
-        /// </summary>
-        /// <param name="id">The Accredistion oid</param>
-        /// <returns></returns>
-        [HttpGet("AccreditationFee")]
-        public async Task<IActionResult> GetAccreditationFee(
-    Guid id)
-        {
-            var accreditation = await _accreditationService.GetAccrediation(id);
-
-            return Ok(accreditation.AccreditationFee);
         }
     }
 }

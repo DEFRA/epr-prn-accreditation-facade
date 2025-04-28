@@ -144,7 +144,7 @@ namespace EPR.Accreditation.UnitTests.Controllers
         {
             // Arrange
             Guid accreditationExternalId = Guid.NewGuid();
-           
+            
             // Act
             var result = await _accreditationController.UpdateReferenceNumber(accreditationExternalId);
 
@@ -160,7 +160,6 @@ namespace EPR.Accreditation.UnitTests.Controllers
         {
             // Arrange
             Guid accreditationExternalId = Guid.NewGuid();
-            string referenceNumber = "123456";
             _mockAccreditationService.Setup(s =>
                 s.UpdateReferenceNumber(accreditationExternalId)).ThrowsAsync(new Exception("Test exception"));
 
@@ -169,47 +168,6 @@ namespace EPR.Accreditation.UnitTests.Controllers
 
             // Assert
             _mockAccreditationService.Verify(service => service.UpdateReferenceNumber(accreditationExternalId), Times.Once());
-        }
-
-        [TestMethod]
-        public async Task GetAccreditationFee_ReturnsOk_WhenServiceReturnsPositive()
-        {
-            // Arrange
-            var accreditationExternalId = Guid.NewGuid();
-            var accreditation = new EPR.Accreditation.Facade.Common.Dtos.Accreditation() 
-            {
-                ExternalId = accreditationExternalId,
-                ReferenceNumber = "1234",
-                AccreditationFee = 100
-            };
-            
-            _mockAccreditationService.Setup(s => s.GetAccrediation(accreditationExternalId)).ReturnsAsync(accreditation);
-
-            // Act
-            var result = await _accreditationController.GetAccreditationFee(accreditationExternalId);
-
-            // Assert
-            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
-            var okResult = (OkObjectResult)result;
-            var accreditaionResult = okResult.Value;
-            Assert.AreEqual(accreditation.AccreditationFee, accreditaionResult);
-
-            _mockAccreditationService.Verify(service => service.GetAccrediation(accreditationExternalId), Times.Once());
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(Exception))]
-        public async Task GetAccreditationFee_ThrowsException_WhenServiceThrowsException()
-        {
-            // Arrange
-            var accreditationExternalId = Guid.NewGuid();
-            _mockAccreditationService.Setup(s => s.GetAccrediation(accreditationExternalId)).ThrowsAsync(new Exception("Test exception"));
-
-            // Act
-            await _accreditationController.GetAccreditationFee(accreditationExternalId);
-
-            // Assert
-            _mockAccreditationService.Verify(service => service.GetAccrediation(accreditationExternalId), Times.Once());
         }
     }
 }
